@@ -28,3 +28,13 @@ services:
             - ${DB_PORT}:5432
         env_file:
           - .env
+        volumes:
+                - db-data:/var/lib/postgresql/data
+        #command: bash -c "psql -U ${DB_USER} -d ${DB_NAME} < /docker-entrypoint-initdb.d/db.sql"
+volumes:
+    db-data:
+
+
+
+
+
