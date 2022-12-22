@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
     biblionest-front:
@@ -8,7 +8,6 @@ services:
             - ${FRONT_PORT:-80}:80
         env_file:
           - .env
-
 
     biblionest-back:
         image: biblionest/back:1.0.0
@@ -21,10 +20,26 @@ services:
     db:
         image: postgres:latest
         environment:
-          POSTGRES_DB: ${DB_NAME}
-          POSTGRES_USER: ${DB_USER}
-          POSTGRES_PASSWORD: ${DB_PASSWORD}
+          POSTGRES_DB: ${PGDATABASE}
+          POSTGRES_USER: ${PGUSER}
+          POSTGRES_PASSWORD: ${PGPASSWORD}
         ports:
-            - ${DB_PORT}:5432
+            - ${PGPORT}:5432
         env_file:
           - .env
+        volumes:
+            - pg-data:/var/lib/postgresql/data
+
+    initdb:
+        image: postgres:latest
+        command: /bin/bash -c "sleep 5 && psql -h db -U ${PGUSER} -d ${PGDATABASE} -f /docker-entrypoint-initdb.d/db.sql"
+        volumes:
+            - ./biblionest-back/db/db.sql:/docker-entrypoint-initdb.d/db.sql
+        depends_on:
+            - db
+        env_file:
+            - .env
+        restart: on-failure
+
+volumes:
+    pg-data:
