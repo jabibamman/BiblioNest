@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { initNavbar } from './agency';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  // TODO: get this value from the server (session) - for now, it's hardcoded
+  isLogged: boolean = true;
+
   constructor() { }
 
   ngOnInit(): void {
+    initNavbar();
   }
 
 }
