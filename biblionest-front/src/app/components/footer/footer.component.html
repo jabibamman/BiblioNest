@@ -1,0 +1,27 @@
+<footer class="bg-dark py-3 mt-5 text-light text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <h5>Pages</h5>
+          <ul class="list-unstyled">
+            <li><a (click)="navigate('/book')" class="text-light">Mes livres</a></li>
+            <li><a (click)="navigate('/')" class="text-light">Ajout livre</a></li>
+            <li><a (click)="navigate('/profile')" class="text-light">Mon profil</a></li>
+            <li><a (click)="navigate('/about')" class="text-light">A propos</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4">
+          <h5>Mentions légales</h5>
+          <ul class="list-unstyled">
+            <li><a (click)="navigate('/privacy-policy')" class="text-light">Politique de confidentialité</a></li>
+            <li><a (click)="navigate('/term-of-use')" class="text-light">Conditions d'utilisation</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4">
+            <h5>Suivez-nous</h5>
+            <a href="https://github.com/jabibamman/BiblioNest" target="_blank" class="text-light"><fa-icon [icon]="faGithub"></fa-icon> GitHub</a>
+            <p class="mt-3 mb-0"><fa-icon [icon]="faCopyright"></fa-icon> {{year}}</p>
+          </div>
+        </div>
+    </div>
+</footer>
