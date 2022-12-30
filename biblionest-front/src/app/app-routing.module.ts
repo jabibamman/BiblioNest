@@ -11,7 +11,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'book',
+    path: 'book/:isbn',
     component: BookComponent,
   },
   {
