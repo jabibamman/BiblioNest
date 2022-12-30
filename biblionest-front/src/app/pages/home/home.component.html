@@ -13,7 +13,6 @@
                 </div>
               </div>
               <div class="text-center mt-2">
-                  <p class="card-text">{{ book.description }}</p>
                   <p class="card-text">{{ book.nb_pages }} pages</p>
                   <p *ngIf="book.status === 'to_read'" class="card-text">À lire</p>
                   <p *ngIf="book.status === 'reading'" class="card-text">En cours</p>
