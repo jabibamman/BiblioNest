@@ -1,5 +1,5 @@
 .book_title{
-  margin: 30px;
+  margin: 20px 10px 10px 20px;
 }
 
 .main_content{
@@ -25,6 +25,7 @@
  }
 
 .infos_div{
+  display: inline-flex;
   width: 90%;
   margin: 15px 5%;
   border-radius: 5px;
@@ -32,12 +33,16 @@
   background-color: #343a40;
   color: #fcd036;
   clear: both;
+}
+
+.infos{
   float: left;
-  box-shadow: 3px 3px 15px black;
+  margin-right: 200px;
 }
 
 .book_cover{
-  height: 200px;
+  margin-left: 10%;
+  height: 300px;
   position: relative;
   float: right;
   background-color: #fcd036;
