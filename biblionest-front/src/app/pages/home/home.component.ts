@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
 
   constructor(private Router: Router) { 
-    this.itemsPerPage = this.setItemsPerPage();
+    this.itemsPerPage = this.setNbItemsPerPage();
     this.page = 1;
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
    * @description set the number of items per page depending on the type of device
    * @returns number of items per page depending on the type of device
    */
-  private setItemsPerPage(): number { return this.isMobile ? 3 : 6; }
+  private setNbItemsPerPage(): number { return this.isMobile ? 4 : 9; }
 
   /**
    * @description check if the device is a mobile device
