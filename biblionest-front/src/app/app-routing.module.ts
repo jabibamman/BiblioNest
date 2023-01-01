@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import {BookComponent} from "./pages/book/book.component";
 import {AuthentificationComponent} from "./pages/authentification/authentification.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
+import {BookModifyComponent} from "./pages/book-modify/book-modify.component";
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'book/:isbn',
     component: BookComponent,
+  },
+  {
+    path: 'modify_book/:id',
+    component: BookModifyComponent,
   },
   {
     path: 'authentification',
