@@ -11,11 +11,11 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'book/:id',
+    path: 'book/:isbn',
     component: BookComponent,
   },
   {
-    path: 'modify_book/:id',
+    path: 'modify_book/:isbn',
     component: BookComponent,
   },
   {

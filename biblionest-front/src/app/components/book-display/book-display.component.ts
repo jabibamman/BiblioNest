@@ -20,11 +20,11 @@ export class BookDisplayComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.book_id = this.route.snapshot.paramMap.get('id');
+    this.book_id = this.route.snapshot.paramMap.get('isbn');
     // utilisez bookId pour charger les données du livre depuis votre service de données
 
     this.route.paramMap.subscribe(params => {
-      this.book_id = params.get('id');
+      this.book_id = params.get('isbn');
       // mettez à jour les données du livre en fonction du nouveau bookId
     });
 
