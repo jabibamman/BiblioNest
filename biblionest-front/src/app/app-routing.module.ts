@@ -16,7 +16,7 @@ const routes: Routes = [
     component: BookComponent,
   },
   {
-    path: 'modify_book/:id',
+    path: 'modify_book/:isbn',
     component: BookModifyComponent,
   },
   {

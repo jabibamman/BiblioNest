@@ -32,7 +32,6 @@ import { BookModifyDisplayComponent } from './components/book-modify-display/boo
     AppRoutingModule,
     RouterModule,
     FontAwesomeModule,
-    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
