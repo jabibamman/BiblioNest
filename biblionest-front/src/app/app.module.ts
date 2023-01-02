@@ -12,6 +12,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BookDisplayComponent } from './components/book-display/book-display.component';
+import { BookModifyComponent } from './pages/book-modify/book-modify.component';
+import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,14 @@ import { BookDisplayComponent } from './components/book-display/book-display.com
     FooterComponent,
     ProfileComponent,
     BookDisplayComponent
+    BookModifyComponent,
+    BookModifyDisplayComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule,
     FontAwesomeModule,
-    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

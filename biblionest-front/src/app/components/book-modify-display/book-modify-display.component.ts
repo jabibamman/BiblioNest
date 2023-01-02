@@ -1,15 +1,14 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-book-display',
-  templateUrl: './book-display.component.html',
-  styleUrls: ['./book-display.component.css']
+  selector: 'app-book-modify-display',
+  templateUrl: './book-modify-display.component.html',
+  styleUrls: ['./book-modify-display.component.css']
 })
-export class BookDisplayComponent implements OnChanges {
-
-  faPen = faPen;
+export class BookModifyDisplayComponent implements OnChanges {
+  faCheck = faCheck;
 
   @Input() books:any[] = [{title:"test"}];
 
@@ -19,7 +18,6 @@ export class BookDisplayComponent implements OnChanges {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-
     this.book_id = this.route.snapshot.paramMap.get('isbn');
     // utilisez bookId pour charger les données du livre depuis votre service de données
 
@@ -38,8 +36,9 @@ export class BookDisplayComponent implements OnChanges {
     this.current_book = this.books[index];
   }
 
-  redirectToModify(): void{
-    this.router.navigate(['/modify_book/' + this.book_id]);
+  redirectToDisplay(): void{
+    this.router.navigate(['/book/' + this.book_id]);
     return;
   }
+
 }

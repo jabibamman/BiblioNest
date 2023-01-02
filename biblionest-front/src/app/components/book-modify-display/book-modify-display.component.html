@@ -1,17 +1,18 @@
 <h1 class="book_title">{{current_book.title}}</h1>
-<button class="action_button" (click)="redirectToModify()">
-  <fa-icon [icon]="faPen" class="m-2"></fa-icon>
-  Modifier
+<button class="action_button" (click)="redirectToDisplay()">
+  Valider
+  <fa-icon [icon]="faCheck" class="m-2"></fa-icon>
 </button>
 <div class="main_content">
   <div class="infos_div">
     <div class="infos">
+      <b>Titre :</b> <input type="text" [value]="current_book.title" placeholder="Nouveau titre" class="m-3 p-2 bg-dark text-primary w-100">
       <h5>Infos :</h5><br>
       <li>
-        Autheur : {{current_book.author}}
+        Autheur : <input type="text" [value]="current_book.author" placeholder="Nouvel Autheur" class="m-3 p-2 bg-dark text-primary w-100">
       </li>
       <li>
-        {{current_book.nb_pages}} pages
+        Nombre de pages : <input type="number" [value]="current_book.nb_pages" class="m-3 p-2 bg-dark text-primary w-25 text-center"> pages
       </li>
     </div>
     <div class="infos">
@@ -43,12 +44,17 @@
       </select>
 
     </div>
-    <img class="book_cover" src="assets/images/71ADh-KokpL.jpg" title="Couverture">
+    <button style="padding:0px; background-color: rgba(0,0,0,0); border: none;">
+      <div class="book_cover_div">
+        <img class="book_cover" src="assets/images/71ADh-KokpL.jpg">
+        <div class="modify_book_cover">Modifier l'image</div>
+      </div>
+    </button>
   </div>
   <div class="infos_div">
     <div>
       <h5>Description :</h5><br>
-      <p>{{current_book.description}}</p>
+      <textarea class="m-3 p-2 bg-dark text-primary" style="width:1000px;" placeholder="Mettez la description ici">{{current_book.description}}</textarea>
       <!--<p>What is Lorem Ipsum?
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
         <br><br>
