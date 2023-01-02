@@ -15,6 +15,10 @@ const routes: Routes = [
     component: BookComponent,
   },
   {
+    path: 'modify_book/:isbn',
+    component: BookComponent,
+  },
+  {
     path: 'authentification',
     component: AuthentificationComponent,
   },

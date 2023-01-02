@@ -11,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { BookDisplayComponent } from './components/book-display/book-display.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AuthentificationComponent,
     NavbarComponent,
     FooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    BookDisplayComponent
   ],
   imports: [
     BrowserModule,
