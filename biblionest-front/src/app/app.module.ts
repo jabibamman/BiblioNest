@@ -24,7 +24,7 @@ import { BookModifyDisplayComponent } from './components/book-modify-display/boo
     NavbarComponent,
     FooterComponent,
     ProfileComponent,
-    BookDisplayComponent
+    BookDisplayComponent,
     BookModifyComponent,
     BookModifyDisplayComponent
   ],
@@ -33,6 +33,7 @@ import { BookModifyDisplayComponent } from './components/book-modify-display/boo
     AppRoutingModule,
     RouterModule,
     FontAwesomeModule,
+    NgxPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
