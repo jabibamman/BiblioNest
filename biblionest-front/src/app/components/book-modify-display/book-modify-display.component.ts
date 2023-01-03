@@ -12,6 +12,7 @@ export class BookModifyDisplayComponent implements OnChanges {
   faCheck = faCheck;
   current_book: any;
   book_isbn: string | null = "default";
+  bgColor: string = "white";
 
   constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService) {
     this.books = this.bookService.getBooks();
@@ -34,6 +35,7 @@ export class BookModifyDisplayComponent implements OnChanges {
       return;
     }
     this.current_book = this.books[index];
+    this.bgColor = this.bookService.getBackgroundColor(this.current_book.status);
   }
 
   redirectToDisplay(): void{
@@ -41,4 +43,9 @@ export class BookModifyDisplayComponent implements OnChanges {
     return;
   }
 
+  // Fonction qui permet de changer la couleur de fond en fonction du statut du livre
+  onStatusChange(event: any) {
+    event ? this.bgColor = this.bookService.getBackgroundColor(event.value) : this.bgColor = 'white';
+  }
+  
 }

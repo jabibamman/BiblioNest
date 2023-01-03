@@ -18,7 +18,8 @@
       <h5>Status :</h5><br>
 
       <select style="border: white solid; border-radius: 15px; padding: 15px; color: black;" 
-        [ngStyle]="{'background-color': 'white'}">
+        [ngStyle]="{'background-color': bgColor || 'white'}"
+        (change)="onStatusChange($event.target)">
         <option [value]="'reading'" [selected]="current_book.status === 'reading'">En cours de lecture</option>
         <option [value]="'read'" [selected]="current_book.status === 'read'">Déjà Lu</option>
         <option [value]="'to_read'" [selected]="current_book.status === 'to_read'">À lire !</option>
