@@ -14,6 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BookDisplayComponent } from './components/book-display/book-display.component';
 import { BookModifyComponent } from './pages/book-modify/book-modify.component';
 import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
+import { BookService } from './service/book.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { BookModifyDisplayComponent } from './components/book-modify-display/boo
     FontAwesomeModule,
     NgxPaginationModule,
   ],
-  providers: [],
+  providers: [
+    BookService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
