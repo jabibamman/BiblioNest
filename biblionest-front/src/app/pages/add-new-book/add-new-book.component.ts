@@ -26,17 +26,39 @@ export class AddNewBookComponent {
   }
 
   addBook(): void{
+    this.toTheTop();
     const values = this.bookForm.value;
     const book = {
       isbn: this.BookService.generateIsbn(),
       title: values.title,
       author: values.author,
       status: values.status,
-      read_count: 0,
+      read_count: values.read_count,
       description: values.description,
       nb_pages: values.nb_pages,
       img_url: 'default', 
     };
+
+    if(this.books.find((obj) => obj.title.toLowerCase() === book.title.toLowerCase() && obj.author.toLowerCase() === book.author.toLowerCase())){
+      this.bookForm.setErrors({ duplicate: true });
+      return;
+    }
+
+    if(!book.title || !book.author){
+      this.bookForm.setErrors({ required: true });
+      return;
+    }
+
+    if(book.nb_pages < 1){
+      this.bookForm.setErrors({ invalidNbPages: true });
+      return;
+    }
+
+    if(book.title.length < 3 || book.author.length < 3 || book.title.length > 25 || book.author.length > 25){
+      this.bookForm.setErrors({ invalidLength: true });
+      return;
+    }
+
     this.BookService.addBook(book);
     this.redirectToHome();
   }
@@ -45,5 +67,13 @@ export class AddNewBookComponent {
     this.router.navigate(['/']);
     return;
   }
-  
+
+  /**
+   * @description scroll to the top of the page
+  */
+  toTheTop() {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  }
 }
