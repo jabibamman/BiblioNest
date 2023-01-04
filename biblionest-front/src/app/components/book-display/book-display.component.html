@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-6 d-flex d-md-flex justify-content-center justify-content-md-start">
+      <h1 class="d-sm-flex d-xl-flex justify-content-sm-center">{{ current_book.title }}</h1>
+    </div>
+    <div
+      class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
+      <button class="btn btn-primary action_button" type="button" (click)="redirectToModify()">
+        <fa-icon [icon]="faPen" class="m-2"></fa-icon>
+        Modifier
+      </button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row infos_div bg-dark">
+      <div class="col-md-6"><br />
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="d-flex justify-content-center justify-content-md-start card-title mb-3">Infos :</h5>
+                  <ul class="list-unstyled text-start">
+                      <li class="d-flex d-sm-flex justify-content-sm-center justify-content-lg-start">Autheur : {{ current_book.author }}</li>
+                      <li class="d-flex d-sm-flex justify-content-center justify-content-sm-center justify-content-lg-start">{{ current_book.nb_pages }} pages</li>
+                  </ul>
+              </div>
+          </div>
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start card-title mb-3"><span>Status :</span><br /></h5>
+                  <div class="d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start">
+                    <select class="form-select"
+                    [ngStyle]="{'background-color': bgColor || 'white'}" (change)="onStatusChange($event.target)">
+                        <option [value]="'reading'" [selected]="current_book.status === 'reading'">En cours de lecture</option>
+                        <option [value]="'read'" [selected]="current_book.status === 'read'">Déjà Lu</option>
+                        <option [value]="'to_read'" [selected]="current_book.status === 'to_read'">À lire !</option>
+                      </select></div>
+              </div>
+          </div>
+      </div>
+      <div class="col">
+          <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+              <div class="col-xxl-5">
+                <img *ngIf="current_book.img_url !== 'default'" [src]="current_book.img_url" class="img-fluid card-img-top" alt="{{ current_book.title }}">
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container main_content mt-5">
+  <div class="row infos_div bg-dark">
+    <div class="col-sm-12">
+      <h5 class="mb-3 d-flex justify-content-center justify-content-md-start card-title">Description :</h5>
+      <p>{{ current_book.description }}</p>
+    </div>
+  </div>
+  <br>
+</div>

@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/bootstrap/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -102,5 +103,7 @@
       }
     }
   },
-  "defaultProject": "biblionest-front"
+  "cli": {
+    "analytics": "048f48ba-3308-4ecf-99d2-2c4dc7c1a375"
+  }
 }
