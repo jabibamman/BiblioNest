@@ -1,54 +1,68 @@
-<h1 class="book_title">{{current_book.title}}</h1>
-<button class="action_button" (click)="redirectToDisplay()">
-  Valider
-  <fa-icon [icon]="faCheck" class="m-2"></fa-icon>
-</button>
-<div class="main_content">
-  <div class="infos_div">
-    <div class="infos">
-      <b>Titre :</b> <input type="text" [value]="current_book.title" placeholder="Nouveau titre" class="m-3 p-2 bg-dark text-primary w-100">
-      <h5>Infos :</h5><br>
-      <li>
-        Autheur : <input type="text" [value]="current_book.author" placeholder="Nouvel Autheur" class="m-3 p-2 bg-dark text-primary w-100">
-      </li>
-      <li>
-        Nombre de pages : <input type="number" [value]="current_book.nb_pages" class="m-3 p-2 bg-dark text-primary w-25 text-center"> pages
-      </li>
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-6 d-flex d-md-flex justify-content-center justify-content-md-start">
+      <h1 class="d-sm-flex d-xl-flex justify-content-sm-center">{{ current_book.title }}</h1>
     </div>
-    <div class="infos">
-      <h5>Status :</h5><br>
-
-      <select style="border: white solid; border-radius: 15px; padding: 15px; color: black;" 
-        [ngStyle]="{'background-color': bgColor || 'white'}"
-        (change)="onStatusChange($event.target)">
-        <option [value]="'reading'" [selected]="current_book.status === 'reading'">En cours de lecture</option>
-        <option [value]="'read'" [selected]="current_book.status === 'read'">Déjà Lu</option>
-        <option [value]="'to_read'" [selected]="current_book.status === 'to_read'">À lire !</option>
-      </select>
-
-    </div>
-    <button style="padding:0px; background-color: rgba(0,0,0,0); border: none;">
-      <div class="book_cover_div">
-        <img class="book_cover" src="assets/images/71ADh-KokpL.jpg">
-        <div class="modify_book_cover">Modifier l'image</div>
-      </div>
-    </button>
-  </div>
-  <div class="infos_div">
-    <div>
-      <h5>Description :</h5><br>
-      <textarea class="m-3 p-2 bg-dark text-primary" style="width:1000px;" placeholder="Mettez la description ici">{{current_book.description}}</textarea>
-      <!--<p>What is Lorem Ipsum?
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        <br><br>
-        Why do we use it?
-        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-        <br><br>
-        Where does it come from?
-        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-    -->
+    <div
+      class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
+      <button class="btn btn-primary action_button" type="button" (click)="saveChanges()">
+        <fa-icon [icon]="faPen" class="m-2"></fa-icon>
+        Sauvegarder les modifications
+      </button>
     </div>
   </div>
-  <br>
 </div>
-
+<div class="main_content">
+  <div class="infos_div bg-dark mb-5">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-4">
+                  <div>
+                      <h5 class="text-start d-flex justify-content-center fa-primary">Titre</h5><input class="bg-dark d-flex justify-content-sm-center m-3 p-2 text-primary w-100" type="text" placeholder="Nouveau titre" />
+                      <h5 class="d-flex justify-content-center align-items-center fa-primary">Infos :</h5>
+                      <p class="d-flex justify-content-center text-primary">Autheur : </p><input class="bg-dark d-flex justify-content-center m-3 p-2 text-primary w-100 mb-3" type="text" placeholder="Nouvel Autheur" />
+                      <p class="d-flex justify-content-center text-primary">Nombre de pages : </p>
+                      <p class="d-flex justify-content-center align-items-center"><input class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" />pages</p>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                      <h5 class="d-flex justify-content-center fa-primary">Status :</h5>
+                      <div class="d-flex justify-content-center">
+                        <select class="mb-3"
+                        [ngStyle]="{'background-color': bgColor || 'white'}"
+                        (change)="onStatusChange($event.target)">
+                        <option [value]="'reading'" [selected]="current_book.status === 'reading'">En cours de lecture</option>
+                        <option [value]="'read'" [selected]="current_book.status === 'read'">Déjà Lu</option>
+                        <option [value]="'to_read'" [selected]="current_book.status === 'to_read'">À lire !</option>
+                        </select>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="book_cover_div">
+                      <div class="col">
+                          <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+                                <div class="col-xxl-8 modify-image"
+                                  (click)="modifyImage()">
+                                  <img *ngIf="current_book.img_url !== 'default'" [src]="current_book.img_url" class="img-fluid card-img-top" alt="{{ current_book.title }}">
+                                  <div class="d-xl-flex justify-content-xl-center align-items-xl-center modify-overlay">
+                                      <p class="modify-text text-primary">Modifier l&#39;image</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+      <div class="row infos_div bg-dark">
+          <div class="col-md-12">
+              <h5 class="mb-3 fa-primary">Description :</h5>
+          </div>
+          <div class="row">
+              <div class="col-md-12"><textarea class="form-control m-3 p-2 text-primary bg-dark">{{current_book.description}}</textarea></div>
+          </div>
+      </div>
+  </div>
+</div>

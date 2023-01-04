@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { BookService } from 'src/app/service/book.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { BookService } from 'src/app/service/book.service';
 })
 export class BookModifyDisplayComponent implements OnChanges {
   faCheck = faCheck;
+  faPen = faPen;
   current_book: any;
   book_isbn: string | null = "default";
   bgColor: string = "white";
@@ -47,5 +49,16 @@ export class BookModifyDisplayComponent implements OnChanges {
   onStatusChange(event: any) {
     event ? this.bgColor = this.bookService.getBackgroundColor(event.value) : this.bgColor = 'white';
   }
-  
+
+  modifyImage() {
+      // Afficher un formulaire de modification d'image ou appeler une API pour modifier l'image
+  }
+
+  saveChanges() {
+      // Sauvegarder les modifications
+
+      // Rediriger vers la page de visualisation du livre
+      this.redirectToDisplay();
+  }
+
 }

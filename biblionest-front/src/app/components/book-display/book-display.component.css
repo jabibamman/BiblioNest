@@ -1,46 +1,27 @@
-.book_title{
-  margin: 20px 10px 10px 20px;
-}
-
-.action_button{
-  padding: 10px;
+.action_button {
+  padding: 1.5vh;
   background-color: #343a40;
-  color: #fcd036;
-  border-radius: 5px;
-  margin-left: 85%;
-  margin-right: 5%;
-  border: 2px solid #212428;
-  box-shadow: 3px 3px 15px black;
+  color:  #fcd036;
+  border: 0.2vh solid #212428;
+  box-shadow: 0 0 0.5vh 0.2vh #343a40;
 }
 
-.action_button:hover{
-  background-color: #212428;
-  color: #ffe290;
-  border: 2px solid #fcd036;
-  box-shadow: none;
- }
+.action_button:hover {
+  background-color:  #fcd036;
+  color: #343a40;
+  border: 0.2vh solid  #fcd036;
+  box-shadow: 0 0 0.5vh 0.2vh #fcd036;
+}
 
-.infos_div{
-  display: inline-flex;
+.infos_div {
   width: 90%;
-  margin: 15px 5%;
-  border-radius: 5px;
-  padding: 30px;
-  background-color: #343a40;
+  margin: 1vh 5%;
+  border-radius: 1vh;
+  padding: 4vh;
   color: #fcd036;
-  clear: both;
 }
 
-.infos{
-  float: left;
-  margin-right: 200px;
-}
-
-.book_cover{
-  margin-left: 10%;
-  height: 300px;
-  position: relative;
-  float: right;
-  background-color: #fcd036;
-  box-shadow: 3px 3px 15px black;
+.card {
+  border-style: none;
+  background: transparent;
 }
