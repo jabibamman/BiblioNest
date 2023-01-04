@@ -18,29 +18,12 @@
     <div class="infos">
       <h5>Status :</h5><br>
 
-      <select *ngIf="current_book.status === 'reading'" style="border:white solid; border-radius:15px; padding: 15px; background-color: dodgerblue; color: whitesmoke;">
-        <option *ngIf="current_book.status === 'reading'" value="En cours" style="background-color: dodgerblue; color: whitesmoke;" selected>En cours de lecture</option>
-        <option *ngIf="current_book.status === 'read'" value="Lu" style="background-color: darkgray; color: whitesmoke; " selected>Déjà Lu</option>
-        <option *ngIf="current_book.status === 'to_read'" value="À lire" style="background-color: forestgreen; color: whitesmoke;" selected>À lire !</option>
-        <option *ngIf="current_book.status !== 'reading'" value="En cours" style="background-color: dodgerblue; color: whitesmoke;">En cours de lecture</option>
-        <option *ngIf="current_book.status !== 'read'" value="Lu"  style="background-color: darkgray; color: whitesmoke; ">Déjà Lu</option>
-        <option *ngIf="current_book.status !== 'to_read'" value="À lire" style="background-color: forestgreen; color: whitesmoke;">À lire !</option>
-      </select>
-      <select *ngIf="current_book.status === 'read'" style="border:white solid; border-radius:15px;padding: 15px; background-color: darkgray; color: whitesmoke;">
-        <option *ngIf="current_book.status === 'reading'" value="En cours" style="background-color: dodgerblue; color: whitesmoke;" selected>En cours de lecture</option>
-        <option *ngIf="current_book.status === 'read'" value="Lu" style="background-color: darkgray; color: whitesmoke; " selected>Déjà Lu</option>
-        <option *ngIf="current_book.status === 'to_read'" value="À lire" style="background-color: forestgreen; color: whitesmoke;" selected>À lire !</option>
-        <option *ngIf="current_book.status !== 'reading'" value="En cours" style="background-color: dodgerblue; color: whitesmoke;">En cours de lecture</option>
-        <option *ngIf="current_book.status !== 'read'" value="Lu"  style="background-color: darkgray; color: whitesmoke; ">Déjà Lu</option>
-        <option *ngIf="current_book.status !== 'to_read'" value="À lire" style="background-color: forestgreen; color: whitesmoke;">À lire !</option>
-      </select>
-      <select *ngIf="current_book.status === 'to_read'" style="border:white solid; border-radius:15px;padding: 15px; background-color: forestgreen; color: whitesmoke;">
-        <option *ngIf="current_book.status === 'reading'" value="En cours" style="background-color: dodgerblue; color: whitesmoke;" selected>En cours de lecture</option>
-        <option *ngIf="current_book.status === 'read'" value="Lu" style="background-color: darkgray; color: whitesmoke; " selected>Déjà Lu</option>
-        <option *ngIf="current_book.status === 'to_read'" value="À lire" style="background-color: forestgreen; color: whitesmoke;" selected>À lire !</option>
-        <option *ngIf="current_book.status !== 'reading'" value="En cours" style="background-color: dodgerblue; color: whitesmoke;">En cours de lecture</option>
-        <option *ngIf="current_book.status !== 'read'" value="Lu"  style="background-color: darkgray; color: whitesmoke; ">Déjà Lu</option>
-        <option *ngIf="current_book.status !== 'to_read'" value="À lire" style="background-color: forestgreen; color: whitesmoke;">À lire !</option>
+      <select style="border: white solid; border-radius: 15px; padding: 15px; color: black;" 
+        [ngStyle]="{'background-color': bgColor || 'white'}"
+        (change)="onStatusChange($event.target)">
+        <option [value]="'reading'" [selected]="current_book.status === 'reading'">En cours de lecture</option>
+        <option [value]="'read'" [selected]="current_book.status === 'read'">Déjà Lu</option>
+        <option [value]="'to_read'" [selected]="current_book.status === 'to_read'">À lire !</option>
       </select>
 
     </div>

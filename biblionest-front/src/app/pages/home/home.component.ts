@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BookService } from 'src/app/service/book.service';
 
 @Component({
   selector: 'app-home',
@@ -11,19 +12,14 @@ export class HomeComponent implements OnInit {
   itemsPerPage: number;
   previousLabel: string;
   nextLabel: string;
+  books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
 
-  books = [
-    { isbn: '1234567890', title: 'Les Misérables', author: 'Victor Hugo', status: 'to_read', read_count:0, nb_pages:200, img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253096337-001-T.jpeg' },
-    { isbn: '0987654321', title: 'Le Petit Prince', author: 'Antoine de Saint-Exupéry', status: 'read', read_count:4, nb_pages:200, img_url:'https://m.media-amazon.com/images/I/71lyHAf7XXL.jpg' },
-    { isbn: '1231231231', title: 'Le Rouge et le Noir', author: 'Stendhal', status: 'reading', read_count:0, nb_pages:200, img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253006206-001-T.jpeg' }
-  ];
-
-
-  constructor(private Router: Router) { 
+  constructor(private Router: Router, private BookService: BookService) {
     this.itemsPerPage = this.setNbItemsPerPage();
     this.page = 1;
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
+    this.books = this.BookService.getBooks();
   }
 
   ngOnInit(): void { }
