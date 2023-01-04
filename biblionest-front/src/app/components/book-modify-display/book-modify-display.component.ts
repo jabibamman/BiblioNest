@@ -61,5 +61,4 @@ export class BookModifyDisplayComponent implements OnChanges {
       this.redirectToDisplay();
   }
 
-  
 }
