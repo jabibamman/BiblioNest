@@ -1,12 +1,12 @@
 <nav id="mainNav" class="navbar navbar-dark navbar-expand-lg bg-dark py-3">
-  <div class="container"><a class="navbar-brand" href="#page-top">Biblio Nest</a><button class="navbar-toggler navbar-toggler-right" 
+  <div class="container"><a class="navbar-brand" routerLink="/">Biblio Nest</a><button class="navbar-toggler navbar-toggler-right" 
     data-bs-toggle="collapse" data-bs-target="#navbarResponsive" 
     type="button" aria-controls="navbarResponsive" 
     aria-expanded="false" aria-label="Toggle navigation"><fa-icon [icon]="faBars"></fa-icon></button>
       <div id="navbarResponsive" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto text-uppercase">
               <li class="nav-item" *ngIf="!isLogged"><a class="nav-link" routerLink="/authentification">connexion/inscription</a></li>
-              <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/book">mes livres</a></li>
+              <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/">mes livres</a></li>
               <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/">ajout livre</a></li>
               <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/profile">mon profil</a></li>
               <li class="nav-item"><a class="nav-link" routerLink="/">à propos</a></li>
