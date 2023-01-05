@@ -14,6 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BookDisplayComponent } from './components/book-display/book-display.component';
 import { BookModifyComponent } from './pages/book-modify/book-modify.component';
 import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BookModifyDisplayComponent } from './components/book-modify-display/boo
     ProfileComponent,
     BookDisplayComponent,
     BookModifyComponent,
-    BookModifyDisplayComponent
+    BookModifyDisplayComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,
