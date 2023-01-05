@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BookService } from 'src/app/service/book.service';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-add-new-book',
@@ -9,6 +10,7 @@ import { BookService } from 'src/app/service/book.service';
   styleUrls: ['./add-new-book.component.css']
 })
 export class AddNewBookComponent {
+  faPlusCircle = faPlusCircle;
   bookForm: FormGroup;
   books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
 
