@@ -18,11 +18,11 @@
           <div class="row">
               <div class="col-md-4">
                   <div>
-                      <h5 class="text-start d-flex justify-content-center fa-primary">Titre</h5><input class="bg-dark d-flex justify-content-sm-center m-3 p-2 text-primary w-100" type="text" placeholder="Nouveau titre" />
+                      <h5 class="text-start d-flex justify-content-center fa-primary">Titre</h5><input class="bg-dark d-flex justify-content-sm-center m-3 p-2 text-primary w-100" type="text" placeholder="{{ current_book.title }}" />
                       <h5 class="d-flex justify-content-center align-items-center fa-primary">Infos :</h5>
-                      <p class="d-flex justify-content-center text-primary">Autheur : </p><input class="bg-dark d-flex justify-content-center m-3 p-2 text-primary w-100 mb-3" type="text" placeholder="Nouvel Autheur" />
+                      <p class="d-flex justify-content-center text-primary">Auteur : </p><input class="bg-dark d-flex justify-content-center m-3 p-2 text-primary w-100 mb-3" type="text" placeholder="{{ current_book.author }}" />
                       <p class="d-flex justify-content-center text-primary">Nombre de pages : </p>
-                      <p class="d-flex justify-content-center align-items-center"><input class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" />pages</p>
+                      <p class="d-flex justify-content-center align-items-center"><input type="number" class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" placeholder="{{ current_book.nb_pages }}"/>pages</p>
                   </div>
               </div>
               <div class="col-md-4">
