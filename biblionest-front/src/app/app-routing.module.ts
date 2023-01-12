@@ -9,7 +9,7 @@ import {AddNewBookComponent} from "./pages/add-new-book/add-new-book.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
     component: AddNewBookComponent,
   },
   {
-    path: 'authentification',
+    path: '',
     component: AuthentificationComponent,
   },
   {
