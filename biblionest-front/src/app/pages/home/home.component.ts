@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookService } from 'src/app/service/book.service';
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-home',
@@ -14,9 +15,9 @@ export class HomeComponent implements OnInit {
   nextLabel: string;
   books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
 
-  constructor(private Router: Router, private BookService: BookService) {
+  constructor(private Router: Router, private BookService: BookService, protected common: CommonService) {
     this.itemsPerPage = this.setNbItemsPerPage();
-    this.page = 1;
+    this.page = common.getPage();
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
     this.books = this.BookService.getBooks();
@@ -24,34 +25,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void { }
 
- /**
-  * @description navigate to the page
-  * @param page 
-  */
-  navigate(page: string) {
-    this.Router.navigate([page]);     
-  }
-
-  /**
-   * @description change the page and scroll to the top of the page
-   * @param page 
-   */
-  onPageChange(page: number) {
-    this.page = page;
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
-  }
-
   /**
    * @description set the number of items per page depending on the type of device
    * @returns number of items per page depending on the type of device
    */
-  private setNbItemsPerPage(): number { return this.isMobile ? 4 : 9; }
+  private setNbItemsPerPage(): number { return this.common.isMobile() ? 4 : 9; }
 
-  /**
-   * @description check if the device is a mobile device
-   * @returns true if the device is a mobile device
-   */
-  private get isMobile(): boolean { return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); }
+
 }

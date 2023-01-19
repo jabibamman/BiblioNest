@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
+import { CommonService } from 'src/app/service/common.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-footer',
@@ -11,15 +13,9 @@ import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 export class FooterComponent implements OnInit {
   faGithub = faGithub;
   faCopyright = faCopyright;
-  year: Number = new Date().getFullYear();
+  year: number = moment().year();
 
-  constructor(private Router: Router) { }
+  constructor(private Router: Router, protected common: CommonService) { }
 
-  ngOnInit(): void {
-  }
-
-  navigate(page: string) {
-    this.Router.navigate([page]);     // redirige vers la page demandée
-  }
-
+  ngOnInit(): void { }
 }

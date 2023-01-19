@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { BookService } from 'src/app/service/book.service';
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-book-display',
@@ -14,7 +15,7 @@ export class BookDisplayComponent implements OnChanges {
   book_isbn: string | null = "default";
   bgColor: string = "white";
 
-  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService) {
+  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService) {
     this.books = this.bookService.getBooks();
   }
 
@@ -38,14 +39,12 @@ export class BookDisplayComponent implements OnChanges {
     this.bgColor = this.bookService.getBackgroundColor(this.current_book.status);
   }
 
-  redirectToModify(): void{
-    this.router.navigate(['/modify_book/' + this.book_isbn]);
-    return;
+  redirectToModify() {
+    this.common.navigate("/modify_book/"+this.book_isbn);
   }
 
   // Fonction qui permet de changer la couleur de fond en fonction du statut du livre
   onStatusChange(event: any) {
-    event ? this.bgColor = this.bookService.getBackgroundColor(event.value) : this.bgColor = 'white';
+    this.bgColor = this.common.onStatusChange(event);
   }
-  
 }
