@@ -4,11 +4,15 @@ services:
     biblionest-front:
         image: biblionest/front:1.0.0
         build: biblionest-front
+        command: sh -c "npm start"
         ports:
-            - ${FRONT_PORT:-80}:80
+            - ${FRONT_PORT}:4200
+        working_dir: /app
         env_file:
           - .env
-
+        volumes:
+          - ./biblionest-front:/app
+          - node_modules:/app/node_modules
     biblionest-back:
         image: biblionest/back:1.0.0
         build: biblionest-back
@@ -43,3 +47,4 @@ services:
 
 volumes:
     pg-data:
+    node_modules:
