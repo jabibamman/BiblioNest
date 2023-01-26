@@ -6,12 +6,25 @@ services:
         build: biblionest-front
         ports:
             - ${FRONT_PORT}:4200
-        command: sh -c "node_modules/.bin/ng serve --host 0.0.0.0 --port 4200 --disable-host-check"
+        command: sh -c "node_modules/.bin/ng serve --host 0.0.0.0 --port ${FRONT_PORT} --disable-host-check"
         env_file:
           - .env
         volumes:
           - ./biblionest-front:/app
           - node_modules:/app/node_modules
+
+    biblionest-front-prod:
+        image: biblionest/front-prod:1.0.0
+        build: 
+            context: .
+            dockerfile: biblionest-front/Dockerfile.prod
+        ports:
+            - ${FRONT_PORT}:4200
+        env_file:
+            - .env
+        volumes:
+            - ./biblionest-front:/usr/share/nginx/html
+            - node_modules:/app/node_modules
           
     biblionest-back:
         image: biblionest/back:1.0.0
