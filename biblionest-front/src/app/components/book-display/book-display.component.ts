@@ -15,7 +15,7 @@ export class BookDisplayComponent implements OnChanges {
   book_isbn: string | null = "default";
   bgColor: string = "white";
 
-  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService) {
+  constructor(private route: ActivatedRoute, private bookService: BookService, protected common: CommonService) {
     this.books = this.bookService.getBooks();
   }
 
@@ -32,7 +32,7 @@ export class BookDisplayComponent implements OnChanges {
 
     let index = this.books.findIndex((obj) => obj.isbn === this.book_isbn);
     if(index === -1){
-      this.router.navigate(['/']);
+      this.common.navigate('/');
       return;
     }
     this.current_book = this.books[index];
