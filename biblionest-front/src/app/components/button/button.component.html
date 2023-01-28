@@ -1,1 +1,5 @@
-<button class="btn btn-primary action_button">{{text}}</button>
+<button class="btn btn-primary action_button"
+        (click)="onClick()"
+        [disabled]="isDisabled">
+        <span>{{ buttonText  }}</span>
+</button>

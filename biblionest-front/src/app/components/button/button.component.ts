@@ -6,14 +6,22 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
-  @Input() text: string = '';
-  @Output() buttonClick = new EventEmitter<void>();
+  public buttonText: string = '';
 
-  onClick() {
-    this.buttonClick.emit();
+  @Input() 
+  set text(name: string) {
+    this.buttonText = name;
   }
 
-  // usage in html (in book-modify.component.html or any other component that uses this component):
-  //<app-button [text]="'Valider'" (buttonClick)="addBook()"></app-button> // for example
+  get name(): string {
+    return this.buttonText;
+  }
+  
+  @Output() btnClick = new EventEmitter();
+  @Input() isDisabled = false;
 
+  onClick() {
+    this.btnClick.emit();
+  }
+  
 }
