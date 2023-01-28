@@ -12,7 +12,9 @@ export class HomeComponent implements OnInit {
   itemsPerPage: number;
   previousLabel: string;
   nextLabel: string;
+  searchText: string;
   books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
+  allBooks: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
 
   constructor(private Router: Router, private BookService: BookService) {
     this.itemsPerPage = this.setNbItemsPerPage();
@@ -20,9 +22,13 @@ export class HomeComponent implements OnInit {
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
     this.books = this.BookService.getBooks();
+    this.searchText = '';
+    this.allBooks = this.books; 
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.allBooks
+  }
 
  /**
   * @description navigate to the page
@@ -54,4 +60,11 @@ export class HomeComponent implements OnInit {
    * @returns true if the device is a mobile device
    */
   private get isMobile(): boolean { return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); }
+
+  /**
+   * @description filter the books by title or author
+  */
+  filterBooks() {
+    this.books = this.allBooks.filter(book => book.title.toLowerCase().includes(this.searchText.toLowerCase()) || book.author.toLowerCase().includes(this.searchText.toLowerCase()));
+  }
 }
