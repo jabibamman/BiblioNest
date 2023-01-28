@@ -2,6 +2,7 @@
 <header class="pt-1">
   <div class="container pt-5 pt-xl-5">
       <div class="row">
+        <input *ngIf="allBooks.length > 1" type="text" [(ngModel)]="searchText" (keyup)="filterBooks()" class="mb-4 input-group-text text-secondary" placeholder="Rechercher un livre">
         <div class="d-flex justify-content-center align-items-center">
           <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="10" [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]=previousLabel [nextLabel]=nextLabel></pagination-controls>
         </div>
