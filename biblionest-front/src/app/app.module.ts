@@ -31,7 +31,7 @@ import { ButtonComponent } from './components/button/button.component';
     BookDisplayComponent,
     BookModifyComponent,
     BookModifyDisplayComponent,
-    AddNewBookComponent
+    AddNewBookComponent,
     ButtonComponent
   ],
   imports: [
