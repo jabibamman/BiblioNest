@@ -1,0 +1,29 @@
+.main_div {
+  width: 80%;
+  border: none;
+  margin-top: 2%;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 2%;
+  border-radius: 2.5vh;
+}
+
+.cover_file_input {
+  cursor: pointer;
+  border: 0.2vh solid #343a40;
+  border-radius: 2.5vh;
+  padding: 1vh;
+}
+
+.cover_file_input:hover {
+  cursor: pointer;
+  border: 0.3vh solid #e1b421;
+}
+
+.action_button {
+  padding: 1.5vh;
+  background-color: #343a40;
+  color:  #fcd036;
+  border: 0.2vh solid #212428;
+  box-shadow: 0 0 0.5vh 0.2vh #343a40;
+}

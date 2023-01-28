@@ -15,6 +15,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BookDisplayComponent } from './components/book-display/book-display.component';
 import { BookModifyComponent } from './pages/book-modify/book-modify.component';
 import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
+import { AddNewBookComponent } from './pages/add-new-book/add-new-book.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -27,16 +29,18 @@ import { BookModifyDisplayComponent } from './components/book-modify-display/boo
     ProfileComponent,
     BookDisplayComponent,
     BookModifyComponent,
-    BookModifyDisplayComponent
+    BookModifyDisplayComponent,
+    AddNewBookComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule,
-    FontAwesomeModule,
-    NgxPaginationModule,
-    FormsModule
-  ],
+      BrowserModule,
+      AppRoutingModule,
+      RouterModule,
+      FontAwesomeModule,
+      NgxPaginationModule,
+      FormsModule,
+      ReactiveFormsModule,
+   ],
   providers: [],
   bootstrap: [AppComponent]
 })
