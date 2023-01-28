@@ -17,6 +17,9 @@ import { BookModifyComponent } from './pages/book-modify/book-modify.component';
 import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
 import { AddNewBookComponent } from './pages/add-new-book/add-new-book.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import {ReactiveFormsModule} from "@angular/forms";
       NgxPaginationModule,
       FormsModule,
       ReactiveFormsModule,
+      HttpClientModule
    ],
   providers: [],
   bootstrap: [AppComponent]
