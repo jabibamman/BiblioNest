@@ -1,0 +1,19 @@
+$color-primary: #fcd036;
+$color-primary-dark: #343a40;
+$color-primary-light: #212428;
+
+
+.action_button {
+    padding: 1.5vh;
+    background-color: $color-primary-dark;
+    color: $color-primary;
+    border: 0.2vh solid $color-primary-light;
+    box-shadow: 0 0 0.5vh 0.2vh $color-primary-dark;
+  }
+
+.action_button:hover {
+    background-color: $color-primary;
+    color: $color-primary-dark;
+    border: 0.2vh solid $color-primary-dark;
+    box-shadow: 0 0 0.5vh 0.2vh $color-primary-light;
+}

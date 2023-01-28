@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.css']
+  styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
   public buttonText: string = '';
@@ -21,6 +23,8 @@ export class ButtonComponent {
   @Input() type: string = 'button';
   @Input() isDisabled = false;
 
+  @Input()
+  icon: IconProp = faBook;
 
   onClick() {
     this.btnClick.emit();
