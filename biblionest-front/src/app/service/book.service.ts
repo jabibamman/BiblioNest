@@ -5,14 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class BookService {
   getBackgroundColor(status: string): string {
-    if (status === 'reading') {
-      return 'dodgerblue';
-    } else if (status === 'read') {
-      return 'darkgray';
-    } else if (status === 'to_read') {
-      return 'forestgreen';
+    const colorMap = {
+      reading: 'dodgerblue',
+      read: 'darkgray',
+      to_read: 'forestgreen',
     }
-    return 'white';
+    
+    return colorMap[status as keyof typeof colorMap] || 'white';
   }
 
   books = [

@@ -4,11 +4,11 @@
       <div class="row">
         <input *ngIf="allBooks.length > 1" type="text" [(ngModel)]="searchText" (keyup)="filterBooks()" class="mb-4 input-group-text text-secondary" placeholder="Rechercher un livre">
         <div class="d-flex justify-content-center align-items-center">
-          <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="10" [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]=previousLabel [nextLabel]=nextLabel></pagination-controls>
+          <pagination-controls (pageChange)="common.onPageChange($event)" [maxSize]="10" [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]=previousLabel [nextLabel]=nextLabel></pagination-controls>
         </div>
         <div class="col-md-4" *ngFor="let book of books | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
           <div class="card mb-4">
-            <div class="card-body cursor-pointer" (click)="navigate('/book/' + book.isbn)">
+            <div class="card-body cursor-pointer" (click)="common.navigate('book/' + book.isbn)">
               <h5 class="card-title">{{ book.title }}</h5>
               <p class="card-text">{{ book.author }}</p>
               <div class="d-flex justify-content-center">
@@ -27,7 +27,7 @@
         </div>
       </div> 
       <div class="d-flex justify-content-center align-items-center">
-        <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="10" [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]=previousLabel [nextLabel]=nextLabel></pagination-controls>
+        <pagination-controls (pageChange)="common.onPageChange($event)" [maxSize]="10" [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]=previousLabel [nextLabel]=nextLabel></pagination-controls>
       </div>
   </div>
 </header>
