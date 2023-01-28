@@ -18,10 +18,12 @@ export class ButtonComponent {
   }
   
   @Output() btnClick = new EventEmitter();
+  @Input() type: string = 'button';
   @Input() isDisabled = false;
+
 
   onClick() {
     this.btnClick.emit();
   }
-  
+
 }
