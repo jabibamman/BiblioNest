@@ -1,0 +1,50 @@
+<app-navbar></app-navbar>
+<form class="w-100" [formGroup]="bookForm" (submit)="$event.preventDefault()">
+  <div class="main_div bg-dark text-primary text-center">
+      <div *ngIf="bookForm.hasError('required')" class="alert alert-danger">Veuillez remplir tous les champs</div>
+      <div *ngIf="bookForm.hasError('duplicate')" class="alert alert-danger">Ce livre existe déjà</div>
+      <div *ngIf="bookForm.hasError('invalidNbPages')" class="alert alert-danger">Il faut un nombre de pages supérieur à 0</div>
+      <div *ngIf="bookForm.hasError('invalidLength')" class="alert alert-danger">Le titre ou l'auteur doit faire au moins 3 caractères et maximum 25 caractères</div>
+      <div class="row d-md-flex d-lg-flex justify-content-md-center justify-content-lg-center">
+        <div class="col-auto col-lg-10 offset-lg-0">
+          <div class="text-center w-100 mt-3 mb-3">
+              <h1><input class="bg-dark form-control text-primary p-2 text-center" formControlName="title" type="text" placeholder="Titre du livre" /></h1>
+          </div>
+          <div class="add_inputs m-5"> 
+              <h3 class="text-capitalize text-center text-primary mb-4">informations :</h3><input class="bg-dark form-control text-primary p-2 text-center" formControlName="author" type="text" placeholder="Auteur" /><br />
+              <div class="d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                  <div class="container">
+                      <div class="row d-lg-flex d-xl-flex d-xxl-flex justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
+                          <div class="col-md-6 col-xl-6 col-xxl-2 d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center align-items-md-center justify-content-lg-end justify-content-xxl-center"><input class="bg-dark form-control text-primary p-2 text-center" formControlName="nb_pages" type="number" value="100"/></div>
+                          <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-1 d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center align-items-md-center justify-content-lg-start justify-content-xxl-start"><span class="text-primary"> pages </span></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="mt-3">
+                <select class="form-select d-flex text-center justify-content-center bg-transparent text-secondary" formControlName="status">
+                  <option value="to_read">À lire</option>
+                  <option value="read">Déjà Lu</option>
+                  <option value="reading">En cours de lecture</option>
+                </select>
+              </div>
+        </div>
+        <div class="add_inputs m-5">
+          <label for="files" class="form-label cover_file_input">
+            <b><fa-icon [icon]="faPlusCircle"></fa-icon> AJouter une couverture</b>
+          </label>
+          <input id="files" class="form-control visually-hidden" type="file">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-primary bg-dark d-inline-block main_div">
+    <div class="add_inputs m-5">
+      <h3 class="text-capitalize text-center d-sm-flex justify-content-sm-center text-primary mb-4">Description du livre :</h3>
+      <textarea formControlName="description" class="w-100 bg-dark text-primary p-2 form-control bg-transparent text-center" placeholder="Description..."></textarea>
+    </div>
+  </div>
+  <div class="text-center w-100 mt-4">
+    <button (click)="addBook()"class="btn btn-primary action_button">Ajouter le livre</button>
+  </div>
+</form>
+<app-footer></app-footer>

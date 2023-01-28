@@ -21,8 +21,16 @@ export class BookService {
     { isbn: '1231231231', title: 'Le Rouge et le Noir', author: 'Stendhal', status: 'reading', read_count:0, nb_pages:200, img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253006206-001-T.jpeg' }
   ];
 
-  getBooks() {
+  getBooks(): { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[] {
     return this.books;
   }
 
+  addBook(book: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }): void {
+    this.books.push(book); 
+  }
+
+  // method to generate a random ISBN (not really unique but good enough for testing)
+  generateIsbn(): string {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  }
 }
