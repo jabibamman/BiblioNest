@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { BookService } from 'src/app/service/book.service';
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-book-modify-display',
@@ -16,7 +17,7 @@ export class BookModifyDisplayComponent implements OnChanges {
   book_isbn: string | null = "default";
   bgColor: string = "white";
 
-  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService) {
+  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService) {
     this.books = this.bookService.getBooks();
   }
 
@@ -33,22 +34,18 @@ export class BookModifyDisplayComponent implements OnChanges {
 
     let index = this.books.findIndex((obj) => obj.isbn === this.book_isbn);
     if(index === -1){
-      this.router.navigate(['/']);
+      this.common.navigate('/');
       return;
     }
     this.current_book = this.books[index];
     this.bgColor = this.bookService.getBackgroundColor(this.current_book.status);
   }
 
-  redirectToDisplay(): void{
-    this.router.navigate(['/book/' + this.book_isbn]);
-    return;
-  }
 
   // Fonction qui permet de changer la couleur de fond en fonction du statut du livre
   onStatusChange(event: any) {
-    event ? this.bgColor = this.bookService.getBackgroundColor(event.value) : this.bgColor = 'white';
-  }
+    this.bgColor = this.common.onStatusChange(event);
+  }  
 
   modifyImage() {
       // Afficher un formulaire de modification d'image ou appeler une API pour modifier l'image
@@ -58,7 +55,7 @@ export class BookModifyDisplayComponent implements OnChanges {
       // Sauvegarder les modifications
 
       // Rediriger vers la page de visualisation du livre
-      this.redirectToDisplay();
+      this.common.navigate("book/"+this.current_book.isbn);
   }
 
 }

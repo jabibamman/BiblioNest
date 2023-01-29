@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BookService } from 'src/app/service/book.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-add-new-book',
@@ -14,7 +15,7 @@ export class AddNewBookComponent {
   bookForm: FormGroup;
   books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
 
-  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService) {
+  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService) {
     this.books = this.books = this.BookService.getBooks();
 
     this.bookForm = this.fb.group({
@@ -28,7 +29,7 @@ export class AddNewBookComponent {
   }
 
   addBook(): void{
-    this.toTheTop();
+    this.common.toTheTop();
     const values = this.bookForm.value;
     const book = {
       isbn: this.BookService.generateIsbn(),
@@ -60,22 +61,8 @@ export class AddNewBookComponent {
       this.bookForm.setErrors({ invalidLength: true });
       return;
     }
-
+    
     this.BookService.addBook(book);
-    this.redirectToHome();
-  }
-
-  redirectToHome(): void{
-    this.router.navigate(['/']);
-    return;
-  }
-
-  /**
-   * @description scroll to the top of the page
-  */
-  toTheTop() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
+    this.common.navigate('/');
   }
 }
