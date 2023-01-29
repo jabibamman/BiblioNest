@@ -9,7 +9,7 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   async getBookCover(title: string, author: string, publishedDate: string): Promise<string> {
-    let url = 'http://localhost:3000/api/book/title/' + title;
+    let url = 'http://localhost:3000/api/book?title=' + title;
     return lastValueFrom(this.http.get(url)).then((response: any) => {
         if (response.authors[0].toLowerCase() === author.toLowerCase() && response.publishedDate === publishedDate) {
           console.log(response.cover);

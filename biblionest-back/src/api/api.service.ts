@@ -4,76 +4,55 @@ import { map, catchError, lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class ApiService {
-    api_url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  api_url = 'https://www.googleapis.com/books/v1/volumes?q=';
 
-    constructor(private http: HttpService) {}
-    
-    async getBookByISBN(isbn: string) {
-      try {
-        const url = this.api_url + "isbn:" + isbn;
-        const get$ = this.http.get(url);
-        const { data } = await lastValueFrom(get$);
-        if (data.totalItems === 0) {
-          throw new Error('Invalid ISBN');
-        }
-        const book = data.items[0].volumeInfo;
+  searchTypes = {
+    "isbn": "isbn:",
+    "title": "",
+    "author": "inauthor:",
+    "publisher": "inpublisher:",
+  }
 
-        return {
-          title: book.title,
-          authors: book.authors,
-          publishedDate: book.publishedDate,
-          description: book.description,
-          cover: (book.imageLinks && book.imageLinks.thumbnail) || 'default',
-          isbn: book.industryIdentifiers[0].identifier
-        };
-      } catch (error) {
-        throw new Error(error.message);
+  constructor(private http: HttpService) { }
+
+  async getBook(searchType: string, searchValue: string) {
+    try {
+      let url = this.api_url;      
+      switch (searchType) {
+        case 'isbn':
+          url += this.searchTypes.isbn + searchValue;
+          break;
+        case 'title':
+          url += searchValue;
+          break;
+        case 'author':
+          url += this.searchTypes.author + searchValue;
+          break;
+        case 'publisher':
+          url += this.searchTypes.publisher + searchValue;
+          break;
+        default:
+          throw new Error('Invalid search type');
       }
-    }
-    
 
-    async getBookByTitle(title: string) {
-      try {
-        const url = this.api_url + title;
-        const get$ = this.http.get(url);
-        const { data } = await lastValueFrom(get$);
-        if (data.totalItems === 0) {
-          throw new Error('Invalid title');
-        }
-        const book = data.items[0].volumeInfo;
-        return {
-          title: book.title,
-          authors: book.authors,
-          publishedDate: book.publishedDate,
-          description: book.description,
-          cover: (book.imageLinks && book.imageLinks.thumbnail) || 'default',
-          isbn: book.industryIdentifiers[0].identifier
-        };
-      } catch (error) {
-        throw new Error(error.message);
+      const get$ = this.http.get(url);
+      const { data } = await lastValueFrom(get$);
+      if (data.totalItems === 0) {
+        throw new Error('Invalid search value');
       }
+      const book = data.items[0].volumeInfo;
+      return {
+        title: book.title,
+        authors: book.authors,
+        publishedDate: book.publishedDate,
+        description: book.description,
+        cover: (book.imageLinks && book.imageLinks.thumbnail) || 'default',
+        isbn: book.industryIdentifiers[0].identifier,
+        pageCount: book.pageCount,
+      };
+    } catch (error) {
+      throw new Error(error.message);
     }
-
-    async getBookByAuthor(author: string) {
-      try {
-        const url = this.api_url + "inauthor:" + author;
-        const get$ = this.http.get(url);
-        const { data } = await lastValueFrom(get$);
-        if (data.totalItems === 0) {
-          throw new Error('Invalid author');
-        }
-        const book = data.items[0].volumeInfo;
-        return {
-          title: book.title,
-          authors: book.authors,
-          publishedDate: book.publishedDate,
-          description: book.description,
-          cover: (book.imageLinks && book.imageLinks.thumbnail) || 'default',
-          isbn: book.industryIdentifiers[0].identifier
-        };
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    }
+  }
 
 }
