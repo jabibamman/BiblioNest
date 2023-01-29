@@ -5,6 +5,7 @@ import { BookService } from 'src/app/service/book.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { CommonService } from 'src/app/service/common.service';
 import { HttpClient } from '@angular/common/http';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'app-add-new-book',
@@ -23,6 +24,7 @@ export class AddNewBookComponent {
       title: [''],
       author: [''],
       publishedDate: [''],
+      isbn: [''],
       nb_pages: [1],
       read_count: [0],
       status: ['to_read'],
@@ -34,7 +36,7 @@ export class AddNewBookComponent {
     this.common.toTheTop();
     const values = this.bookForm.value;
     const book = {
-      isbn: this.BookService.generateIsbn(),
+      isbn: values.isbn,
       title: values.title,
       author: values.author,
       publishedDate: values.publishedDate,
@@ -64,20 +66,24 @@ export class AddNewBookComponent {
       this.bookForm.setErrors({ invalidLength: true });
       return;
     }
-    
+
+
+    if(book.isbn.length !== 13) {
+      this.BookService.getISBNBook(book.title, '').then((isbn) => {
+        if(isbn == null) {
+          this.bookForm.setErrors({ invalidIsbn: true });
+        }else {
+          book.isbn = isbn;
+        }  
+
+      });
+      
+    }
+
     this.BookService.addBook(book);
     // si l'image n'est pas chargée, on met une image que l'on récupère sur l'api 
-    if(book.img_url === 'default'){
-      const bookCover = this.BookService.getBookCover(book.title, book.author, book.publishedDate);
-
-      bookCover.then((value) => {
-        if(value === null){
-          value = 'default';
-        }else{
-          this.BookService.books[this.BookService.books.length - 1].img_url = value;
-        }
-      });
-
+    if(book.img_url === 'default'){      
+      // TODO: récupérer l'image de l'api
     }
       
     this.common.navigate('/');

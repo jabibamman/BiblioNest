@@ -8,24 +8,46 @@ import { lastValueFrom } from 'rxjs';
 export class BookService {
   constructor(private http: HttpClient) { }
 
-  async getBookCover(title: string, author: string, publishedDate: string): Promise<string> {
-    let url = 'http://localhost:3000/api/book?title=' + title;
-    return lastValueFrom(this.http.get(url)).then((response: any) => {
-        if (response.authors[0].toLowerCase() === author.toLowerCase() && response.publishedDate === publishedDate) {
-          console.log(response.cover);
-            
-          return response.cover || 'default';
-        } else {
-            return 'default';
-        }
+  async getBook(isbn:string, title: string, author: string): Promise<any> {
+    let url = 'http://localhost:3000/api/book?';
+
+    if (isbn) {
+      url += 'isbn=' + isbn;
+    } else if (title) {
+      url += 'title=' + title;
+    } else if (author) {
+      url += 'author=' + author;
+    } else {
+      throw new Error('Invalid search type');
     }
-    ).catch((error) => {
+
+    return lastValueFrom(this.http.get(url)).then((response: any) => {
+      return {
+        title: response.title,
+        authors: response.authors,
+        publishedDate: response.publishedDate,
+        description: response.description,
+        cover: response.cover,
+        isbn: response.isbn,
+        pageCount: response.pageCount,
+      };
+    }).catch((error) => {
         if (error instanceof Error) {
             throw new Error(error.message);
         } else {  
             throw new Error("Something went wrong");
         }  
     });
+  }
+  
+  async valideIsbn(isbn: string): Promise<boolean> {
+    const book = await this.getBook(isbn, '', '');
+    return book.isbn === isbn;
+  }
+
+  async getISBNBook(title: string, author: string): Promise<string> {
+    const book = await this.getBook('', title, author);
+    return book.isbn.replace(/:/g, '');
   }
 
   getBackgroundColor(status: string): string {
