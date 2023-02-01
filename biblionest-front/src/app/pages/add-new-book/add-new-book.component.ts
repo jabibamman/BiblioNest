@@ -75,18 +75,59 @@ export class AddNewBookComponent {
         }else {
           book.isbn = isbn;
         }  
-
       });
-      
+
     }
+
+
+    book.title = book.title.replace(/\w\S*/g, (txt: string) => { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    book.author = book.author.replace(/\w\S*/g, (txt: string) => { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
     this.BookService.addBook(book);
-    // si l'image n'est pas chargée, on met une image que l'on récupère sur l'api 
     if(book.img_url === 'default'){      
-      // TODO: récupérer l'image de l'api
+      this.BookService.getBookCover('', book.title, '').then((value) => {
+        if(value === null){
+          value = 'default';
+        }else{
+          this.BookService.books[this.BookService.books.length - 1].img_url = value;
+        }
+      });
     }
-      
-    this.common.navigate('/');
+
+    if(book.nb_pages === 1){
+      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {
+        console.log(pageCount);
+        
+        if(pageCount == null) {
+          this.bookForm.setErrors({ invalidPageCount: true });
+        }else {
+          this.BookService.books[this.BookService.books.length - 1].nb_pages = pageCount;
+        }
+      });
+    }
+
+    if(book.publishedDate === ''){
+      this.BookService.getBookPublishedDate('', book.title, '').then((publishedDate) => {
+        if(publishedDate == null) {
+          this.bookForm.setErrors({ invalidPublishedDate: true });
+        }else {
+          this.BookService.books[this.BookService.books.length - 1].publishedDate = publishedDate;
+        }
+      });
+    }
+
+    if(book.description === ''){
+      this.BookService.getBookDescription('', book.title, '').then((description) => {
+        if(description == null) {
+          this.bookForm.setErrors({ invalidDescription: true });
+        }else {
+          this.BookService.books[this.BookService.books.length - 1].description = description;
+        }
+      });
+    }
+
+
+    this.router.navigate(['/']);
   }
   
 }

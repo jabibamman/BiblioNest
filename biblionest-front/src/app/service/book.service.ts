@@ -39,6 +39,31 @@ export class BookService {
         }  
     });
   }
+
+  async getBookAuthor(isbn: string, title: string): Promise<string> {
+    const book = await this.getBook(isbn, title, '');
+    return book.authors[0];
+  }
+
+  async getBookCover(isbn: string,title: string, author: string): Promise<string> {
+    const book = await this.getBook(isbn, title, author);
+    return book.cover || 'default';
+  }
+
+  async getBookPageCount(isbn: string, title: string, author: string): Promise<number> {
+    const book = await this.getBook(isbn, title, author);
+    return book.pageCount;
+  }
+
+  async getBookPublishedDate(isbn: string, title: string, author: string): Promise<string> {
+    const book = await this.getBook(isbn, title, author);
+    return book.publishedDate;
+  }
+
+  async getBookDescription(isbn: string, title: string, author: string): Promise<string> {
+    const book = await this.getBook(isbn, title, author);
+    return book.description;
+  }
   
   async valideIsbn(isbn: string): Promise<boolean> {
     const book = await this.getBook(isbn, '', '');
@@ -46,8 +71,8 @@ export class BookService {
   }
 
   async getISBNBook(title: string, author: string): Promise<string> {
-    const book = await this.getBook('', title, author);
-    return book.isbn.replace(/:/g, '');
+    const book = await this.getBook('', title, author);  
+    return book.isbn;
   }
 
   getBackgroundColor(status: string): string {
@@ -61,16 +86,16 @@ export class BookService {
   }
 
   books = [
-    { isbn: '1234567890', title: 'Les Misérables', author: 'Victor Hugo', publishedDate:'2008', status: 'to_read', read_count:0, nb_pages:200, img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253096337-001-T.jpeg' },
-    { isbn: '0987654321', title: 'Le Petit Prince', author: 'Antoine de Saint-Exupéry', publishedDate:'2008', status: 'read', read_count:4, nb_pages:200, img_url:'https://m.media-amazon.com/images/I/71lyHAf7XXL.jpg' },
-    { isbn: '1231231231', title: 'Le Rouge et le Noir', author: 'Stendhal', publishedDate:'2008', status: 'reading', read_count:0, nb_pages:200, img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253006206-001-T.jpeg' }
+    { isbn: '1234567890', title: 'Les Misérables', author: 'Victor Hugo', publishedDate:'2008', status: 'to_read', read_count:0, nb_pages:200, description:'', img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253096337-001-T.jpeg' },
+    { isbn: '0987654321', title: 'Le Petit Prince', author: 'Antoine de Saint-Exupéry', publishedDate:'2008', status: 'read', read_count:4, nb_pages:200, description:'', img_url:'https://m.media-amazon.com/images/I/71lyHAf7XXL.jpg' },
+    { isbn: '1231231231', title: 'Le Rouge et le Noir', author: 'Stendhal', publishedDate:'2008', status: 'reading', read_count:0, nb_pages:200, description:'', img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253006206-001-T.jpeg' }
   ];
 
   getBooks(): { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[] {
     return this.books;
   }
 
-  addBook(book: { isbn: string; title: string; author: string; publishedDate: string; status: string; read_count: number; nb_pages: number; img_url: string; }): void {
+  addBook(book: { isbn: string; title: string; author: string; publishedDate: string; status: string; read_count: number; nb_pages: number; description: string, img_url: string; }): void {
     this.books.push(book); 
   }
 

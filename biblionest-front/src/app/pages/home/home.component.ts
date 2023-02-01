@@ -27,8 +27,7 @@ export class HomeComponent implements OnInit {
     this.allBooks = this.books; 
   }
 
-  ngOnInit(): void { 
-  }
+  ngOnInit(): void { }
 
   /**
    * @description set the number of items per page depending on the type of device
