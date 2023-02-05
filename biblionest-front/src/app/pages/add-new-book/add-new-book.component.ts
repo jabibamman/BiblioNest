@@ -5,7 +5,6 @@ import { BookService } from 'src/app/service/book.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { CommonService } from 'src/app/service/common.service';
 import { HttpClient } from '@angular/common/http';
-import { async } from 'rxjs';
 
 @Component({
   selector: 'app-add-new-book',
@@ -88,16 +87,13 @@ export class AddNewBookComponent {
       this.BookService.getBookCover('', book.title, '').then((value) => {
         if(value === null){
           value = 'default';
-        }else{
-          this.BookService.books[this.BookService.books.length - 1].img_url = value;
-        }
+        }    
+        this.BookService.books[this.BookService.books.length - 1].img_url = value; 
       });
     }
 
     if(book.nb_pages === 1){
-      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {
-        console.log(pageCount);
-        
+      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {        
         if(pageCount == null) {
           this.bookForm.setErrors({ invalidPageCount: true });
         }else {
