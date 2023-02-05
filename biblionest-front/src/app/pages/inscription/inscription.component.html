@@ -1,0 +1,41 @@
+<div class="bg-image">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2 mt-4">
+      <div class="col my-auto text-center">
+        <h1 class="text-center text-primary">BiblioNest</h1>
+      </div>
+      <div class="col">
+        <section class="position-relative py-4 py-xl-5">
+          <div class="container bg-white p-4 rounded-4">
+            <div class="row mb-5">
+              <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2>Inscription</h2>
+                <p class="w-lg-50">Inscrivez-vous pour gérer vos lectures!</p>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-4 col-xl-6">
+                <div [ngClass]="verifyErrors() ? 'car mb-3' : 'car mb-5'">
+                  <div class="card-body d-flex flex-column align-items-center">
+                    <div *ngIf="inscriptionForm.hasError('requiredUsername')" class="alert alert-danger">Veuillez renseigner un nom d'utilisateur</div>
+                    <div *ngIf="inscriptionForm.hasError('requiredEmail')" class="alert alert-danger">Veuillez renseigner un email</div>
+                    <div *ngIf="inscriptionForm.hasError('requiredPassword')" class="alert alert-danger">Veuillez entrer un mot de passe</div>
+                    <form class="text-center" method="post" [formGroup]="inscriptionForm" (submit)="$event.preventDefault()">
+                      <div class="mb-3"><input class="form-control" type="text" name="username" formControlName="username" placeholder="Nom d'utilisateur"></div>
+                      <div class="mb-3"><input class="form-control" type="email" name="email" formControlName="email" placeholder="Email"></div>
+                      <div class="mb-3"><input class="form-control" type="password" name="password" formControlName="password" placeholder="Mot de passe"></div>
+                      <div class="mb-3"><button (click)="inscription()" class="btn btn-primary d-block w-100" type="submit">Commencer</button></div>
+                      <p class="text-muted">Déjà un compte?
+                        <a class="text-blue" (click)="this.commonService.navigate('')">Connectez vous!</a>
+                      </p>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
