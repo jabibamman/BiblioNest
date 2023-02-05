@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
+import {CommonService} from "../../service/common.service";
 
 @Component({
   selector: 'app-connection',
   templateUrl: './connection.component.html',
   styleUrls: ['./connection.component.css']
 })
-export class ConnectionComponent {
+export class ConnectionComponent implements OnInit {
   connectionForm:FormGroup;
-  constructor(private router:Router, private fb:FormBuilder) {
+  constructor(public commonService:CommonService, private fb:FormBuilder) {
     this.connectionForm = this.fb.group({
       username: [''],
       email: [''],
@@ -33,7 +33,7 @@ export class ConnectionComponent {
       return;
     }
 
-    this.redirect('home');
+    this.commonService.navigate('home');
   }
 
   verifyErrors():boolean {
@@ -42,8 +42,6 @@ export class ConnectionComponent {
       this.connectionForm.hasError('requiredPassword');
   }
 
-  redirect(page:String):void {
-    this.router.navigate(['/'+page]);
-    return;
+  ngOnInit() {
   }
 }

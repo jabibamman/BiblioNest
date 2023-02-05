@@ -26,7 +26,7 @@
                       <div class="mb-3"><input class="form-control" type="password" name="password" formControlName="password" placeholder="Mot de passe"></div>
                       <div class="mb-3"><button (click)="connection()" class="btn btn-primary d-block w-100" type="submit">Commencer</button></div>
                       <p class="text-muted">Pas de compte?
-                        <a class="text-blue" (click)="redirect('inscription')">Inscrivez-vous!</a>
+                        <a class="text-blue" (click)="this.commonService.navigate('inscription')">Inscrivez-vous!</a>
                       </p>
                     </form>
                   </div>

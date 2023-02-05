@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder} from "@angular/forms";
-import {Router} from "@angular/router";
+import {CommonService} from "../../service/common.service";
 
 @Component({
   selector: 'app-inscription',
@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class InscriptionComponent implements OnInit {
   inscriptionForm:FormGroup;
-  constructor(private router:Router, private fb:FormBuilder) {
+  constructor(public commonService:CommonService, private fb:FormBuilder) {
     this.inscriptionForm = this.fb.group({
       username: [''],
       email: [''],
@@ -33,18 +33,13 @@ export class InscriptionComponent implements OnInit {
       return;
     }
 
-    this.redirect('home');
+    this.commonService.navigate('home');
   }
 
   verifyErrors():boolean {
     return this.inscriptionForm.hasError('requiredUsername') ||
       this.inscriptionForm.hasError('requiredEmail') ||
       this.inscriptionForm.hasError('requiredPassword');
-  }
-
-  redirect(page:String):void {
-    this.router.navigate(['/'+page]);
-    return;
   }
 
   ngOnInit(): void {
