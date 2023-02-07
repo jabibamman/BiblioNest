@@ -63,6 +63,6 @@ export class AddNewBookComponent {
     }
     
     this.BookService.addBook(book);
-    this.common.navigate('/');
+    this.common.navigate('/home');
   }
 }
