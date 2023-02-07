@@ -32,4 +32,15 @@ export class BookService {
   generateIsbn(): string {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
+
+  // return the list of authors, if an author is duplicated, it will be returned only once and it will be the first occurence
+  getFavoriteAuthorsByTimes(): {name: string, times: number}[] {
+    const authors = this.books.map(book => book.author);
+    const authorsSet = new Set(authors);
+    const authorsArray = Array.from(authorsSet);
+    const authorsTimes = authorsArray.map(name => {
+      return {name, times: authors.filter(a => a === name).length};
+    });
+    return authorsTimes.sort((a, b) => b.times - a.times);
+  }
 }
