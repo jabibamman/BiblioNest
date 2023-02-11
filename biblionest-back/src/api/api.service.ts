@@ -15,7 +15,7 @@ export class ApiService {
 
   constructor(private http: HttpService) { }
 
-  async getBook(searchType: string, searchValue: string) {
+  async getGbook(searchType: string, searchValue: string) {
     try {
       let url = this.api_url;      
       switch (searchType) {
