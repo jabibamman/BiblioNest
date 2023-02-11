@@ -17,8 +17,11 @@ import { BookModifyComponent } from './pages/book-modify/book-modify.component';
 import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
 import { AddNewBookComponent } from './pages/add-new-book/add-new-book.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
 import { ButtonComponent } from './components/button/button.component';
 import { ConnectionComponent } from './pages/connection/connection.component';
+
+
 
 @NgModule({
   declarations: [
@@ -44,6 +47,7 @@ import { ConnectionComponent } from './pages/connection/connection.component';
       NgxPaginationModule,
       FormsModule,
       ReactiveFormsModule,
+      HttpClientModule
    ],
   providers: [],
   bootstrap: [AppComponent]

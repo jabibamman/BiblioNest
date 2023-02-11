@@ -14,8 +14,8 @@ export class HomeComponent implements OnInit {
   previousLabel: string;
   nextLabel: string;
   searchText: string;
-  books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
-  allBooks: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
+  books;
+  allBooks;
 
   constructor(private Router: Router, private BookService: BookService, protected common: CommonService) {
     this.itemsPerPage = this.setNbItemsPerPage();
@@ -27,9 +27,7 @@ export class HomeComponent implements OnInit {
     this.allBooks = this.books; 
   }
 
-  ngOnInit(): void { 
-    this.allBooks
-  }
+  ngOnInit(): void { }
 
   /**
    * @description set the number of items per page depending on the type of device
