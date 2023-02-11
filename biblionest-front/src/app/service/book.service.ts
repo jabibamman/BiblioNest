@@ -9,7 +9,7 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   async getBook(isbn:string, title: string, author: string): Promise<any> {
-    let url = 'http://localhost:3000/api/book?';
+    let url = 'http://localhost:3000/api/gbook?';
 
     if (isbn) {
       url += 'isbn=' + isbn;
