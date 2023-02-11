@@ -5,10 +5,7 @@
     </div>
     <div
       class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
-      <button class="btn btn-primary action_button" type="button" (click)="saveChanges()">
-        <fa-icon [icon]="faPen" class="m-2"></fa-icon>
-        Sauvegarder les modifications
-      </button>
+        <app-button (btnClick)="saveChanges()" text="Sauvegarder les modifications" [icon]="faPen"></app-button>
     </div>
   </div>
 </div>

@@ -17,6 +17,7 @@ import { BookModifyComponent } from './pages/book-modify/book-modify.component';
 import { BookModifyDisplayComponent } from './components/book-modify-display/book-modify-display.component';
 import { AddNewBookComponent } from './pages/add-new-book/add-new-book.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { ButtonComponent } from './components/button/button.component';
 import { ConnectionComponent } from './pages/connection/connection.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ConnectionComponent } from './pages/connection/connection.component';
     BookModifyComponent,
     BookModifyDisplayComponent,
     AddNewBookComponent,
+    ButtonComponent,
     ConnectionComponent
   ],
   imports: [

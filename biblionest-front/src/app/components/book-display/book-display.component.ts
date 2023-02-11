@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { BookService } from 'src/app/service/book.service';
+import { ButtonComponent } from '../button/button.component';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
