@@ -123,7 +123,7 @@ export class AddNewBookComponent {
     }
 
 
-    this.router.navigate(['/']);
+    this.common.navigate('/home');
   }
   
 }

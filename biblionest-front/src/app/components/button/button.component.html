@@ -1,0 +1,7 @@
+<button class="btn btn-primary action_button"
+        (click)="onClick()"
+        [disabled]="isDisabled"
+        [type]="type">
+        <fa-icon *ngIf="icon" [icon]="icon" class="m-2"></fa-icon>
+        <span>{{ buttonText  }}</span>
+</button>

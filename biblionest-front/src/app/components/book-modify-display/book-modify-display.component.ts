@@ -34,7 +34,7 @@ export class BookModifyDisplayComponent implements OnChanges {
 
     let index = this.books.findIndex((obj) => obj.isbn === this.book_isbn);
     if(index === -1){
-      this.common.navigate('/');
+      this.common.navigate('/home');
       return;
     }
     this.current_book = this.books[index];

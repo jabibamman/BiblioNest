@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { BookService } from 'src/app/service/book.service';
+import { ButtonComponent } from '../button/button.component';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
@@ -32,7 +33,7 @@ export class BookDisplayComponent implements OnChanges {
 
     let index = this.books.findIndex((obj) => obj.isbn === this.book_isbn);
     if(index === -1){
-      this.common.navigate('/');
+      this.common.navigate('/home');
       return;
     }
     this.current_book = this.books[index];

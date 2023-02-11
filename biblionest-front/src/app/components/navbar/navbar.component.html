@@ -6,7 +6,7 @@
       <div id="navbarResponsive" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto text-uppercase">
               <li class="nav-item" *ngIf="!isLogged"><a class="nav-link" routerLink="/authentification">connexion/inscription</a></li>
-              <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/">mes livres</a></li>
+              <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/home">mes livres</a></li>
               <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/add_book">ajout livre</a></li>
               <li class="nav-item" *ngIf="isLogged"><a class="nav-link" routerLink="/profile">mon profil</a></li>
               <li class="nav-item"><a class="nav-link" routerLink="/">à propos</a></li>
