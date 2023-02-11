@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import {BookComponent} from "./pages/book/book.component";
-import {AuthentificationComponent} from "./pages/authentification/authentification.component";
+import {InscriptionComponent} from "./pages/inscription/inscription.component";
+import {ConnectionComponent} from "./pages/connection/connection.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {BookModifyComponent} from "./pages/book-modify/book-modify.component";
 import {AddNewBookComponent} from "./pages/add-new-book/add-new-book.component";
@@ -10,6 +11,10 @@ import {AddNewBookComponent} from "./pages/add-new-book/add-new-book.component";
 const routes: Routes = [
   {
     path: '',
+    component: ConnectionComponent,
+  },
+  {
+    path: 'home',
     component: HomeComponent,
   },
   {
@@ -25,8 +30,8 @@ const routes: Routes = [
     component: AddNewBookComponent,
   },
   {
-    path: 'authentification',
-    component: AuthentificationComponent,
+    path: 'inscription',
+    component: InscriptionComponent,
   },
   {
     path: 'profile',
