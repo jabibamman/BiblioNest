@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { BookService } from 'src/app/service/book.service';
 
 @Component({
   selector: 'app-profile',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  constructor(private bookService: BookService) {
+    this.books = this.bookService.getBooks()
+    this.bookToRead = this.books.filter(book => book.status === 'to_read');
+    this.favoriteAuthors = this.bookService.getFavoriteAuthorsByTimes();
+   } 
 
-  constructor() { }
+  @Input() books;
+  @Input() bookToRead;
+  @Input() favoriteAuthors;
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
+  
 }

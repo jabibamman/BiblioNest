@@ -103,4 +103,19 @@ export class BookService {
   generateIsbn(): string {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
+
+  // return the list of authors, if an author is duplicated, it will be returned only once and it will be the first occurence
+  getFavoriteAuthorsByTimes(): {name: string, times: number}[] {
+    // get all authors from books
+    const authors = this.books.map(book => book.author);
+
+    // create an array of unique authors with their count
+    const authorsWithCounts = Array.from(new Set(authors)).map(name => ({
+      name,
+      times: authors.filter(author => author === name).length
+    }));
+
+    // sort the authors by most popular to least
+    return authorsWithCounts.sort((a, b) => b.times - a.times);
+  }
 }
