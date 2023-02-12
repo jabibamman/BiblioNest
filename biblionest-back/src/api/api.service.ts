@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -14,7 +14,8 @@ export class ApiService {
   }
 
   constructor(private http: HttpService) { }
-
+  
+  @HttpCode(200)
   async getGbook(searchType: string, searchValue: string) {
     try {
       let url = this.api_url;      
@@ -32,13 +33,19 @@ export class ApiService {
           url += this.searchTypes.publisher + searchValue;
           break;
         default:
-          throw new Error('Invalid search type');
+          throw new HttpException({
+            status: HttpStatus.BAD_GATEWAY,
+            error: 'Invalid search type',
+          }, HttpStatus.BAD_GATEWAY);
       }
 
       const get$ = this.http.get(url);
       const { data } = await lastValueFrom(get$);
       if (data.totalItems === 0) {
-        throw new Error('Invalid search value');
+        throw new HttpException({
+          status: HttpStatus.NO_CONTENT,
+          message: 'No content',
+        }, HttpStatus.NO_CONTENT);
       }
       const book = data.items[0].volumeInfo;
       return {
@@ -51,7 +58,17 @@ export class ApiService {
         pageCount: book.pageCount,
       };
     } catch (error) {
-      throw new Error(error.message);
+      switch (error.getStatus()) {
+        case error.response.error === 'Invalid search type':
+          throw error;
+        case HttpStatus.NO_CONTENT:
+          throw error;
+        default:
+          throw new HttpException({
+            status: HttpStatus.BAD_GATEWAY,
+            error: 'Bad gateway',
+          }, HttpStatus.BAD_GATEWAY);
+      }
     }
     
   }

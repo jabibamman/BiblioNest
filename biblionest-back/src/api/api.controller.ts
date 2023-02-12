@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Query } from '@nestjs/common';
 import { ApiService } from './api.service';
 
 @Controller('api')
@@ -17,7 +17,11 @@ export class ApiController {
         } else if (query.isbn) {
             return await this.apiService.getGbook('isbn', query.isbn);
         } else {
-            throw new Error('Invalid search type');
+            throw new HttpException({
+                status: HttpStatus.BAD_GATEWAY,
+                error: 'Invalid search type',
+                message: 'Please provide a valid search type',
+            }, HttpStatus.BAD_GATEWAY);
         }
     }
 }
