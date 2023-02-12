@@ -35,7 +35,27 @@ export class AuthService {
             throw error;
         }
     }
-    signin() {
-        return { msg: 'I have signed in' };
+    async signin(dto: AuthDto) {
+        // find the user by email
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email, //JSP pk il me dit que cette ligne a une erreur alors qu'elle fonctionne
+            },
+        });
+
+        // if user does not exist throw exception
+        if (!user) throw new ForbiddenException('Credentials incorrect');
+
+        // compare passwords
+        const pwdMatches = await argon.verify(user.hash, dto.password);
+
+        // if passwords incorrect throw exception
+        if (!pwdMatches) {
+            throw new ForbiddenException('Credentials incorrect');
+        }
+
+        // send back the user
+        delete user.hash;
+        return user;
     }
 }
