@@ -24,9 +24,16 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@prisma/client": "^4.9.0",
+    "@types/dotenv": "^8.2.0",
+    "argon2": "^0.30.3",
+    "dotenv": "^16.0.3",
+    "pg": "^8.8.0",
+    "prisma": "^4.9.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "sequelize-typescript": "^2.1.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

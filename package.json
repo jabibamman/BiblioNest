@@ -24,6 +24,8 @@
     "server"
   ],
   "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "cross-env": "^7.0.3",
     "json2yaml": "^1.1.0",
     "ng-openapi-gen": "^0.21.2",
