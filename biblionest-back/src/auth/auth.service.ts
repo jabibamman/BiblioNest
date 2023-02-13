@@ -39,7 +39,7 @@ export class AuthService {
         // find the user by email
         const user = await this.prisma.user.findUnique({
             where: {
-                email: dto.email, //JSP pk il me dit que cette ligne a une erreur alors qu'elle fonctionne
+                email: dto.email,
             },
         });
 
