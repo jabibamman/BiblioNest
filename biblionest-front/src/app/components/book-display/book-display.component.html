@@ -5,10 +5,7 @@
     </div>
     <div
       class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
-      <button class="btn btn-primary action_button" type="button" (click)="redirectToModify()">
-        <fa-icon [icon]="faPen" class="m-2"></fa-icon>
-        Modifier
-      </button>
+        <app-button (btnClick)="redirectToModify()" text="Modifier" [icon]="faPen"></app-button>
     </div>
   </div>
 </div>
@@ -20,6 +17,7 @@
                   <h5 class="d-flex justify-content-center justify-content-md-start card-title mb-3">Infos :</h5>
                   <ul class="list-unstyled text-start">
                       <li class="d-flex d-sm-flex justify-content-sm-center justify-content-lg-start">Auteur : {{ current_book.author }}</li>
+                      <li class="d-flex d-sm-flex justify-content-center justify-content-sm-center justify-content-lg-start">Date de publication : {{ current_book.publishedDate | date:'yyyy' }}</li>
                       <li class="d-flex d-sm-flex justify-content-center justify-content-sm-center justify-content-lg-start">{{ current_book.nb_pages }} pages</li>
                   </ul>
               </div>
