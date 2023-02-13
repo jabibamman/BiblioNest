@@ -36,6 +36,7 @@ services:
           POSTGRES_DB: ${PGDATABASE}
           POSTGRES_USER: ${PGUSER}
           POSTGRES_PASSWORD: ${PGPASSWORD}
+          POSTGRES_HOST: ${PGHOST}
         ports:
             - ${PGPORT}:5432
         env_file:
