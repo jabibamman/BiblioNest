@@ -21,8 +21,8 @@ model User {
     firstName String?
     LastName String?
 
-    books Book[]
-    @@map("users")
+    //books Book[]
+    //@@map("users")
 }
 
 model Book {
@@ -30,11 +30,18 @@ model Book {
     createAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    title String
-    description String
+    isbn String @unique
+    title String @unique
+    status String
+    description String?
+    readCount Int?
+    author String
+    publishedDate String?
+    nbPages Int
+    imgUrl String?
 
     userId Int
-    user User @relation(fields: [userId], references: [id])
+    //user User @relation(fields: [userId], references: [id])
 
-    @@map("books")
+    //@@map("books")
 }
