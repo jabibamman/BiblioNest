@@ -14,15 +14,17 @@ import { writeFileSync } from 'fs';
 })
 export class AppModule {
     static setupEnv() {
-        const envDir = "../.env"
+        console.log('[INFO] Setup environment variables');
+        const envBaseDir = "../.env"
+        const envDir = ".env";
         const dotenv = require('dotenv');
-        dotenv.config({ path: envDir });
+        dotenv.config({path: envDir});
         if (process.env.DATABASE_URL === undefined) {
+            dotenv.config({ path: envBaseDir }); 
             writeFileSync(envDir, `\nDATABASE_URL="postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}?schema=public"`, { flag: 'a' });
         }
 
-        dotenv.config({ path: envDir }); // reload '../.env' file
-
+        dotenv.config({ path: envDir });
         if (process.env.DATABASE_URL === undefined) {
             throw new Error('[ERROR] DATABASE_URL is undefined');
         }

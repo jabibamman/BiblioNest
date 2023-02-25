@@ -44,17 +44,6 @@ services:
         volumes:
             - pg-data:/var/lib/postgresql/data
 
-    initdb:
-        image: postgres:latest
-        command: /bin/bash -c "sleep 5 && psql -h db -U ${PGUSER} -d ${PGDATABASE} -f /docker-entrypoint-initdb.d/db.sql"
-        volumes:
-            - ./biblionest-back/db/db.sql:/docker-entrypoint-initdb.d/db.sql
-        depends_on:
-            - db
-        env_file:
-            - .env
-        restart: on-failure
-
 volumes:
     pg-data:
     node_modules:
