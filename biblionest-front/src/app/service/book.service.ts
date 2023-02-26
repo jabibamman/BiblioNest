@@ -23,13 +23,13 @@ export class BookService {
 
     return lastValueFrom(this.http.get(url)).then((response: any) => {
       return {
-        title: response.title,
-        authors: response.authors,
-        publishedDate: response.publishedDate,
-        description: response.description,
-        cover: response.cover,
-        isbn: response.isbn,
-        pageCount: response.pageCount,
+        title: response?.title ?? '',
+        authors: response?.authors ?? [''],
+        publishedDate: response?.publishedDate ?? '',
+        description: response?.description ?? '',
+        cover: response?.cover ?? '',
+        isbn: response?.isbn ?? this.generateRandomIsbn(),
+        pageCount: response?.pageCount ?? 1,
       };
     }).catch((error) => {
         if (error instanceof Error) {
@@ -73,6 +73,10 @@ export class BookService {
   async getISBNBook(title: string, author: string): Promise<string> {
     const book = await this.getBook('', title, author);  
     return book.isbn;
+  }
+
+  generateRandomIsbn(): string {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
   getBackgroundColor(status: string): string {
