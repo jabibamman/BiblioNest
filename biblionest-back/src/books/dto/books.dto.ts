@@ -4,10 +4,6 @@ import { Type } from "class-transformer";
 export class BooksDto {
   @IsNotEmpty()
   @IsString()
-  isbn: string;
-
-  @IsNotEmpty()
-  @IsString()
   title: string;
 
   @IsNotEmpty()
@@ -17,6 +13,10 @@ export class BooksDto {
   @Type(() => Number)
   @IsNotEmpty()
   userId: number;
+
+  @IsOptional()
+  @IsString()
+  isbn: string;
 
   @IsOptional()
   @Type(() => Number)
