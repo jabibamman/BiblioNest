@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 export class AddNewBookComponent {
   faPlusCircle = faPlusCircle;
   bookForm: FormGroup;
+  fileForm: FormGroup;
   books: {
     isbn: string;
     title: string;
@@ -24,6 +25,7 @@ export class AddNewBookComponent {
     imgUrl: string;
     userId: number;
   }[];
+  file: any;
 
   constructor(
     private router: Router,
@@ -33,6 +35,7 @@ export class AddNewBookComponent {
     private http: HttpClient
   ) {
     this.books = this.BookService.getBooks();
+    this.file = null;
 
     this.bookForm = this.fb.group({
       title: [''],
@@ -45,6 +48,17 @@ export class AddNewBookComponent {
       description: [''],
       userId: 1,
     });
+
+    this.fileForm = this.fb.group({
+      currentInput: null,
+    });
+  }
+
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      console.log(event.target.files[0]);
+      this.file = event.target.files[0];
+    }
   }
 
   addBook(): void {
@@ -164,7 +178,7 @@ export class AddNewBookComponent {
     }
 
     try {
-      this.BookService.createBook(book);
+      this.BookService.createBook(book, this.file);
       this.common.navigate('/home');
     } catch (e) {
       console.log(e);

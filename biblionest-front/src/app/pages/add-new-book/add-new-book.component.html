@@ -35,7 +35,9 @@
           <label for="files" class="form-label cover_file_input">
             <b><fa-icon [icon]="faPlusCircle"></fa-icon> AJouter une couverture</b>
           </label>
-          <input id="files" class="form-control visually-hidden" type="file">
+          <div [formGroup]="fileForm">
+            <input id="files" class="form-control visually-hidden" formControlName="currentInput" (change)="onFileSelected($event)" type="file">
+          </div>
         </div>
       </div>
     </div>

@@ -181,18 +181,32 @@ export class BookService {
     this.books.push(book);
   }
 
-  createBook(book: {
-    isbn: string;
-    title: string;
-    author: string;
-    publishedDate: string;
-    status: string;
-    readCount: number;
-    nbPages: number;
-    description: string;
-    imgUrl: string;
-    userId: number;
-  }): void {
+  createBook(
+    book: {
+      isbn: string;
+      title: string;
+      author: string;
+      publishedDate: string;
+      status: string;
+      readCount: number;
+      nbPages: number;
+      description: string;
+      imgUrl: string;
+      userId: number;
+    },
+    file: File
+  ): void {
+    if (file != null) {
+      console.log('file : ' + file.name);
+      let testData: FormData = new FormData();
+      testData.append('image', file, file.name);
+      this.http
+        .post('http://localhost:3000/books/upload', testData)
+        .subscribe((response) => {
+          console.log(response);
+        });
+    }
+
     let body = book;
 
     let httpOptions = {
