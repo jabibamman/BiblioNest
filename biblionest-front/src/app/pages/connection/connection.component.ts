@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CommonService} from "../../service/common.service";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-connection',
@@ -9,7 +10,7 @@ import {CommonService} from "../../service/common.service";
 })
 export class ConnectionComponent implements OnInit {
   connectionForm:FormGroup;
-  constructor(public commonService:CommonService, private fb:FormBuilder) {
+  constructor(public commonService:CommonService, private userService:UserService, private fb:FormBuilder) {
     this.connectionForm = this.fb.group({
       username: [''],
       email: [''],
@@ -33,7 +34,16 @@ export class ConnectionComponent implements OnInit {
       return;
     }
 
-    this.commonService.navigate('home');
+    this.userService.connectUser(user).subscribe(
+      (response:any) => {
+        console.log(response);
+        this.commonService.navigate('home');
+      },
+      (error:any) => {
+        console.error(error);
+        this.connectionForm.setErrors({ errorInscription: true });
+      }
+    );
   }
 
   verifyErrors():boolean {
@@ -42,6 +52,5 @@ export class ConnectionComponent implements OnInit {
       this.connectionForm.hasError('requiredPassword');
   }
 
-  ngOnInit() {
-  }
+  ngOnInit():void { }
 }

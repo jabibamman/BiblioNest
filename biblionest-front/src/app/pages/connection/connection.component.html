@@ -20,6 +20,7 @@
                     <div *ngIf="connectionForm.hasError('requiredUsername')" class="alert alert-danger">Veuillez renseigner un nom d'utilisateur</div>
                     <div *ngIf="connectionForm.hasError('requiredEmail')" class="alert alert-danger">Veuillez renseigner un email</div>
                     <div *ngIf="connectionForm.hasError('requiredPassword')" class="alert alert-danger">Veuillez entrer un mot de passe</div>
+                    <div *ngIf="connectionForm.hasError('errorConnection')" class="alert alert-danger">Un problème est survenu lors de votre connexion, veuillez réessayer</div>
                     <form class="text-center" method="post" [formGroup]="connectionForm" (submit)="$event.preventDefault()">
                       <div class="mb-3"><input class="form-control" type="text" name="username" formControlName="username" placeholder="Nom d'utilisateur"></div>
                       <div class="mb-3"><input class="form-control" type="email" name="email" formControlName="email" placeholder="Email"></div>

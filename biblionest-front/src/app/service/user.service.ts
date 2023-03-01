@@ -15,10 +15,12 @@ export class UserService {
   };
 
   connectUser(user: {
+    username: string;
     email: string;
     password: string;
   }): Observable<any> {
     const body = {
+      username: user.username,
       email: user.email,
       password: user.password
     };
@@ -27,10 +29,12 @@ export class UserService {
   }
 
   createUser(user: {
+    username: string;
     email: string;
     password: string;
   }): Observable<any> {
     const body = {
+      username: user.username,
       email: user.email,
       password: user.password
     };
