@@ -196,37 +196,61 @@ export class BookService {
     },
     file: File
   ): void {
-    if (file != null) {
-      console.log('file : ' + file.name);
-      let testData: FormData = new FormData();
-      testData.append('image', file, file.name);
-      this.http
-        .post('http://localhost:3000/books/upload', testData)
-        .subscribe((response) => {
-          console.log(response);
-        });
-    }
-
     let body = book;
 
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
+    if (file != null) {
+      console.log('file : ' + file.name);
 
-    console.log(body);
+      let testData: FormData = new FormData();
 
-    this.http
-      .post('http://localhost:3000/books/addBook', body, httpOptions)
-      .subscribe(
-        (response) => {
-          console.log(response);
+      testData.append('image', file, file.name);
+      this.http.post('http://localhost:3000/books/upload', testData).subscribe({
+        next: (data) => {
+          // @ts-ignore
+          console.log(data.originalname);
+          // @ts-ignore
+          body.imgUrl = data.originalname;
+
+          let httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+          };
+
+          console.log(body);
+
+          this.http
+            .post('http://localhost:3000/books/addBook', body, httpOptions)
+            .subscribe(
+              (response) => {
+                console.log(response);
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
         },
-        (error) => {
-          console.error(error);
-        }
-      );
+      });
+    } else {
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
+
+      console.log(body);
+
+      this.http
+        .post('http://localhost:3000/books/addBook', body, httpOptions)
+        .subscribe(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+    }
   }
 
   // method to generate a random ISBN (not really unique but good enough for testing)

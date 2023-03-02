@@ -36,7 +36,7 @@
             <b><fa-icon [icon]="faPlusCircle"></fa-icon> AJouter une couverture</b>
           </label>
           <div [formGroup]="fileForm">
-            <input id="files" class="form-control visually-hidden" formControlName="currentInput" (change)="onFileSelected($event)" type="file">
+            <input id="files" accept=".png, .jpeg, .jpg, .svg, .gif" class="form-control visually-hidden" formControlName="currentInput" (change)="onFileSelected($event)" type="file">
           </div>
         </div>
       </div>

@@ -31,10 +31,12 @@ export class BooksController {
 
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
 
+    file.originalname = uniqueSuffix + file.originalname;
+
     const filepath = path.join(
       __dirname,
       "../../../uploads",
-      uniqueSuffix + file.originalname
+      file.originalname
     );
     writeFile(filepath, file.buffer, (err) => {
       if (err) {
