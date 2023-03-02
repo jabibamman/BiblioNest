@@ -6,9 +6,10 @@ import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ApiModule } from './api/api.module';
 import { writeFileSync } from 'fs';
+import { BooksModule } from './books/books.module';
 
 @Module({
-    imports: [ApiModule, AuthModule, UserModule, PrismaModule],
+    imports: [ApiModule, AuthModule, UserModule, BooksModule, PrismaModule],
     controllers: [AppController],
     providers: [AppService],
 })
