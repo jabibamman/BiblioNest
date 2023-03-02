@@ -50,8 +50,8 @@ export class BookService {
       const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks'));
       return books as Book[];
   }
-  
-  
+
+
   // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
   async getBooksAPI() : Promise<Book[]> {
      try {
