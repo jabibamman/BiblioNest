@@ -11,8 +11,7 @@ export class BookService {
 
   books: Book[] = [];
 
-  async ngOnInit() {
-  } 
+  async ngOnInit() {} 
 
   async getBook(isbn:string, title: string, author: string): Promise<any> {
     let url = 'http://localhost:3000/api/gbook?';
@@ -35,7 +34,7 @@ export class BookService {
         description: response.description,
         cover: response.cover,
         isbn: response.isbn,
-        pageCount: response.pageCount,
+        nbPages: response.pageCount,
       };
     }).catch((error) => {
         if (error instanceof Error) {
@@ -47,15 +46,14 @@ export class BookService {
   }
 
 
-  async getAllBooks(): Promise<Book[]>{
+  async getAllBooks(): Promise<Book[]> {
       const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks'));
-      console.log(books);
       return books as Book[];
   }
   
   
   // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
-  async getBooksOut() {
+  async getBooksAPI() : Promise<Book[]> {
      try {
       // récupérer seulement (isbn, title, author, publishedDate, status, read_count, nb_pages, description, img_url)
        const books = await this.getAllBooks();
@@ -65,13 +63,13 @@ export class BookService {
           author: book.author,
           publishedDate: book.publishedDate,
           status: book.status,
-          read_count: book.read_count,
-          nb_pages: book.nb_pages,
+          readCount: book.readCount,
+          nbPages: book.nbPages,
           description: book.description,
           img_url: book.img_url
        }));
         console.log(filteredBooks);
-       return filteredBooks;
+       return filteredBooks as Book[];
      } catch (error) {
         console.log(error);
         return [];
@@ -124,11 +122,11 @@ export class BookService {
     return colorMap[status as keyof typeof colorMap] || 'white';
   }
 
-  getBooks(): { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[] {
+  getBooks(): Book[] {
     return this.books;
-  } 
+  }
    
-  addBook(book: { isbn: string; title: string; author: string; publishedDate: string; status: string; read_count: number; nb_pages: number; description: string, img_url: string; }): void {
+  addBook(book: Book): void {
     this.books.push(book); 
   }
 

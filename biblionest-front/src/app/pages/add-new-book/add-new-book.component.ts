@@ -14,10 +14,10 @@ import { HttpClient } from '@angular/common/http';
 export class AddNewBookComponent {
   faPlusCircle = faPlusCircle;
   bookForm: FormGroup;
-  books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
+  books;
 
   constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient) {
-    this.books = this.books = this.BookService.getBooks();
+    this.books = this.BookService.getBooks();
 
     this.bookForm = this.fb.group({
       title: [''],
@@ -40,9 +40,10 @@ export class AddNewBookComponent {
       author: values.author,
       publishedDate: values.publishedDate,
       status: values.status,
+      readCount: values.read_count,
       read_count: values.read_count,
       description: values.description,
-      nb_pages: values.nb_pages,
+      nbPages: values.nb_pages,
       img_url: 'default', 
     };
 
@@ -56,7 +57,7 @@ export class AddNewBookComponent {
       return;
     }
 
-    if(book.nb_pages < 1){
+    if(book.nbPages < 1){
       this.bookForm.setErrors({ invalidNbPages: true });
       return;
     }
@@ -92,12 +93,12 @@ export class AddNewBookComponent {
       });
     }
 
-    if(book.nb_pages === 1){
+    if(book.nbPages === 1){
       this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {        
         if(pageCount == null) {
           this.bookForm.setErrors({ invalidPageCount: true });
         }else {
-          this.BookService.books[this.BookService.books.length - 1].nb_pages = pageCount;
+          this.BookService.books[this.BookService.books.length - 1].nbPages = pageCount;
         }
       });
     }

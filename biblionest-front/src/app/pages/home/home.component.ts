@@ -28,14 +28,12 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> { 
-    console.log('ngOnInit');
-    
     try {
-      this.books = await this.BookService.getAllBooks();
+      this.books = await this.BookService.getBooksAPI();
       console.log(this.books);
     } catch (error) {
       console.log(error);
-    }
+    }    
   }
 
   /**

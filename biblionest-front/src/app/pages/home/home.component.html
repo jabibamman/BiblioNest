@@ -17,10 +17,10 @@
                 </div>
               </div>
               <div class="text-center mt-2">
-                  <p class="card-text">{{ book.nb_pages }} pages</p>
+                  <p class="card-text">{{ book.nbPages }} pages</p>
                   <p *ngIf="book.status === 'to_read'" class="card-text">À lire</p>
                   <p *ngIf="book.status === 'reading'" class="card-text">En cours</p>
-                  <p *ngIf="book.status === 'read'" class="card-text">Déjà lu, {{ book.read_count }} fois</p>
+                  <p *ngIf="book.status === 'read'" class="card-text">Déjà lu, {{ book.readCount }} fois</p>
               </div>
             </div>
           </div>
