@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpCode, HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
+
 
 @Injectable()
 export class ApiService {
@@ -13,7 +14,7 @@ export class ApiService {
     "publisher": "inpublisher:",
   }
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private readonly logger: Logger) {}
   
   @HttpCode(200)
   async getGbook(searchType: string, searchValue: string) {
@@ -33,19 +34,27 @@ export class ApiService {
           url += this.searchTypes.publisher + searchValue;
           break;
         default:
-          throw new HttpException({
+          const error = {
             status: HttpStatus.BAD_GATEWAY,
             error: 'Invalid search type',
-          }, HttpStatus.BAD_GATEWAY);
+            message: 'Please provide a valid search type',
+          };
+
+          this.logger.error(`${this.getGbook.name[0].toUpperCase()}${this.getGbook.name.slice(1)} - ${error.message}`, `${this.constructor.name}`);
+          throw new HttpException(error, HttpStatus.BAD_GATEWAY);
       }
 
       const get$ = this.http.get(url);
       const { data } = await lastValueFrom(get$);
       if (data.totalItems === 0) {
-        throw new HttpException({
+        const error = {
           status: HttpStatus.NO_CONTENT,
-          message: 'No content',
-        }, HttpStatus.NO_CONTENT);
+          error: 'No content',
+          message: 'No books found',
+        };
+
+        this.logger.error(`${this.getGbook.name[0].toUpperCase()}${this.getGbook.name.slice(1)} - ${error.message}`, `${this.constructor.name}`);
+        throw new HttpException(error, HttpStatus.NO_CONTENT);
       }
       const book = data.items[0].volumeInfo;
       return {
@@ -64,6 +73,7 @@ export class ApiService {
         case HttpStatus.NO_CONTENT:
           throw error;
         default:
+          this.logger.error(`${this.getGbook.name[0].toUpperCase()}${this.getGbook.name.slice(1)} - ${error.message}`, `${this.constructor.name}`);
           throw new HttpException({
             status: HttpStatus.BAD_GATEWAY,
             error: 'Bad gateway',

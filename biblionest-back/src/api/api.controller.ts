@@ -7,7 +7,7 @@ export class ApiController {
 
 
     @Get('/gbook')
-    async getBook(@Query() query: any) {
+    async getGBooks(@Query() query: any) {
       let searchType, searchTerm;
       if (query.title) {
         searchType = 'title';
@@ -27,12 +27,12 @@ export class ApiController {
           error: 'Invalid search type',
           message: 'Please provide a valid search type',
         };
-        this.logger.error(`GBook - ${JSON.stringify(error)}`, `${this.constructor.name}`);
+        this.logger.error(`${this.getGBooks.name[0].toUpperCase()}${this.getGBooks.name.slice(1)} - ${error.message}`, `${this.constructor.name}`);
         throw new HttpException(error, HttpStatus.BAD_GATEWAY);
       }
   
       const result = await this.searchBooks(searchType, searchTerm);
-      this.logger.log(`GBook - search by ${searchType}: '${searchTerm}'`, `${this.constructor.name}`);
+      this.logger.log(`${this.getGBooks.name[0].toUpperCase()}${this.getGBooks.name.slice(1)} - search by ${searchType}: '${searchTerm}'`, `${this.constructor.name}`);
       return result;
     }
   
