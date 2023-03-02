@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -10,11 +10,13 @@ import { writeFileSync } from 'fs';
 @Module({
     imports: [ApiModule, AuthModule, UserModule, PrismaModule],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, Logger],
 })
 export class AppModule {
+    static logger: Logger;
     static setupEnv() {
-        console.log('[INFO] Setup environment variables');
+        AppModule.logger = new Logger();
+        this.logger.log(`${this.setupEnv.name[0].toUpperCase()}${this.setupEnv.name.slice(1)} - Setup environment variables`,  `${this.constructor.name}`);
         const envBaseDir = "../.env"
         const envDir = ".env";
         const dotenv = require('dotenv');
@@ -26,7 +28,9 @@ export class AppModule {
 
         dotenv.config({ path: envDir });
         if (process.env.DATABASE_URL === undefined) {
-            throw new Error('[ERROR] DATABASE_URL is undefined');
+            const dbUndefinedMessage = 'DATABASE_URL is undefined';
+            this.logger.error(`${this.setupEnv.name[0].toUpperCase()}${this.setupEnv.name.slice(1)} - ${dbUndefinedMessage}`,  `${this.constructor.name}`);
+            throw new Error(`[ERROR] ${dbUndefinedMessage}`);
         }
     }
 }

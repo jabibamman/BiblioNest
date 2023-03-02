@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
@@ -6,10 +6,19 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class AuthService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService, private readonly logger: Logger) {}
+
+    errorMessages : any = {
+        'P2002': 'Credentials are already used',
+        'userNotFound': 'User not found',
+        'passwordIncorrect': 'Incorrect password',
+    };
+
     async signup(dto: AuthDto) {
         //generate the password hash
         const hash = await argon.hash(dto.password);
+
+
 
         //save the new user in the db
         try {
@@ -27,9 +36,10 @@ export class AuthService {
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
                 if (error.code === 'P2002') {
+                    this.logger.error(`${this.signup.name[0].toUpperCase()}${this.signup.name.slice(1)} - ${this.errorMessages.P2002}`, `${this.constructor.name}`);
                     throw new ForbiddenException(
-                        'Credentials are already used',
-                    );
+                        this.errorMessages.P2002,
+                    );    
                 }
             }
             throw error;
@@ -44,14 +54,18 @@ export class AuthService {
         });
 
         // if user does not exist throw exception
-        if (!user) throw new ForbiddenException('Credentials incorrect');
+        if (!user) {
+            this.logger.error(`${this.signup.name[0].toUpperCase()}${this.signup.name.slice(1)} - ${this.errorMessages.userNotFound}`, `${this.constructor.name}`);
+            throw new ForbiddenException(this.errorMessages.userNotFound);
+        }
 
         // compare passwords
         const pwdMatches = await argon.verify(user.hash, dto.password);
 
         // if passwords incorrect throw exception
         if (!pwdMatches) {
-            throw new ForbiddenException('Credentials incorrect');
+            this.logger.error(`${this.signup.name[0].toUpperCase()}${this.signup.name.slice(1)} - ${this.errorMessages.passwordIncorrect}`, `${this.constructor.name}`);
+            throw new ForbiddenException(this.errorMessages.passwordIncorrect);
         }
 
         // send back the user
