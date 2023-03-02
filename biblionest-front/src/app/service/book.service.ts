@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Book } from '../interface/ibook';
-import { catchError, firstValueFrom, lastValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,6 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   books: Book[] = [];
-
-  async ngOnInit() {} 
 
   async getBook(isbn:string, title: string, author: string): Promise<any> {
     let url = 'http://localhost:3000/api/gbook?';
@@ -55,28 +53,30 @@ export class BookService {
   // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
   async getBooksAPI() : Promise<Book[]> {
      try {
-      // récupérer seulement (isbn, title, author, publishedDate, status, read_count, nb_pages, description, img_url)
+      // récupérer seulement (isbn, title, author, publishedDate, status, read_count, nbPages, description, img_url)
        const books = await this.getAllBooks();
-       const filteredBooks = books.map((book: Book) => ({
-          isbn: book.isbn,
+       const filteredBooks: Book[] = books.map((book: any) => ({
+        isbn: book.isbn,
           title: book.title,
           author: book.author,
+          nbPages: book.nbPages,
           publishedDate: book.publishedDate,
           status: book.status,
           readCount: book.readCount,
-          nbPages: book.nbPages,
           description: book.description,
           img_url: book.img_url
-       }));
-        console.log(filteredBooks);
-       return filteredBooks as Book[];
+       }));       
+       return filteredBooks;
      } catch (error) {
         console.log(error);
         return [];
       }   
   }
-   
 
+  async setBooksArray(): Promise<void> {
+    this.books = await this.getBooksAPI();
+  }
+      
   async getBookAuthor(isbn: string, title: string): Promise<string> {
     const book = await this.getBook(isbn, title, '');
     return book.authors[0];

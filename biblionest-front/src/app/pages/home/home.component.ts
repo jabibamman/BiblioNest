@@ -30,8 +30,9 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> { 
     try {
-      this.books = await this.BookService.getBooksAPI();
-      this.allBooks = this.books;
+      await this.BookService.setBooksArray();
+      this.books = this.BookService.getBooks();
+      this.allBooks = this.books;      
     } catch (error) {
       console.log(error);
     }    

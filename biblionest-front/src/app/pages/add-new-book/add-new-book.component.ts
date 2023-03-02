@@ -24,7 +24,7 @@ export class AddNewBookComponent {
       author: [''],
       publishedDate: [''],
       isbn: [''],
-      nb_pages: [1],
+      nbPages: [1],
       read_count: [0],
       status: ['to_read'],
       description: ['']
@@ -43,7 +43,7 @@ export class AddNewBookComponent {
       readCount: values.read_count,
       read_count: values.read_count,
       description: values.description,
-      nbPages: values.nb_pages,
+      nbPages: values.nbPages,
       img_url: 'default', 
     };
 
