@@ -27,7 +27,16 @@ export class HomeComponent implements OnInit {
     this.allBooks = this.books; 
   }
 
-  ngOnInit(): void { }
+  async ngOnInit(): Promise<void> { 
+    console.log('ngOnInit');
+    
+    try {
+      this.books = await this.BookService.getAllBooks();
+      console.log(this.books);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   /**
    * @description set the number of items per page depending on the type of device

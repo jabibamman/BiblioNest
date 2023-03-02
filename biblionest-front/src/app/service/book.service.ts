@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Book } from '../interface/ibook';
+import { catchError, firstValueFrom, lastValueFrom, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
   constructor(private http: HttpClient) { }
+
+  books: Book[] = [];
+
+  async ngOnInit() {
+  } 
 
   async getBook(isbn:string, title: string, author: string): Promise<any> {
     let url = 'http://localhost:3000/api/gbook?';
@@ -39,6 +45,39 @@ export class BookService {
         }  
     });
   }
+
+
+  async getAllBooks(): Promise<Book[]>{
+      const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks'));
+      console.log(books);
+      return books as Book[];
+  }
+  
+  
+  // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
+  async getBooksOut() {
+     try {
+      // récupérer seulement (isbn, title, author, publishedDate, status, read_count, nb_pages, description, img_url)
+       const books = await this.getAllBooks();
+       const filteredBooks = books.map((book: Book) => ({
+          isbn: book.isbn,
+          title: book.title,
+          author: book.author,
+          publishedDate: book.publishedDate,
+          status: book.status,
+          read_count: book.read_count,
+          nb_pages: book.nb_pages,
+          description: book.description,
+          img_url: book.img_url
+       }));
+        console.log(filteredBooks);
+       return filteredBooks;
+     } catch (error) {
+        console.log(error);
+        return [];
+      }   
+  }
+   
 
   async getBookAuthor(isbn: string, title: string): Promise<string> {
     const book = await this.getBook(isbn, title, '');
@@ -80,21 +119,15 @@ export class BookService {
       reading: 'dodgerblue',
       read: 'darkgray',
       to_read: 'forestgreen',
-    }
+    } 
     
     return colorMap[status as keyof typeof colorMap] || 'white';
   }
 
-  books = [
-    { isbn: '1234567890', title: 'Les Misérables', author: 'Victor Hugo', publishedDate:'2008', status: 'to_read', read_count:0, nb_pages:200, description:'', img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253096337-001-T.jpeg' },
-    { isbn: '0987654321', title: 'Le Petit Prince', author: 'Antoine de Saint-Exupéry', publishedDate:'2008', status: 'read', read_count:4, nb_pages:200, description:'', img_url:'https://m.media-amazon.com/images/I/71lyHAf7XXL.jpg' },
-    { isbn: '1231231231', title: 'Le Rouge et le Noir', author: 'Stendhal', publishedDate:'2008', status: 'reading', read_count:0, nb_pages:200, description:'', img_url:'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253006206-001-T.jpeg' }
-  ];
-
   getBooks(): { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[] {
     return this.books;
-  }
-
+  } 
+   
   addBook(book: { isbn: string; title: string; author: string; publishedDate: string; status: string; read_count: number; nb_pages: number; description: string, img_url: string; }): void {
     this.books.push(book); 
   }
