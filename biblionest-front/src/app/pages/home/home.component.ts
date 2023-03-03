@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Book } from 'src/app/interface/ibook';
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
 
@@ -14,8 +15,8 @@ export class HomeComponent implements OnInit {
   previousLabel: string;
   nextLabel: string;
   searchText: string;
-  books;
-  allBooks;
+  books : Book[];
+  allBooks : Book[];
 
   constructor(private Router: Router, private BookService: BookService, protected common: CommonService) {
     this.itemsPerPage = this.setNbItemsPerPage();
@@ -23,11 +24,19 @@ export class HomeComponent implements OnInit {
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
     this.books = this.BookService.getBooks();
-    this.searchText = '';
-    this.allBooks = this.books; 
+    this.searchText = "";
+    this.allBooks = this.books;   
   }
 
-  ngOnInit(): void { }
+  async ngOnInit(): Promise<void> { 
+    try {
+      await this.BookService.setBooksArray();
+      this.books = this.BookService.getBooks();
+      this.allBooks = this.books;      
+    } catch (error) {
+      console.log(error);
+    }    
+  }
 
   /**
    * @description set the number of items per page depending on the type of device
@@ -38,7 +47,8 @@ export class HomeComponent implements OnInit {
   /**
    * @description filter the books by title or author
   */
-  filterBooks() {
+  async filterBooks(): Promise<void> {
     this.books = this.allBooks.filter(book => book.title.toLowerCase().includes(this.searchText.toLowerCase()) || book.author.toLowerCase().includes(this.searchText.toLowerCase()));
   }
+
 }
