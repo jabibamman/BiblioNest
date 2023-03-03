@@ -13,14 +13,14 @@
               <p class="card-text">{{ book.author }}</p>
               <div class="d-flex justify-content-center">
                 <div class="col-8">
-                  <img *ngIf="book.img_url !== 'default'" [src]="book.img_url" class="card-img-top" alt="{{ book.title }}">
+                  <img *ngIf="book.img_url !== 'default' && book.img_url !== undefined" [src]="book.img_url" class="card-img-top" alt="{{ book.title }}">
                 </div>
               </div>
               <div class="text-center mt-2">
-                  <p class="card-text">{{ book.nb_pages }} pages</p>
+                  <p class="card-text">{{ book.nbPages }} pages</p>
                   <p *ngIf="book.status === 'to_read'" class="card-text">À lire</p>
                   <p *ngIf="book.status === 'reading'" class="card-text">En cours</p>
-                  <p *ngIf="book.status === 'read'" class="card-text">Déjà lu, {{ book.read_count }} fois</p>
+                  <p *ngIf="book.status === 'read'" class="card-text">Déjà lu, {{ book.readCount }} fois</p>
               </div>
             </div>
           </div>
