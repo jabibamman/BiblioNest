@@ -12,15 +12,15 @@ export class BooksService {
     try {
       return await this.prisma.book.create({
         data: {
-          isbn: dto.isbn || await this.apiService.getISBNByTitle(dto.title),
+          isbn: dto.isbn || await (await this.apiService.getBookByTitle(dto.title)).isbn,
           title: dto.title,
           status: dto.status,
           readCount: dto.readCount,
           author: dto.author,
-          publishedDate: dto.publishedDate,
-          nbPages: dto.nbPages,
-          description: dto.description,
-          imgUrl: dto.imgUrl,
+          publishedDate: dto.publishedDate || await (await this.apiService.getBookByTitle(dto.title)).publishedDate,
+          nbPages: (dto.nbPages < 2) ? await (await this.apiService.getBookByTitle(dto.title)).nbPages : dto.nbPages,
+          description: dto.description || await (await this.apiService.getBookByTitle(dto.title)).description,
+          imgUrl: dto.imgUrl || await (await this.apiService.getBookByTitle(dto.title)).imgUrl,
           userId: dto.userId,
         } as Prisma.BookCreateInput,
       });

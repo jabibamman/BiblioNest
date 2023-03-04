@@ -47,7 +47,7 @@ export class ApiService {
           message: 'No content',
         }, HttpStatus.NO_CONTENT);
       }
-      const book = data.items[0].volumeInfo;
+      const book = data.items[0].volumeInfo;      
       return {
         title: book.title,
         authors: book.authors,
@@ -73,7 +73,7 @@ export class ApiService {
     
   }
 
-  async getISBNByTitle(title: string) {
+  async getBookByTitle(title: string) {
     try {
       const url = this.api_url + title;
       const get$ = this.http.get(url);
@@ -85,7 +85,15 @@ export class ApiService {
         }, HttpStatus.NO_CONTENT);
       }
       const book = data.items[0].volumeInfo;
-      return book.industryIdentifiers[0].identifier;
+      return {
+        title: book.title,
+        authors: book.authors,
+        publishedDate: book.publishedDate,
+        description: book.description,
+        imgUrl: (book.imageLinks && book.imageLinks.thumbnail) || 'default',
+        isbn: book.industryIdentifiers[0].identifier,
+        nbPages: book.pageCount
+      };
     } catch (error) {
       switch (error.getStatus()) {
         case HttpStatus.NO_CONTENT:
