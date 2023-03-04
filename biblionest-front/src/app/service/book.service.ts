@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { Book } from '../interface/ibook';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   books: Book[] = [];
+  bookResponse:any;
 
   async getBook(isbn:string, title: string, author: string): Promise<any> {
     let url = 'http://localhost:3000/api/gbook?';
@@ -108,7 +111,7 @@ export class BookService {
     this.books.push(book); 
   }
 
-  createBook(
+  async createBook(
     book: {
       isbn: string;
       title: string;
@@ -122,7 +125,7 @@ export class BookService {
       userId: number;
     },
     file: File
-  ): void {
+  ): Promise<void> {
     let body = book;
 
     if (file != null) {
@@ -132,7 +135,7 @@ export class BookService {
 
       testData.append('image', file, file.name);
       this.http.post('http://localhost:3000/books/upload', testData).subscribe({
-        next: (data) => {
+        next: async (data) => {
           // @ts-ignore
           console.log(data.originalname);
           // @ts-ignore
@@ -144,18 +147,10 @@ export class BookService {
             }),
           };
 
-          this.http
-            .post('http://localhost:3000/books/addBook', body, httpOptions)
-            .subscribe(
-              (response) => {
-                console.log(response);
-              },
-              (error) => {
-                console.error(error);
-              }
-            );
+          this.fetchAddBook(book, body, httpOptions);     
         },
       });
+
     } else {
       let httpOptions = {
         headers: new HttpHeaders({
@@ -163,19 +158,9 @@ export class BookService {
         }),
       };
 
-      console.log(body);
-
-      this.http
-        .post('http://localhost:3000/books/addBook', body, httpOptions)
-        .subscribe(
-          (response) => {
-            console.log(response);
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
+      this.fetchAddBook(book, body, httpOptions);
     }
+    
   }
 
   // return the list of authors, if an author is duplicated, it will be returned only once and it will be the first occurence
@@ -191,5 +176,20 @@ export class BookService {
 
     // sort the authors by most popular to least
     return authorsWithCounts.sort((a, b) => b.times - a.times);
+  }
+
+  async fetchAddBook(book: Book, body: any, httpOptions: any): Promise<void> {
+    try {
+      const response = this.http.post('http://localhost:3000/books/addBook', body, httpOptions).subscribe(
+        (response) => {
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

@@ -114,7 +114,6 @@ export class AddNewBookComponent {
 
     try {
       this.BookService.createBook(book, this.file);
-      this.common.navigate('/home');
     } catch (e) {
       console.log(e);
     }
