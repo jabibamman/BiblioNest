@@ -43,5 +43,5 @@ export class AppModule {
             throw new Error('[ERROR] DATABASE_URL is undefined');
         }
     }
-  }
 }
+

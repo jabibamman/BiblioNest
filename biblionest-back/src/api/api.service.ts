@@ -73,4 +73,30 @@ export class ApiService {
     
   }
 
+  async getISBNByTitle(title: string) {
+    try {
+      const url = this.api_url + title;
+      const get$ = this.http.get(url);
+      const { data } = await lastValueFrom(get$);
+      if (data.totalItems === 0) {
+        throw new HttpException({
+          status: HttpStatus.NO_CONTENT,
+          message: 'No content',
+        }, HttpStatus.NO_CONTENT);
+      }
+      const book = data.items[0].volumeInfo;
+      return book.industryIdentifiers[0].identifier;
+    } catch (error) {
+      switch (error.getStatus()) {
+        case HttpStatus.NO_CONTENT:
+          throw error;
+        default:
+          throw new HttpException({
+            status: HttpStatus.BAD_GATEWAY,
+            error: 'Bad gateway',
+          }, HttpStatus.BAD_GATEWAY);
+      }
+    }
+  }
+
 }

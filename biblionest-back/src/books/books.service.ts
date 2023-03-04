@@ -3,15 +3,16 @@ import { PrismaService } from "../prisma/prisma.service";
 import { BooksDto } from "./dto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Prisma } from "@prisma/client";
+import { ApiService } from "src/api/api.service";
 
 @Injectable()
 export class BooksService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private apiService: ApiService) {}
   async createBook(dto: BooksDto) {
     try {
       return await this.prisma.book.create({
         data: {
-          isbn: dto.isbn,
+          isbn: dto.isbn || await this.apiService.getISBNByTitle(dto.title),
           title: dto.title,
           status: dto.status,
           readCount: dto.readCount,

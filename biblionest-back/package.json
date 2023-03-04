@@ -7,6 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "prisma:dev:deploy": "prisma migrate deploy",
+    "prisma:dev:reset": "prisma migrate reset",
+    "prisma:dev:migrate": "prisma migrate dev",
     "db:dev:rm": "docker compose rm db -s -f -v",
     "db:dev:up": "docker compose up db -d",
     "db:dev:down": "docker compose down",
