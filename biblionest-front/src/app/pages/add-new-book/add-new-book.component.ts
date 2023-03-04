@@ -15,27 +15,11 @@ export class AddNewBookComponent {
   faPlusCircle = faPlusCircle;
   bookForm: FormGroup;
   fileForm: FormGroup;
-  books: {
-    isbn: string;
-    title: string;
-    author: string;
-    status: string;
-    readCount: number;
-    nbPages: number;
-    imgUrl: string;
-    userId: number;
-  }[];
+  books;
   file: any;
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private BookService: BookService,
-    protected common: CommonService,
-    private http: HttpClient
-  ) {
+  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient) {
     this.books = this.BookService.getBooks();
-    this.file = null;
 
     this.bookForm = this.fb.group({
       title: [''],
@@ -43,7 +27,7 @@ export class AddNewBookComponent {
       publishedDate: [''],
       isbn: [''],
       nbPages: [1],
-      readCount: [0],
+      read_count: [0],
       status: ['to_read'],
       description: [''],
       userId: 1,
@@ -70,10 +54,10 @@ export class AddNewBookComponent {
       author: values.author,
       publishedDate: values.publishedDate,
       status: values.status,
-      readCount: values.readCount,
+      readCount: values.read_count,
       description: values.description,
       nbPages: values.nbPages,
-      imgUrl: 'default',
+      img_url: 'default', 
       userId: 1,
     };
 
@@ -93,7 +77,7 @@ export class AddNewBookComponent {
       return;
     }
 
-    if (book.nbPages < 1) {
+    if(book.nbPages < 1){
       this.bookForm.setErrors({ invalidNbPages: true });
       return;
     }
@@ -136,15 +120,12 @@ export class AddNewBookComponent {
       });
     }
 
-    if (book.nbPages === 1) {
-      this.BookService.getBookPageCount('', book.title, '').then(
-        (pageCount) => {
-          if (pageCount == null) {
-            this.bookForm.setErrors({ invalidPageCount: true });
-          } else {
-            this.BookService.books[this.BookService.books.length - 1].nbPages =
-              pageCount;
-          }
+    if(book.nbPages === 1){
+      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {        
+        if(pageCount == null) {
+          this.bookForm.setErrors({ invalidPageCount: true });
+        }else {
+          this.BookService.books[this.BookService.books.length - 1].nbPages = pageCount;
         }
       );
     }

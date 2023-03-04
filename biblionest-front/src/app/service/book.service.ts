@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,9 @@ import { lastValueFrom } from 'rxjs';
 export class BookService {
   constructor(private http: HttpClient) {}
 
-  async getBook(isbn: string, title: string, author: string): Promise<any> {
+  books: Book[] = [];
+
+  async getBook(isbn:string, title: string, author: string): Promise<any> {
     let url = 'http://localhost:3000/api/gbook?';
 
     if (isbn) {
@@ -21,19 +23,17 @@ export class BookService {
       throw new Error('Invalid search type');
     }
 
-    return lastValueFrom(this.http.get(url))
-      .then((response: any) => {
-        return {
-          title: response?.title ?? '',
-          authors: response?.authors ?? [''],
-          publishedDate: response?.publishedDate ?? '',
-          description: response?.description ?? '',
-          cover: response?.cover ?? '',
-          isbn: response?.isbn ?? this.generateRandomIsbn(),
-          pageCount: response?.pageCount ?? 1,
-        };
-      })
-      .catch((error) => {
+    return lastValueFrom(this.http.get(url)).then((response: any) => {
+      return {
+        title: response.title,
+        authors: response.authors,
+        publishedDate: response.publishedDate,
+        description: response.description,
+        cover: response.cover,
+        isbn: response.isbn,
+        nbPages: response.pageCount,
+      };
+    }).catch((error) => {
         if (error instanceof Error) {
           throw new Error(error.message);
         } else {
@@ -42,6 +42,40 @@ export class BookService {
       });
   }
 
+
+  async getAllBooks(): Promise<Book[]> {
+      const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks'));
+      return books as Book[];
+  }
+
+
+  // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
+  async getBooksAPI() : Promise<Book[]> {
+     try {
+      // récupérer seulement (isbn, title, author, publishedDate, status, read_count, nbPages, description, img_url)
+       const books = await this.getAllBooks();
+       const filteredBooks: Book[] = books.map((book: any) => ({
+        isbn: book.isbn,
+          title: book.title,
+          author: book.author,
+          nbPages: book.nbPages,
+          publishedDate: book.publishedDate,
+          status: book.status,
+          readCount: book.readCount,
+          description: book.description,
+          img_url: book.img_url
+       }));       
+       return filteredBooks;
+     } catch (error) {
+        console.log(error);
+        return [];
+      }   
+  }
+
+  async setBooksArray(): Promise<void> {
+    this.books = await this.getBooksAPI();
+  }
+      
   async getBookAuthor(isbn: string, title: string): Promise<string> {
     const book = await this.getBook(isbn, title, '');
     return book.authors[0];
@@ -110,75 +144,12 @@ export class BookService {
     return colorMap[status as keyof typeof colorMap] || 'white';
   }
 
-  books = [
-    {
-      isbn: '1234567890',
-      title: 'Les Misérables',
-      author: 'Victor Hugo',
-      publishedDate: '2008',
-      status: 'to_read',
-      readCount: 0,
-      nbPages: 200,
-      description: '',
-      imgUrl:
-        'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253096337-001-T.jpeg',
-      userId: 1,
-    },
-    {
-      isbn: '0987654321',
-      title: 'Le Petit Prince',
-      author: 'Antoine de Saint-Exupéry',
-      publishedDate: '2008',
-      status: 'read',
-      readCount: 4,
-      nbPages: 200,
-      description: '',
-      imgUrl: 'https://m.media-amazon.com/images/I/71lyHAf7XXL.jpg',
-      userId: 1,
-    },
-    {
-      isbn: '1231231231',
-      title: 'Le Rouge et le Noir',
-      author: 'Stendhal',
-      publishedDate: '2008',
-      status: 'reading',
-      readCount: 0,
-      nbPages: 200,
-      description: '',
-      imgUrl:
-        'https://www.livredepoche.com/sites/default/files/images/livres/couv/9782253006206-001-T.jpeg',
-      userId: 1,
-    },
-  ];
-
-  getBooks(): {
-    isbn: string;
-    title: string;
-    author: string;
-    publishedDate: string;
-    status: string;
-    readCount: number;
-    nbPages: number;
-    description: string;
-    imgUrl: string;
-    userId: number;
-  }[] {
+  getBooks(): Book[] {
     return this.books;
   }
-
-  addBook(book: {
-    isbn: string;
-    title: string;
-    author: string;
-    publishedDate: string;
-    status: string;
-    readCount: number;
-    nbPages: number;
-    description: string;
-    imgUrl: string;
-    userId: number;
-  }): void {
-    this.books.push(book);
+   
+  addBook(book: Book): void {
+    this.books.push(book); 
   }
 
   createBook(

@@ -8,6 +8,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Get,
 } from "@nestjs/common";
 import { BooksService } from "./books.service";
 import { BooksDto } from "./dto";
@@ -48,4 +49,15 @@ export class BooksController {
 
     return file;
   }
+
+    @Get("getAllBooks")
+    async getBooks() {        
+        return this.booksService.getBooks();
+    }
+
+    @Get("getAllBooksUser")
+        // this is an example of a postman request : 127.0.0.1:3000/books/getAllBooksUser {"userId": 1}
+    async getBooksUserById(@Body() body) {
+        return this.booksService.getBooksUser(body);
+    }
 }
