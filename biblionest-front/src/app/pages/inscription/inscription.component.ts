@@ -50,7 +50,8 @@ export class InscriptionComponent implements OnInit {
   verifyErrors():boolean {
     return this.inscriptionForm.hasError('requiredUsername') ||
       this.inscriptionForm.hasError('requiredEmail') ||
-      this.inscriptionForm.hasError('requiredPassword');
+      this.inscriptionForm.hasError('requiredPassword') ||
+      this.inscriptionForm.hasError('errorInscription');
   }
 
   ngOnInit():void { }

@@ -20,6 +20,10 @@ export class AuthService {
 
     //save the new user in the db
     try {
+      if (!dto.username || /^\s*$/.test(dto.username)) {
+        throw new ForbiddenException("Username is not defined");
+      }
+
       const user = await this.prisma.user.create({
         data: {
           username: dto.username,

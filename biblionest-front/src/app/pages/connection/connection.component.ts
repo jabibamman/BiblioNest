@@ -21,11 +21,7 @@ export class ConnectionComponent implements OnInit {
   connection():void {
     const user = this.connectionForm.value;
 
-    if(user.username === ''){
-      this.connectionForm.setErrors({ requiredUsername: true });
-      return;
-    }
-    else if(user.email === ''){
+    if(user.email === ''){
       this.connectionForm.setErrors({ requiredEmail: true });
       return;
     }
@@ -35,21 +31,22 @@ export class ConnectionComponent implements OnInit {
     }
 
     this.userService.connectUser(user).subscribe(
-      (response:any) => {
-        console.log(response);
-        this.commonService.navigate('home');
-      },
+      (response:any) => {},
       (error:any) => {
         console.error(error);
+        if(error.status === 200) {
+          console.log(error.error.text);
+          //this.commonService.navigate('home');
+        }
         this.connectionForm.setErrors({ errorInscription: true });
       }
     );
   }
 
   verifyErrors():boolean {
-    return this.connectionForm.hasError('requiredUsername') ||
-      this.connectionForm.hasError('requiredEmail') ||
-      this.connectionForm.hasError('requiredPassword');
+      return this.connectionForm.hasError('requiredEmail') ||
+      this.connectionForm.hasError('requiredPassword') ||
+      this.connectionForm.hasError('errorInscription');
   }
 
   ngOnInit():void { }

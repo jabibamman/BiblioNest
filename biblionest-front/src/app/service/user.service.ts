@@ -15,12 +15,10 @@ export class UserService {
   };
 
   connectUser(user: {
-    username: string;
     email: string;
     password: string;
   }): Observable<any> {
     const body = {
-      username: user.username,
       email: user.email,
       password: user.password
     };
@@ -40,5 +38,9 @@ export class UserService {
     };
 
     return this.http.post('http://localhost:3000/auth/signup', body, this.httpOptions);
+  }
+
+  getUser(token:string): Observable<any> {
+    return this.http.get('http://localhost:3000/auth/profile', this.httpOptions);
   }
 }
