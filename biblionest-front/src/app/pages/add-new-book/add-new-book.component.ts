@@ -57,7 +57,7 @@ export class AddNewBookComponent {
       readCount: values.read_count,
       description: values.description,
       nbPages: values.nbPages,
-      img_url: 'default', 
+      imgUrl: 'default', 
       userId: 1,
     };
 
@@ -82,25 +82,26 @@ export class AddNewBookComponent {
       return;
     }
 
+    if(book.readCount == 0){
+      book.readCount = 1;
+    }
+
     if (
       book.title.length < 3 ||
       book.author.length < 3 ||
-      book.title.length > 75 ||
-      book.author.length > 25
+      book.title.length > 200 ||
+      book.author.length > 150 ||
+      book.description.length > 1500 ||
+      book.isbn.length > 13
     ) {
       this.bookForm.setErrors({ invalidLength: true });
       return;
     }
 
-    if (book.isbn.length !== 13) {
-      this.BookService.getISBNBook(book.title, '').then((isbn) => {
-        if (isbn == null) {
-          this.bookForm.setErrors({ invalidIsbn: true });
-        } else {
-          book.isbn = isbn;
-        }
-      });
-    }
+    if (!this.isValidIsbn(book.isbn)) {
+      this.bookForm.setErrors({ invalidIsbn: true });
+      return;
+  }
 
     book.title = book.title.replace(/\w\S*/g, (txt: string) => {
       return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
@@ -110,53 +111,6 @@ export class AddNewBookComponent {
     });
 
     this.BookService.addBook(book);
-    if (book.imgUrl === 'default') {
-      this.BookService.getBookCover('', book.title, '').then((value) => {
-        if (value === null) {
-          value = 'default';
-        }
-        this.BookService.books[this.BookService.books.length - 1].imgUrl =
-          value;
-      });
-    }
-
-    if(book.nbPages === 1){
-      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {        
-        if(pageCount == null) {
-          this.bookForm.setErrors({ invalidPageCount: true });
-        }else {
-          this.BookService.books[this.BookService.books.length - 1].nbPages = pageCount;
-        }
-      );
-    }
-
-    if (book.publishedDate === '') {
-      this.BookService.getBookPublishedDate('', book.title, '').then(
-        (publishedDate) => {
-          if (publishedDate == null) {
-            this.bookForm.setErrors({ invalidPublishedDate: true });
-          } else {
-            this.BookService.books[
-              this.BookService.books.length - 1
-            ].publishedDate = publishedDate;
-          }
-        }
-      );
-    }
-
-    if (book.description === '') {
-      this.BookService.getBookDescription('', book.title, '').then(
-        (description) => {
-          if (description == null) {
-            this.bookForm.setErrors({ invalidDescription: true });
-          } else {
-            this.BookService.books[
-              this.BookService.books.length - 1
-            ].description = description;
-          }
-        }
-      );
-    }
 
     try {
       this.BookService.createBook(book, this.file);
@@ -165,4 +119,16 @@ export class AddNewBookComponent {
       console.log(e);
     }
   }
+
+  isValidIsbn(isbn: string): boolean {
+    const books = this.BookService.getBooks();
+    for (const book of books) {
+      if (book.isbn === isbn) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
 }
