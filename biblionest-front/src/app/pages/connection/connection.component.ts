@@ -36,7 +36,8 @@ export class ConnectionComponent implements OnInit {
         console.error(error);
         if(error.status === 200) {
           console.log(error.error.text);
-          //this.commonService.navigate('home');
+          localStorage.setItem('token', error.error.text);
+          this.commonService.navigate('home');
         }
         this.connectionForm.setErrors({ errorInscription: true });
       }

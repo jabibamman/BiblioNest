@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-home',
@@ -17,17 +18,19 @@ export class HomeComponent implements OnInit {
   books;
   allBooks;
 
-  constructor(private Router: Router, private BookService: BookService, protected common: CommonService) {
+  constructor(private Router: Router, private BookService: BookService, protected common: CommonService, private userService: UserService) {
     this.itemsPerPage = this.setNbItemsPerPage();
     this.page = common.getPage();
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
     this.books = this.BookService.getBooks();
     this.searchText = '';
-    this.allBooks = this.books; 
+    this.allBooks = this.books;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.userService.navigateIfError(this.userService.isLogged());
+  }
 
   /**
    * @description set the number of items per page depending on the type of device

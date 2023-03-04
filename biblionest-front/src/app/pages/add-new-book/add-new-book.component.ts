@@ -5,6 +5,7 @@ import { BookService } from 'src/app/service/book.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { CommonService } from 'src/app/service/common.service';
 import { HttpClient } from '@angular/common/http';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-add-new-book',
@@ -16,7 +17,7 @@ export class AddNewBookComponent {
   bookForm: FormGroup;
   books: { isbn: string; title: string; author: string; status: string; read_count: number; nb_pages: number; img_url: string; }[];
 
-  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient) {
+  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient, private userService: UserService) {
     this.books = this.books = this.BookService.getBooks();
 
     this.bookForm = this.fb.group({
@@ -43,7 +44,7 @@ export class AddNewBookComponent {
       read_count: values.read_count,
       description: values.description,
       nb_pages: values.nb_pages,
-      img_url: 'default', 
+      img_url: 'default',
     };
 
     if(this.books.find((obj) => obj.title.toLowerCase() === book.title.toLowerCase() && obj.author.toLowerCase() === book.author.toLowerCase())){
@@ -73,7 +74,7 @@ export class AddNewBookComponent {
           this.bookForm.setErrors({ invalidIsbn: true });
         }else {
           book.isbn = isbn;
-        }  
+        }
       });
 
     }
@@ -83,17 +84,17 @@ export class AddNewBookComponent {
     book.author = book.author.replace(/\w\S*/g, (txt: string) => { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
     this.BookService.addBook(book);
-    if(book.img_url === 'default'){      
+    if(book.img_url === 'default'){
       this.BookService.getBookCover('', book.title, '').then((value) => {
         if(value === null){
           value = 'default';
-        }    
-        this.BookService.books[this.BookService.books.length - 1].img_url = value; 
+        }
+        this.BookService.books[this.BookService.books.length - 1].img_url = value;
       });
     }
 
     if(book.nb_pages === 1){
-      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {        
+      this.BookService.getBookPageCount('', book.title, '').then((pageCount) => {
         if(pageCount == null) {
           this.bookForm.setErrors({ invalidPageCount: true });
         }else {
@@ -125,5 +126,8 @@ export class AddNewBookComponent {
 
     this.common.navigate('/home');
   }
-  
+
+  ngOnInit(): void {
+    this.userService.navigateIfError(this.userService.isLogged());
+  }
 }
