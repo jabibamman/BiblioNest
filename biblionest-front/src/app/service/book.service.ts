@@ -134,7 +134,7 @@ export class BookService {
       let testData: FormData = new FormData();
 
       testData.append('image', file, file.name);
-      this.http.post('http://localhost:3000/books/upload', testData).subscribe({
+      this.http.post('http://localhost:3000/uploads/upload', testData).subscribe({
         next: async (data) => {
           // @ts-ignore
           console.log(data.originalname);
@@ -192,4 +192,5 @@ export class BookService {
       console.error(error);
     }
   }
+
 }
