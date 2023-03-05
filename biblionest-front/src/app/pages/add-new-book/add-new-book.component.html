@@ -11,14 +11,14 @@
           <div class="text-center w-100 mt-3 mb-3">
               <h1><input class="bg-dark form-control text-primary p-2 text-center" formControlName="title" type="text" placeholder="Titre du livre" /></h1>
           </div>
-          <div class="add_inputs m-5"> 
+          <div class="add_inputs m-5">
               <h3 class="text-capitalize text-center text-primary mb-4">informations :</h3><input class="bg-dark form-control text-primary p-2 text-center" formControlName="author" type="text" placeholder="Auteur" /><br />
               <input class="bg-dark form-control text-primary p-2 text-center" formControlName="publishedDate" type="text" placeholder="Date de publication" /><br />
               <input class="bg-dark form-control text-primary p-2 text-center" formControlName="isbn" type="text" placeholder="ISBN" /><br />
               <div class="d-flex d-sm-flex justify-content-center justify-content-sm-center">
                   <div class="container">
                       <div class="row d-lg-flex d-xl-flex d-xxl-flex justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
-                          <div class="col-md-6 col-xl-6 col-xxl-2 d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center align-items-md-center justify-content-lg-end justify-content-xxl-center"><input class="bg-dark form-control text-primary p-2 text-center" formControlName="nb_pages" type="number" value="100"/></div>
+                          <div class="col-md-6 col-xl-6 col-xxl-2 d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center align-items-md-center justify-content-lg-end justify-content-xxl-center"><input class="bg-dark form-control text-primary p-2 text-center" formControlName="nbPages" type="number" value="100"/></div>
                           <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-1 d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center align-items-md-center justify-content-lg-start justify-content-xxl-start"><span class="text-primary"> pages </span></div>
                       </div>
                   </div>
@@ -35,7 +35,9 @@
           <label for="files" class="form-label cover_file_input">
             <b><fa-icon [icon]="faPlusCircle"></fa-icon> AJouter une couverture</b>
           </label>
-          <input id="files" class="form-control visually-hidden" type="file">
+          <div [formGroup]="fileForm">
+            <input id="files" accept=".png, .jpeg, .jpg, .svg, .gif" class="form-control visually-hidden" formControlName="currentInput" (change)="onFileSelected($event)" type="file">
+          </div>
         </div>
       </div>
     </div>

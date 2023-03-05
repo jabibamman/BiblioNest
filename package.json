@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "cross-env": "^7.0.3",
+    "dotenv-cli": "^7.0.0",
     "json2yaml": "^1.1.0",
     "moment": "^2.29.4",
     "ng-openapi-gen": "^0.21.2",

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { BookService } from 'src/app/service/book.service';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-book',
@@ -7,12 +8,13 @@ import { BookService } from 'src/app/service/book.service';
   styleUrls: ['./book.component.css']
 })
 export class BookComponent implements OnInit {
-  constructor(private bookService: BookService) {
+  constructor(private bookService: BookService, private userService: UserService) {
     this.books = this.bookService.getBooks();
    }  // Injection du service Book
 
   @Input() books;
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+    this.userService.navigateIfError(this.userService.isLogged());
+  }
 }
