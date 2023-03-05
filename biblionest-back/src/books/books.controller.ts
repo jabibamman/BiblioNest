@@ -2,23 +2,12 @@ import {
   Body,
   Controller,
   Post,
-  UploadedFile,
-  UseInterceptors,
   Get,
   Logger,
-  Query,
   Param,
-  Res,
 } from "@nestjs/common";
 import { BooksService } from "./books.service";
 import { BooksDto } from "./dto";
-import { FileInterceptor } from "@nestjs/platform-express";
-import * as path from "path";
-import { writeFile } from "fs";
-import { log } from "console";
-import { Response } from 'express';
-import { join } from "path";
-import { Observable } from "rxjs";
 
 @Controller("books")
 export class BooksController {

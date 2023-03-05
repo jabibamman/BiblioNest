@@ -9,6 +9,10 @@ import { Logger } from "@nestjs/common";
 @Injectable()
 export class BooksService {
   constructor(private prisma: PrismaService, private apiService: ApiService, private logger: Logger) {}
+  errorMessages : any = {
+    'P2002': 'Book already exist',
+  };
+
   async createBook(dto: BooksDto) {
     try {
       return await this.prisma.book.create({
@@ -27,8 +31,9 @@ export class BooksService {
       });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code === "P2002") {
-          throw new ForbiddenException("Book already exist");
+        if (error.code === this.errorMessages.P2002) {
+          this.logger.error(`${this.createBook.name[0].toUpperCase()}${this.createBook.name.slice(1)} - ${this.errorMessages.P2002}`, `${this.constructor.name}`);
+          throw new ForbiddenException(this.errorMessages.P2002);
         }
       }
       throw error;
