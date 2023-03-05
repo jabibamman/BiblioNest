@@ -8,6 +8,5 @@ import { BooksService } from "./books.service";
   controllers: [BooksController],
   providers: [BooksService],
   imports: [ApiModule, HttpModule],
-  
 })
 export class BooksModule {}

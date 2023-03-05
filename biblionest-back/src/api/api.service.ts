@@ -58,7 +58,7 @@ export class ApiService {
           HttpStatus.NO_CONTENT
         );
       }
-      const book = data.items[0].volumeInfo;      
+      const book = data.items[0].volumeInfo;
       return {
         title: book.title,
         authors: book.authors,
@@ -92,10 +92,13 @@ export class ApiService {
       const get$ = this.http.get(url);
       const { data } = await lastValueFrom(get$);
       if (data.totalItems === 0) {
-        throw new HttpException({
-          status: HttpStatus.NO_CONTENT,
-          message: 'No content',
-        }, HttpStatus.NO_CONTENT);
+        throw new HttpException(
+          {
+            status: HttpStatus.NO_CONTENT,
+            message: "No content",
+          },
+          HttpStatus.NO_CONTENT
+        );
       }
       const book = data.items[0].volumeInfo;
       return {
@@ -103,19 +106,22 @@ export class ApiService {
         authors: book.authors,
         publishedDate: book.publishedDate,
         description: book.description,
-        imgUrl: (book.imageLinks && book.imageLinks.thumbnail) || 'default',
+        imgUrl: (book.imageLinks && book.imageLinks.thumbnail) || "default",
         isbn: book.industryIdentifiers[0].identifier,
-        nbPages: book.pageCount
+        nbPages: book.pageCount,
       };
     } catch (error) {
       switch (error.getStatus()) {
         case HttpStatus.NO_CONTENT:
           throw error;
         default:
-          throw new HttpException({
-            status: HttpStatus.BAD_GATEWAY,
-            error: 'Bad gateway',
-          }, HttpStatus.BAD_GATEWAY);
+          throw new HttpException(
+            {
+              status: HttpStatus.BAD_GATEWAY,
+              error: "Bad gateway",
+            },
+            HttpStatus.BAD_GATEWAY
+          );
       }
     }
   }

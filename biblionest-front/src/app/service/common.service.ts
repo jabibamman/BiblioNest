@@ -15,7 +15,7 @@ export class CommonService {
 
   /**
     * @description navigate to the page
-    * @param page 
+    * @param page
   */
   navigate(page: string) {
     // if the beginning of the page is '/' then we remove the '/' to not have a duplicate
@@ -38,11 +38,11 @@ export class CommonService {
   /**
    * @description scroll to the top of the page
   */
-    toTheTop() {
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
-    }
+  toTheTop() {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  }
 
   /**
    * @description get property page
@@ -58,7 +58,7 @@ export class CommonService {
 
   /**
    * @description  change the background color depending on the state of the book
-   * @param event 
+   * @param event
    */
   onStatusChange(event: any) {
     let color: string;
@@ -67,8 +67,8 @@ export class CommonService {
     } else {
         color = 'white';
     }
-    
+
     return color;
-  }  
+  }
 
 }

@@ -1,7 +1,13 @@
-<div class="container">
-  <div class="row mt-4">
-    <div class="col-md-6 d-flex d-md-flex justify-content-center justify-content-md-start">
-      <h1 class="d-sm-flex d-xl-flex justify-content-sm-center">{{ current_book.title }}</h1>
+<form class="w-100" [formGroup]="bookForm" (submit)="$event.preventDefault()">
+  <div class="container">
+    <div class="row mt-4">
+      <div class="col-md-6 d-flex d-md-flex justify-content-center justify-content-md-start">
+        <h1 class="d-sm-flex d-xl-flex justify-content-sm-center">{{ current_book.title }}</h1>
+      </div>
+      <div
+        class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
+          <app-button (btnClick)="saveChanges()" text="Sauvegarder les modifications" [icon]="faPen"></app-button>
+      </div>
     </div>
     <div
       class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
@@ -9,19 +15,47 @@
       <app-button (btnClick)="saveChanges()" text="Sauvegarder les modifications" [icon]="faPen"></app-button>
     </div>
   </div>
-</div>
-<div class="main_content">
-  <div class="infos_div bg-dark mb-5">
+  <div class="main_content">
+    <div *ngIf="bookForm.hasError('required')" class="alert alert-danger">Veuillez remplir tous les champs</div>
+    <div *ngIf="bookForm.hasError('duplicate')" class="alert alert-danger">Ce livre existe déjà</div>
+    <div *ngIf="bookForm.hasError('invalidNbPages')" class="alert alert-danger">Il faut un nombre de pages supérieur à 0</div>
+    <div *ngIf="bookForm.hasError('invalidLength')" class="alert alert-danger">Le titre ou l'auteur doit faire au moins 3 caractères et maximum 75 caractères</div>
+    <div class="infos_div bg-dark mb-5">
       <div class="container">
-          <div class="row">
-              <div class="col-md-4">
-                  <div>
-                      <h5 class="text-start d-flex justify-content-center fa-primary">Titre</h5><input class="bg-dark d-flex justify-content-sm-center m-3 p-2 text-primary w-100" type="text" placeholder="{{ current_book.title }}" />
-                      <h5 class="d-flex justify-content-center align-items-center fa-primary">Infos :</h5>
-                      <p class="d-flex justify-content-center text-primary">Auteur : </p><input class="bg-dark d-flex justify-content-center m-3 p-2 text-primary w-100 mb-3" type="text" placeholder="{{ current_book.author }}" />
-                      <p class="d-flex justify-content-center text-primary">Nombre de pages : </p>
-                      <p class="d-flex justify-content-center align-items-center"><input type="number" class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" placeholder="{{ current_book.nbPages }}"/>pages</p>
+        <div class="row">
+          <div class="col-md-4">
+            <div>
+              <h5 class="text-start d-flex justify-content-center fa-primary">Titre</h5><input class="bg-dark d-flex justify-content-sm-center m-3 p-2 text-primary w-100" type="text" placeholder="{{ current_book.title }}" />
+              <h5 class="d-flex justify-content-center align-items-center fa-primary">Infos :</h5>
+              <p class="d-flex justify-content-center text-primary">Auteur : </p><input class="bg-dark d-flex justify-content-center m-3 p-2 text-primary w-100 mb-3" type="text" placeholder="{{ current_book.author }}" />
+              <p class="d-flex justify-content-center text-primary">Nombre de pages : </p>
+              <p class="d-flex justify-content-center align-items-center"><input type="number" class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" placeholder="{{ current_book.nbPages }}"/>pages</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h5 class="d-flex justify-content-center fa-primary">Status :</h5>
+            <div class="d-flex justify-content-center">
+              <select class="mb-3"
+              [ngStyle]="{'background-color': bgColor || 'white'}"
+              (change)="onStatusChange($event.target)">
+              <option [value]="'reading'" [selected]="current_book.status === 'reading'">En cours de lecture</option>
+              <option [value]="'read'" [selected]="current_book.status === 'read'">Déjà Lu</option>
+              <option [value]="'to_read'" [selected]="current_book.status === 'to_read'">À lire !</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="book_cover_div">
+              <div class="col">
+                <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+                  <div class="col-xxl-8 modify-image"
+                    (click)="modifyImage()">
+                    <img *ngIf="current_book.imgUrl !== 'default'" [src]="current_book.imgUrl" class="img-fluid card-img-top" alt="{{ current_book.title }}">
+                    <div class="d-xl-flex justify-content-xl-center align-items-xl-center modify-overlay">
+                      <p class="modify-text text-primary">Modifier l&#39;image</p>
+                    </div>
                   </div>
+                </div>
               </div>
               <div class="col-md-4">
                       <h5 class="d-flex justify-content-center fa-primary">Status :</h5>
@@ -57,16 +91,19 @@
                   </div>
               </div>
           </div>
+        </div>
       </div>
-  </div>
-  <div class="container">
+    </div>
+    <div class="container">
       <div class="row infos_div bg-dark">
-          <div class="col-md-12">
-              <h5 class="mb-3 fa-primary">Description :</h5>
-          </div>
-          <div class="row">
-              <div class="col-md-12"><textarea class="form-control m-3 p-2 text-primary bg-dark">{{current_book.description}}</textarea></div>
-          </div>
+        <div class="col-md-12">
+          <h5 class="mb-3 fa-primary">Description :</h5>
+        </div>
+        <div class="row">
+          <div class="col-md-12"><textarea class="form-control m-3 p-2 text-primary bg-dark">{{current_book.description}}</textarea></div>
+        </div>
       </div>
+    </div>
   </div>
 </div>
+</form>

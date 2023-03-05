@@ -9,6 +9,7 @@ import {
   Param,
   Res,
   Delete,
+  Patch,
 } from "@nestjs/common";
 import { BooksService } from "./books.service";
 import { BooksDto } from "./dto";
@@ -34,8 +35,13 @@ export class BooksController {
         return this.booksService.getBooks();
     }
 
-    @Get("getAllBooks/:id")
-    async getBooksUserById(@Param('id') id: number) {
-        return this.booksService.getBooksUser(id);
-    }
+  @Get("getAllBooks/:id")
+  async getBooksUserById(@Param("id") id: number) {
+    return this.booksService.getBooksUser(id);
+  }
+
+  @Patch(":isbn")
+  async updateBook(@Param("isbn") isbn: string, @Body() dto: BooksDto) {
+    return this.booksService.updateBook(isbn, dto);
+  }
 }

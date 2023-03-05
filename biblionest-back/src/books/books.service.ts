@@ -2,12 +2,13 @@ import { ForbiddenException, HttpCode, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { BooksDto } from "./dto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { Prisma } from "@prisma/client";
+import {Prisma, status} from "@prisma/client";
 import { ApiService } from "src/api/api.service";
 
 @Injectable()
 export class BooksService {
   constructor(private prisma: PrismaService, private apiService: ApiService) {}
+
   async createBook(dto: BooksDto) {
     try {
       return await this.prisma.book.create({
@@ -66,16 +67,36 @@ export class BooksService {
     if (this.prisma.book.findMany() === null) {
       throw new ForbiddenException();
     }
-
     return this.prisma.book.findMany();
   }
 
-    @HttpCode(200)
-    getBooksUser(id: number) {
-        return this.prisma.book.findMany({
-            where: {
-                userId: Number(id)
-            }
-        });
+  async updateBook(isbn: string, dto: BooksDto) {
+    try {
+      return await this.prisma.book.update({
+        where: {
+          isbn: isbn,
+        },
+        data: {
+          author: dto.author,
+          description: dto.description,
+          nbPages: dto.nbPages,
+          publishedDate: dto.publishedDate,
+          readCount: dto.readCount,
+          title: dto.title,
+          status: dto.status,
+        },
+      });
+    } catch (error) {
+      throw error;
     }
+  }
+
+  @HttpCode(200)
+  getBooksUser(id: number) {
+    return this.prisma.book.findMany({
+      where: {
+        userId: Number(id),
+      },
+    });
+  }
 }
