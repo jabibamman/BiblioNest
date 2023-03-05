@@ -29,15 +29,29 @@ export class HomeComponent implements OnInit {
     this.allBooks = this.books;
   }
 
+  user:any;
   async ngOnInit(): Promise<void> { 
     try {
-      await this.BookService.setBooksArray();
-      this.books = this.BookService.getBooks();
-      this.allBooks = this.books;      
-    } catch (error) {
+      this.userService.isLogged().subscribe(
+        (response: any) => {
+          this.user = response;   
+          const getBooks = async () => {            
+            await this.BookService.setBooksArray(this.user.id);
+            this.books = this.BookService.getBooks();
+            this.allBooks = this.books;      
+          }
+
+          getBooks();
+        },
+        (error:any) => {
+          console.error(error);
+          this.common.navigate('');
+        }
+      );
+    } catch (error) {            
       console.log(error);
-    }    
-    this.userService.navigateIfError(this.userService.isLogged());
+    } 
+
   }
 
   /**

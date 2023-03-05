@@ -19,6 +19,19 @@ export class AddNewBookComponent {
   books;
   file: any;
 
+  user: any;
+  async ngOnInit(): Promise<void> {
+    this.userService.isLogged().subscribe(
+      (response: any) => {
+        this.user = response;        
+      },
+      (error:any) => {
+        console.error(error);
+        this.common.navigate('');
+      }
+    );
+  }
+
   constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient, private userService: UserService) {
     this.books = this.BookService.getBooks();
 
@@ -31,7 +44,7 @@ export class AddNewBookComponent {
       read_count: [0],
       status: ['to_read'],
       description: [''],
-      userId: 1,
+      userId: [0],
     });
 
     this.fileForm = this.fb.group({
@@ -60,7 +73,7 @@ export class AddNewBookComponent {
       description: values.description,
       nbPages: values.nbPages,
       imgUrl: 'default', 
-      userId: 1,
+      userId: this.user.id,
     };
 
     if (
@@ -132,7 +145,4 @@ export class AddNewBookComponent {
     return true;
   }
 
-  ngOnInit(): void {
-    this.userService.navigateIfError(this.userService.isLogged());
-  }
 }
