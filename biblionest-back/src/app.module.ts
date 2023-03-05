@@ -9,6 +9,7 @@ import { writeFileSync } from 'fs';
 import { BooksModule } from './books/books.module';
 import { MulterModule } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
+import { UploadModule } from './upload/upload/upload.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { diskStorage } from "multer";
         destination: "./../uploads",
       }),
     }),
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

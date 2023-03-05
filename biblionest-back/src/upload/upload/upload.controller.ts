@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
-import path, { join } from 'path';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { writeFile } from 'fs';
+import * as path from "path";
 
 
 @Controller('uploads')
@@ -37,7 +37,7 @@ export class UploadsController {
   serveFile(@Param('filename') filename: string, @Res() res: Response) {
     console.log('filename : ' + filename);
     
-    const filePath = join(__dirname, '../../../../uploads', filename); // chemin absolu du fichier
+    const filePath = path.join(__dirname, '../../../../uploads', filename); // chemin absolu du fichier
     return res.sendFile(filePath);
   }
 }

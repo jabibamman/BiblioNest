@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppUploadService } from 'src/app/components/app-upload/app-upload.service';
 import { Book } from 'src/app/interface/ibook';
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   books : Book[];
   allBooks : Book[];
 
-  constructor(private Router: Router, private BookService: BookService, protected common: CommonService) {
+  constructor(private Router: Router, private BookService: BookService, protected common: CommonService, private appUploadService: AppUploadService) {
     this.itemsPerPage = this.setNbItemsPerPage();
     this.page = common.getPage();
     this.previousLabel = 'Précédent';
@@ -32,7 +33,14 @@ export class HomeComponent implements OnInit {
     try {
       await this.BookService.setBooksArray();
       this.books = this.BookService.getBooks();
-      this.allBooks = this.books;      
+      this.allBooks = this.books;
+      this.allBooks.forEach(book => {
+        this.appUploadService.getFile(book.imgUrl).subscribe(file => {
+          const urlCreator = window.URL || window.webkitURL;
+          book.imgUrl = urlCreator.createObjectURL(file);  
+        });
+      });
+            
     } catch (error) {
       console.log(error);
     }    
