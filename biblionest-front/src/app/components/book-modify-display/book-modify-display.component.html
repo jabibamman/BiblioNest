@@ -19,7 +19,7 @@
                       <h5 class="d-flex justify-content-center align-items-center fa-primary">Infos :</h5>
                       <p class="d-flex justify-content-center text-primary">Auteur : </p><input class="bg-dark d-flex justify-content-center m-3 p-2 text-primary w-100 mb-3" type="text" placeholder="{{ current_book.author }}" />
                       <p class="d-flex justify-content-center text-primary">Nombre de pages : </p>
-                      <p class="d-flex justify-content-center align-items-center"><input type="number" class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" placeholder="{{ current_book.nb_pages }}"/>pages</p>
+                      <p class="d-flex justify-content-center align-items-center"><input type="number" class="bg-dark m-2 p-2 text-primary w-25 text-center" type="number" placeholder="{{ current_book.nbPages }}"/>pages</p>
                   </div>
               </div>
               <div class="col-md-4">
@@ -40,7 +40,7 @@
                           <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
                                 <div class="col-xxl-8 modify-image"
                                   (click)="modifyImage()">
-                                  <img *ngIf="current_book.img_url !== 'default'" [src]="current_book.img_url" class="img-fluid card-img-top" alt="{{ current_book.title }}">
+                                  <img *ngIf="current_book.imgUrl !== 'default'" [src]="current_book.imgUrl" class="img-fluid card-img-top" alt="{{ current_book.title }}">
                                   <div class="d-xl-flex justify-content-xl-center align-items-xl-center modify-overlay">
                                       <p class="modify-text text-primary">Modifier l&#39;image</p>
                                   </div>
