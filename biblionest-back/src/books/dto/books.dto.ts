@@ -2,6 +2,10 @@ import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 
 export class BooksDto {
+  @Type(() => Number)
+  @IsNotEmpty()
+  id: number;
+
   @IsNotEmpty()
   @IsString()
   title: string;

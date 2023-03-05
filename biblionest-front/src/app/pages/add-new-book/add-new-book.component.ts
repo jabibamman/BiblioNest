@@ -23,7 +23,7 @@ export class AddNewBookComponent {
   async ngOnInit(): Promise<void> {
     this.userService.isLogged().subscribe(
       (response: any) => {
-        this.user = response;        
+        this.user = response;
       },
       (error:any) => {
         console.error(error);
@@ -51,7 +51,7 @@ export class AddNewBookComponent {
       currentInput: null,
     });
   }
-  
+
 
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
@@ -72,7 +72,7 @@ export class AddNewBookComponent {
       readCount: values.read_count,
       description: values.description,
       nbPages: values.nbPages,
-      imgUrl: 'default', 
+      imgUrl: 'default',
       userId: this.user.id,
     };
 
@@ -116,7 +116,7 @@ export class AddNewBookComponent {
     if (!this.isValidIsbn(book.isbn)) {
       this.bookForm.setErrors({ invalidIsbn: true });
       return;
-  }
+    }
 
     book.title = book.title.replace(/\w\S*/g, (txt: string) => {
       return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();

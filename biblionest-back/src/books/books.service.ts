@@ -54,6 +54,28 @@ export class BooksService {
       throw error;
     }
   }
+
+  async modifyBook(dto: BooksDto) {
+    try {
+      return await this.prisma.book.update({
+        where: {
+          id: dto.id,
+        },
+        data: {
+          author: dto.author,
+          description: dto.description,
+          nbPages: dto.nbPages,
+          publishedDate: dto.publishedDate,
+          readCount: dto.readCount,
+          status: dto.status,
+          title: dto.title,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @HttpCode(200)
   getBooks() {
     if (this.prisma.book.findMany() === null) {
