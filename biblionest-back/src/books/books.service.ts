@@ -56,6 +56,20 @@ export class BooksService {
     }
   }
 
+  deleteBook(where: Prisma.BookWhereUniqueInput) {
+    return this.prisma.book.delete({
+      where,
+    });
+  }
+
+  @HttpCode(200)
+  getBooks() {
+    if (this.prisma.book.findMany() === null) {
+      throw new ForbiddenException();
+    }
+    return this.prisma.book.findMany();
+  }
+
   async updateBook(isbn: string, dto: BooksDto) {
     try {
       return await this.prisma.book.update({
@@ -75,15 +89,6 @@ export class BooksService {
     } catch (error) {
       throw error;
     }
-  }
-
-  @HttpCode(200)
-  getBooks() {
-    if (this.prisma.book.findMany() === null) {
-      throw new ForbiddenException();
-    }
-
-    return this.prisma.book.findMany();
   }
 
   @HttpCode(200)
