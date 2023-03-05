@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {CommonService} from "../../service/common.service";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-inscription',
@@ -9,7 +10,7 @@ import {CommonService} from "../../service/common.service";
 })
 export class InscriptionComponent implements OnInit {
   inscriptionForm:FormGroup;
-  constructor(public commonService:CommonService, private fb:FormBuilder) {
+  constructor(public commonService:CommonService, private userService:UserService, private fb:FormBuilder) {
     this.inscriptionForm = this.fb.group({
       username: [''],
       email: [''],
@@ -19,6 +20,7 @@ export class InscriptionComponent implements OnInit {
 
   inscription():void {
     const user = this.inscriptionForm.value;
+    console.log("user=", user);
 
     if(user.username === ''){
       this.inscriptionForm.setErrors({ requiredUsername: true });
@@ -33,16 +35,24 @@ export class InscriptionComponent implements OnInit {
       return;
     }
 
-    this.commonService.navigate('home');
+    this.userService.createUser(user).subscribe(
+      (response:any) => {
+        console.log(response);
+        this.commonService.navigate('home');
+      },
+      (error:any) => {
+        console.error(error);
+        this.inscriptionForm.setErrors({ errorInscription: true });
+      }
+    );
   }
 
   verifyErrors():boolean {
     return this.inscriptionForm.hasError('requiredUsername') ||
       this.inscriptionForm.hasError('requiredEmail') ||
-      this.inscriptionForm.hasError('requiredPassword');
+      this.inscriptionForm.hasError('requiredPassword') ||
+      this.inscriptionForm.hasError('errorInscription');
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit():void { }
 }
