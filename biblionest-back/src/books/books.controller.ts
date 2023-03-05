@@ -9,6 +9,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Get,
+  Logger,
   Query,
   Param,
 } from "@nestjs/common";
@@ -17,11 +18,10 @@ import { BooksDto } from "./dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as path from "path";
 import { writeFile } from "fs";
-import { log } from "console";
 
 @Controller("books")
 export class BooksController {
-  constructor(private booksService: BooksService) {}
+  constructor(private booksService: BooksService, private logger: Logger) {}
 
   @Post("addBook")
   signup(@Body() dto: BooksDto) {
@@ -44,9 +44,9 @@ export class BooksController {
     );
     writeFile(filepath, file.buffer, (err) => {
       if (err) {
-        console.error(err);
+        this.logger.error(`${this.uploadFile.name[0].toUpperCase()}${this.uploadFile.name.slice(1)} - "${file.originalname}" failed to upload`, `${this.constructor.name}`);
       } else {
-        console.log("Fichier enregistré avec succès :", filepath);
+        this.logger.log(`${this.uploadFile.name[0].toUpperCase()}${this.uploadFile.name.slice(1)} - "${file.originalname}" successfully uploaded`, `${this.constructor.name}`);
       }
     });
 
@@ -55,11 +55,13 @@ export class BooksController {
 
     @Get("getAllBooks")
     async getBooks() {        
+        this.logger.log(`${this.getBooks.name[0].toUpperCase()}${this.getBooks.name.slice(1)} - All books`, `${this.constructor.name}`);
         return this.booksService.getBooks();
     }
 
     @Get("getAllBooks/:id")
     async getBooksUserById(@Param('id') id: number) {
+        this.logger.log(`${this.getBooksUserById.name[0].toUpperCase()}${this.getBooksUserById.name.slice(1)} - All books from user with id: ${id}`, `${this.constructor.name}`);
         return this.booksService.getBooksUser(id);
     }
 }
