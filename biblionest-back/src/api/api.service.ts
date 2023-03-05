@@ -85,7 +85,6 @@ export class ApiService {
       }
     }
   }
-}
 
   async getBookByTitle(title: string) {
     try {
@@ -120,5 +119,4 @@ export class ApiService {
       }
     }
   }
-
 }
