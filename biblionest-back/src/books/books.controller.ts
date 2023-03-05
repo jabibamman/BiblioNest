@@ -53,13 +53,13 @@ export class BooksController {
     return file;
   }
 
-    @Get("getAllBooks")
-    async getBooks() {        
-        return this.booksService.getBooks();
-    }
+  @Get("getAllBooks")
+  async getBooks() {
+    return this.booksService.getBooks();
+  }
 
-    @Get("getAllBooks/:id")
-    async getBooksUserById(@Param('id') id: number) {
-        return this.booksService.getBooksUser(id);
-    }
+  @Get("getAllBooks/:id")
+  async getBooksUserById(@Param("id") id: number) {
+    return this.booksService.getBooksUser(id);
+  }
 }

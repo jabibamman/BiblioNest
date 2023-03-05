@@ -36,12 +36,14 @@ export class InscriptionComponent implements OnInit {
     }
 
     this.userService.createUser(user).subscribe(
-      (response:any) => {
-        console.log(response);
-        this.commonService.navigate('home');
-      },
+      (response:any) => {},
       (error:any) => {
         console.error(error);
+        if(error.status === 200) {
+          console.log(error.error.text);
+          localStorage.setItem('token', error.error.text);
+          this.commonService.navigate('home');
+        }
         this.inscriptionForm.setErrors({ errorInscription: true });
       }
     );

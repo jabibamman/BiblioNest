@@ -12,6 +12,5 @@ async function bootstrap() {
     })
   );
   await app.listen(process.env.BACK_PORT || 3000);
-
 }
 bootstrap();
