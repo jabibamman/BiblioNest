@@ -41,7 +41,7 @@ export class AppModule {
 
         // réecrire le JWT_SECRET et le remplacer par une valeur aléatoire
         if (process.env.JWT_SECRET !== undefined) {
-            // ont le supprime du fichier .env
+            // on le supprime du fichier .env
             const data = readFileSync(envDir, 'utf8');
             writeFileSync(envDir,  data.replace(`JWT_SECRET="${process.env.JWT_SECRET}"`, ''));
             writeFileSync(envDir, `JWT_SECRET="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}"`, { flag: 'a' });
