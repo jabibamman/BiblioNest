@@ -20,8 +20,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { ButtonComponent } from './components/button/button.component';
 import { ConnectionComponent } from './pages/connection/connection.component';
-import { AppUploadComponent } from './components/app-upload/app-upload.component';
-
 
 
 @NgModule({
@@ -38,8 +36,7 @@ import { AppUploadComponent } from './components/app-upload/app-upload.component
     BookModifyDisplayComponent,
     AddNewBookComponent,
     ButtonComponent,
-    ConnectionComponent,
-    AppUploadComponent
+    ConnectionComponent
   ],
   imports: [
       BrowserModule,

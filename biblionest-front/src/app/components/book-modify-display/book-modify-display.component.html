@@ -40,7 +40,14 @@
                           <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
                                 <div class="col-xxl-8 modify-image"
                                   (click)="modifyImage()">
-                                  <img *ngIf="current_book.imgUrl !== 'default'" [src]="current_book.imgUrl" class="img-fluid card-img-top" alt="{{ current_book.title }}">
+                                  <img *ngIf="current_book.imgUrl !== 'default' && current_book.imgUrl.startsWith('blob')"
+                                  [src]="this.appUpload.sanitize(current_book.imgUrl)"
+                                  class="img-fluid card-img-top" alt="{{ current_book.title }}">
+                
+                                  <img *ngIf="current_book.imgUrl !== 'default' && !current_book.imgUrl.startsWith('blob')"
+                                  [src]="current_book.imgUrl"
+                                  class="img-fluid card-img-top" alt="{{ current_book.title }}">
+                                  
                                   <div class="d-xl-flex justify-content-xl-center align-items-xl-center modify-overlay">
                                       <p class="modify-text text-primary">Modifier l&#39;image</p>
                                   </div>

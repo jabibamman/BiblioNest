@@ -7,7 +7,6 @@ import {ConnectionComponent} from "./pages/connection/connection.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {BookModifyComponent} from "./pages/book-modify/book-modify.component";
 import {AddNewBookComponent} from "./pages/add-new-book/add-new-book.component";
-import { AppUploadComponent } from './components/app-upload/app-upload.component';
 
 const routes: Routes = [
   {
@@ -38,10 +37,6 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
   },
-  {
-    path: 'upload',
-    component: AppUploadComponent
-  }
 ];
 
 @NgModule({

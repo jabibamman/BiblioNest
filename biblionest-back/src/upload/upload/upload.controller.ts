@@ -7,18 +7,17 @@ import * as path from "path";
 
 @Controller('uploads')
 export class UploadsController {
+    pathUpload = "../../../../uploads"
     @Post("upload")
     @UseInterceptors(FileInterceptor("image"))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
-        console.log(file);
-
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
 
         file.originalname = uniqueSuffix + file.originalname;
 
         const filepath = path.join(
         __dirname,
-        "../../../uploads",
+        this.pathUpload,
         file.originalname
         );
         writeFile(filepath, file.buffer, (err) => {
@@ -35,9 +34,11 @@ export class UploadsController {
 
   @Get(':filename')
   serveFile(@Param('filename') filename: string, @Res() res: Response) {
-    console.log('filename : ' + filename);
+    if (filename === 'default') {
+       return;
+    }
     
-    const filePath = path.join(__dirname, '../../../../uploads', filename); // chemin absolu du fichier
+    const filePath = path.join(__dirname, this.pathUpload, filename); // chemin absolu du fichier
     return res.sendFile(filePath);
   }
 }
