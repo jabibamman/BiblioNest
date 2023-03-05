@@ -50,7 +50,7 @@ export class BookService {
   async getAllBooks(id:number): Promise<Book[]> {
       const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks/' + id));
       return books as Book[];
-  } 
+  }
 
 
   // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
@@ -68,19 +68,19 @@ export class BookService {
           readCount: book.readCount,
           description: book.description,
           imgUrl: book.imgUrl
-       }));       
+       }));
        return filteredBooks;
      } catch (error) {
         console.log(error);
         return [];
-      }   
+      }
   }
 
   async setBooksArray(id:number): Promise<void> {
     this.books = await this.getBooksAPI(id);
   }
-      
-  async valideIsbn(isbn: string): Promise<boolean> {
+
+  async IsValidIsbn(isbn: string): Promise<boolean> {
     const book = await this.getBook(isbn, '', '');
     return book.isbn === isbn;
   }
@@ -106,9 +106,17 @@ export class BookService {
   getBooks(): Book[] {
     return this.books;
   }
-   
+
   addBook(book: Book): void {
-    this.books.push(book); 
+    this.books.push(book);
+  }
+
+  async modifyBook(isbn: string, book: Book): Promise<void> {
+    this.http.patch('http://localhost:3000/books/'+isbn, book).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+    });
   }
 
   async createBook(
@@ -147,7 +155,7 @@ export class BookService {
             }),
           };
 
-          this.fetchAddBook(book, body, httpOptions);     
+          this.fetchAddBook(book, body, httpOptions);
         },
       });
 
@@ -160,7 +168,7 @@ export class BookService {
 
       this.fetchAddBook(book, body, httpOptions);
     }
-    
+
   }
 
   // return the list of authors, if an author is duplicated, it will be returned only once and it will be the first occurence

@@ -16,6 +16,7 @@ export class BookModifyDisplayComponent implements OnChanges {
   current_book: any;
   book_isbn: string | null = "default";
   bgColor: string = "white";
+  bookForm: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService) {
     this.books = this.bookService.getBooks();
@@ -64,7 +65,7 @@ export class BookModifyDisplayComponent implements OnChanges {
       description: values.description,
       nbPages: values.nbPages,
       imgUrl: 'default',
-      userId: this.user.id,
+      userId: 0,
     };
 
     if (
@@ -104,11 +105,6 @@ export class BookModifyDisplayComponent implements OnChanges {
       return;
     }
 
-    if (!this.isValidIsbn(book.isbn)) {
-      this.bookForm.setErrors({ invalidIsbn: true });
-      return;
-    }
-
     book.title = book.title.replace(/\w\S*/g, (txt: string) => {
       return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
     });
@@ -116,10 +112,10 @@ export class BookModifyDisplayComponent implements OnChanges {
       return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
     });
 
-    this.BookService.addBook(book);
+    this.bookService.addBook(book);
 
     try {
-      this.BookService.createBook(book, this.file);
+      this.bookService.modifyBook(book.isbn, book);
     } catch (e) {
       console.log(e);
     }
