@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppUploadService } from 'src/app/service/app-upload.service';
 import { Book } from 'src/app/interface/ibook';
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
-import {UserService} from "../../service/user.service";
+import { UserService } from "../../service/user.service";
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
   books : Book[];
   allBooks : Book[];
 
-  constructor(private Router: Router, private BookService: BookService, protected common: CommonService, private userService: UserService) {
+  constructor(private Router: Router, private BookService: BookService, protected common: CommonService, private userService: UserService, public appUpload: AppUploadService) {
     this.itemsPerPage = this.setNbItemsPerPage();
     this.page = common.getPage();
     this.previousLabel = 'Précédent';
@@ -38,9 +39,16 @@ export class HomeComponent implements OnInit {
           const getBooks = async () => {            
             await this.BookService.setBooksArray(this.user.id);
             this.books = this.BookService.getBooks();
-            this.allBooks = this.books;      
+            this.allBooks = this.books;
+            this.allBooks.forEach(book => {
+              if (!book.imgUrl.startsWith('http')) {
+                this.appUpload.getFile(book.imgUrl).subscribe(file => {
+                        const urlCreator = window.URL || window.webkitURL;
+                        book.imgUrl = urlCreator.createObjectURL(file);                      
+                    });
+              }
+            });      
           }
-
           getBooks();
         },
         (error:any) => {
@@ -51,7 +59,6 @@ export class HomeComponent implements OnInit {
     } catch (error) {            
       console.log(error);
     } 
-
   }
 
   /**

@@ -22,7 +22,6 @@ import { ButtonComponent } from './components/button/button.component';
 import { ConnectionComponent } from './pages/connection/connection.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

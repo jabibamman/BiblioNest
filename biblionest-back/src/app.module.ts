@@ -10,6 +10,7 @@ import { BooksModule } from './books/books.module';
 import { MulterModule } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { ConfigModule } from "@nestjs/config";
+import { UploadModule } from './upload/upload/upload.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ConfigModule } from "@nestjs/config";
         destination: "./../uploads",
       }),
     }),
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
