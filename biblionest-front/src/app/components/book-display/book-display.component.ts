@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
+import { AppUploadService } from 'src/app/service/app-upload.service';
 
 @Component({
   selector: 'app-book-display',
@@ -15,7 +16,7 @@ export class BookDisplayComponent implements OnChanges {
   book_isbn: string | null = "default";
   bgColor: string = "white";
 
-  constructor(private route: ActivatedRoute, private bookService: BookService, protected common: CommonService) {
+  constructor(private route: ActivatedRoute, private bookService: BookService, protected common: CommonService, public appUpload: AppUploadService) {
     this.books = this.bookService.getBooks();
   }
 
