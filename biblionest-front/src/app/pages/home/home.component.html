@@ -13,7 +13,7 @@
               <p class="card-text">{{ book.author }}</p>
               <div class="d-flex justify-content-center">
                 <div class="col-8">
-                  <img *ngIf="book.img_url !== 'default' && book.img_url !== undefined" [src]="book.img_url" class="card-img-top" alt="{{ book.title }}">
+                  <img *ngIf="book.imgUrl !== 'default'" [src]="book.imgUrl" class="card-img-top" alt="{{ book.title }}">
                 </div>
               </div>
               <div class="text-center mt-2">
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       <div class="d-flex justify-content-center align-items-center">
         <pagination-controls (pageChange)="common.onPageChange($event)" [maxSize]="10" [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]=previousLabel [nextLabel]=nextLabel></pagination-controls>
       </div>

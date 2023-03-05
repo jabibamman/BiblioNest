@@ -11,7 +11,7 @@
           <div class="text-center w-100 mt-3 mb-3">
               <h1><input class="bg-dark form-control text-primary p-2 text-center" formControlName="title" type="text" placeholder="Titre du livre" /></h1>
           </div>
-          <div class="add_inputs m-5"> 
+          <div class="add_inputs m-5">
               <h3 class="text-capitalize text-center text-primary mb-4">informations :</h3><input class="bg-dark form-control text-primary p-2 text-center" formControlName="author" type="text" placeholder="Auteur" /><br />
               <input class="bg-dark form-control text-primary p-2 text-center" formControlName="publishedDate" type="text" placeholder="Date de publication" /><br />
               <input class="bg-dark form-control text-primary p-2 text-center" formControlName="isbn" type="text" placeholder="ISBN" /><br />
@@ -35,7 +35,9 @@
           <label for="files" class="form-label cover_file_input">
             <b><fa-icon [icon]="faPlusCircle"></fa-icon> AJouter une couverture</b>
           </label>
-          <input id="files" class="form-control visually-hidden" type="file">
+          <div [formGroup]="fileForm">
+            <input id="files" accept=".png, .jpeg, .jpg, .svg, .gif" class="form-control visually-hidden" formControlName="currentInput" (change)="onFileSelected($event)" type="file">
+          </div>
         </div>
       </div>
     </div>

@@ -7,6 +7,6 @@ export interface Book {
     status: string;
     readCount: number;
     description: string;
-    img_url: string;
+    imgUrl: string;
   }
   

@@ -7,11 +7,24 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ApiModule } from './api/api.module';
 import { writeFileSync } from 'fs';
 import { BooksModule } from './books/books.module';
+import { MulterModule } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
 
 @Module({
-    imports: [ApiModule, AuthModule, UserModule, BooksModule, PrismaModule],
-    controllers: [AppController],
-    providers: [AppService],
+  imports: [
+    ApiModule,
+    AuthModule,
+    BooksModule,
+    UserModule,
+    PrismaModule,
+    MulterModule.register({
+      storage: diskStorage({
+        destination: "./../uploads",
+      }),
+    }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {
     static setupEnv() {
@@ -31,3 +44,4 @@ export class AppModule {
         }
     }
 }
+
