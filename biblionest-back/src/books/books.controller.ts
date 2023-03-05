@@ -8,6 +8,7 @@ import {
   Query,
   Param,
   Res,
+  Delete,
 } from "@nestjs/common";
 import { BooksService } from "./books.service";
 import { BooksDto } from "./dto";

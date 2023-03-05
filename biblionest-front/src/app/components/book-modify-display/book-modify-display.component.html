@@ -5,7 +5,8 @@
     </div>
     <div
       class="col-md-6 d-flex d-xl-flex justify-content-center justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center">
-        <app-button (btnClick)="saveChanges()" text="Sauvegarder les modifications" [icon]="faPen"></app-button>
+      <app-button (btnClick)="deleteBook()" text="Supprimer le livre" [icon]="faTrash" class="m-3"></app-button>
+      <app-button (btnClick)="saveChanges()" text="Sauvegarder les modifications" [icon]="faPen"></app-button>
     </div>
   </div>
 </div>

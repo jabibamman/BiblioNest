@@ -64,6 +64,7 @@ export class AddNewBookComponent {
     this.common.toTheTop();
     const values = this.bookForm.value;
     const book = {
+      id: values.id,
       isbn: values.isbn,
       title: values.title,
       author: values.author,
@@ -92,12 +93,12 @@ export class AddNewBookComponent {
       return;
     }
 
-    if(book.nbPages < 1){
+    if (book.nbPages < 1) {
       this.bookForm.setErrors({ invalidNbPages: true });
       return;
     }
 
-    if(book.readCount == 0){
+    if (book.readCount == 0) {
       book.readCount = 1;
     }
 
@@ -116,7 +117,7 @@ export class AddNewBookComponent {
     if (!this.isValidIsbn(book.isbn)) {
       this.bookForm.setErrors({ invalidIsbn: true });
       return;
-  }
+    }
 
     book.title = book.title.replace(/\w\S*/g, (txt: string) => {
       return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
@@ -144,5 +145,5 @@ export class AddNewBookComponent {
 
     return true;
   }
-
 }
+
