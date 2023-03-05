@@ -5,6 +5,7 @@ import { BookService } from 'src/app/service/book.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { CommonService } from 'src/app/service/common.service';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from "../../service/user.service";
 
 @Component({
   selector: 'app-add-new-book',
@@ -18,13 +19,20 @@ export class AddNewBookComponent {
   books;
   file: any;
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private BookService: BookService,
-    protected common: CommonService,
-    private http: HttpClient
-  ) {
+  user: any;
+  async ngOnInit(): Promise<void> {
+    this.userService.isLogged().subscribe(
+      (response: any) => {
+        this.user = response;        
+      },
+      (error:any) => {
+        console.error(error);
+        this.common.navigate('');
+      }
+    );
+  }
+
+  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient, private userService: UserService) {
     this.books = this.BookService.getBooks();
 
     this.bookForm = this.fb.group({
@@ -36,13 +44,14 @@ export class AddNewBookComponent {
       read_count: [0],
       status: ['to_read'],
       description: [''],
-      userId: 1,
+      userId: [0],
     });
 
     this.fileForm = this.fb.group({
       currentInput: null,
     });
   }
+  
 
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
@@ -64,8 +73,8 @@ export class AddNewBookComponent {
       readCount: values.read_count,
       description: values.description,
       nbPages: values.nbPages,
-      imgUrl: 'default',
-      userId: 1,
+      imgUrl: 'default', 
+      userId: this.user.id,
     };
 
     if (
@@ -137,3 +146,4 @@ export class AddNewBookComponent {
     return true;
   }
 }
+

@@ -70,12 +70,12 @@ export class BooksService {
     return this.prisma.book.findMany();
   }
 
-  @HttpCode(200)
-  getBooksUser(body: Prisma.BookWhereInput) {
-    return this.prisma.book.findMany({
-      where: {
-        userId: Number(body.userId),
-      },
-    });
-  }
+    @HttpCode(200)
+    getBooksUser(id: number) {
+        return this.prisma.book.findMany({
+            where: {
+                userId: Number(id)
+            }
+        });
+    }
 }

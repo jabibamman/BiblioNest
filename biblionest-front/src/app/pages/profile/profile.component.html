@@ -11,15 +11,15 @@
           </nav>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-lg-4">
           <div class="card mb-4">
             <div class="card-body text-center">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                 class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">MyUsername</h5>
-              <p class="text-muted mb-1">Since 2019</p>
+              <h5 class="my-3">{{user.username}}</h5>
+              <p class="text-muted mb-1">Since {{user.createAt.substring(0,10)}}</p>
             </div>
           </div>
           <div class="card mb-4 mb-lg-0">
@@ -49,7 +49,7 @@
                   <p class="mb-0">Username</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">MyUsername</p>
+                  <p class="text-muted mb-0">{{user.username}}</p>
                 </div>
               </div>
               <hr>
@@ -58,7 +58,7 @@
                   <p class="mb-0">Email</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">example@example.com</p>
+                  <p class="text-muted mb-0">{{user.email}}</p>
                 </div>
               </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="card-body">
                     <p class="mb-4"><span class="text-primary font-italic me-1 fw-bold">Livres à lire :</span> {{ bookToRead.length }}</p>
                     <div *ngFor="let book of bookToRead">
-                        <p class="mb-1" style="font-size: .77rem;">{{ book.title }}</p>    
+                        <p class="mb-1" style="font-size: .77rem;">{{ book.title }}</p>
                         <div class="progress rounded" style="height: 5px;">
                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
                             aria-valuemin="0" aria-valuemax="100"></div>
@@ -83,20 +83,12 @@
                 <div class="card-body">
                   <p class="mb-4"><span class="text-primary font-italic me-1 fw-bold"> Auteurs Favoris</span> 😁</p>
                   <div *ngFor="let author of favoriteAuthors">
+                    <p>ton</p>
                     <p class="mb-1" style="font-size: .77rem;">{{ author.name }}</p>
-                    <div class="progress rounded mb-2" style="height: 5px;" [ngSwitch]="author.times">
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="1" style="width: 10%" aria-valuenow="10" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="2" style="width: 20%" aria-valuenow="20" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="3" style="width: 30%" aria-valuenow="30" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="4" style="width: 40%" aria-valuenow="40" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="5" style="width: 50%" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="6" style="width: 60%" aria-valuenow="60" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="7" style="width: 70%" aria-valuenow="70" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="8" style="width: 80%" aria-valuenow="80" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="9" style="width: 90%" aria-valuenow="90" aria-valuemin="50" aria-valuemax="100"></div>
-                        <div class="progress-bar" role="progressbar" *ngSwitchCase="10" style="width: 100%" aria-valuenow="100" aria-valuemin="50" aria-valuemax="100"></div>
+                    <div class="progress rounded mb-2" style="height: 5px;">
+                        <div class="progress-bar" role="progressbar" [style.width]="author.times * 10 + '%'" [attr.aria-valuenow]="author.times * 10" aria-valuemin="50" aria-valuemax="100"></div>
                     </div>
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
