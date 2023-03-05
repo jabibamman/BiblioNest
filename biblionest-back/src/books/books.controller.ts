@@ -29,7 +29,6 @@ export class BooksController {
     return this.booksService.createBook(dto);
   }
 
-
     @Get("getAllBooks")
     async getBooks() {        
         return this.booksService.getBooks();

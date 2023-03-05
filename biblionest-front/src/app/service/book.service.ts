@@ -53,7 +53,7 @@ export class BookService {
       const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks/' + id));
       return books as Book[];
   } 
-
+  
   // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
   async getBooksAPI(id:number) : Promise<Book[]> {
      try {
@@ -81,12 +81,12 @@ export class BookService {
   async setBooksArray(id:number): Promise<void> {
     this.books = await this.getBooksAPI(id);
   }
-
+  
   async valideIsbn(isbn: string): Promise<boolean> {
     const book = await this.getBook(isbn, '', '');
     return book.isbn === isbn;
   }
-
+  
   generateRandomIsbn(): string {
     return (
       Math.random().toString(36).substring(2, 15) +
@@ -200,5 +200,4 @@ export class BookService {
       console.error(error);
     }
   }
-
 }

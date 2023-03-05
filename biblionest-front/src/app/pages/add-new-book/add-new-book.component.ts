@@ -59,7 +59,7 @@ export class AddNewBookComponent {
       this.file = event.target.files[0];
     }
   }
-
+  
   addBook(): void {
     this.common.toTheTop();
     const values = this.bookForm.value;
