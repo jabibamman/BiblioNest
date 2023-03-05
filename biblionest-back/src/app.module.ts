@@ -5,13 +5,17 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ApiModule } from './api/api.module';
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { BooksModule } from './books/books.module';
 import { MulterModule } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ApiModule,
     AuthModule,
     BooksModule,
@@ -33,6 +37,18 @@ export class AppModule {
         const envDir = ".env";
         const dotenv = require('dotenv');
         dotenv.config({path: envDir});
+
+
+        // réecrire le JWT_SECRET et le remplacer par une valeur aléatoire
+        if (process.env.JWT_SECRET !== undefined) {
+            // on le supprime du fichier .env
+            const data = readFileSync(envDir, 'utf8');
+            writeFileSync(envDir,  data.replace(`JWT_SECRET="${process.env.JWT_SECRET}"`, ''));
+            writeFileSync(envDir, `JWT_SECRET="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}"`, { flag: 'a' });
+        }else{
+          writeFileSync(envDir, `\nJWT_SECRET="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}"`, { flag: 'a' });
+        }
+
         if (process.env.DATABASE_URL === undefined) {
             dotenv.config({ path: envBaseDir }); 
             writeFileSync(envDir, `\nDATABASE_URL="postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}?schema=public"`, { flag: 'a' });

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CommonService} from "../../service/common.service";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-connection',
@@ -9,7 +10,7 @@ import {CommonService} from "../../service/common.service";
 })
 export class ConnectionComponent implements OnInit {
   connectionForm:FormGroup;
-  constructor(public commonService:CommonService, private fb:FormBuilder) {
+  constructor(public commonService:CommonService, private userService:UserService, private fb:FormBuilder) {
     this.connectionForm = this.fb.group({
       username: [''],
       email: [''],
@@ -20,11 +21,7 @@ export class ConnectionComponent implements OnInit {
   connection():void {
     const user = this.connectionForm.value;
 
-    if(user.username === ''){
-      this.connectionForm.setErrors({ requiredUsername: true });
-      return;
-    }
-    else if(user.email === ''){
+    if(user.email === ''){
       this.connectionForm.setErrors({ requiredEmail: true });
       return;
     }
@@ -33,15 +30,25 @@ export class ConnectionComponent implements OnInit {
       return;
     }
 
-    this.commonService.navigate('home');
+    this.userService.connectUser(user).subscribe(
+      (response:any) => {},
+      (error:any) => {
+        console.error(error);
+        if(error.status === 200) {
+          console.log(error.error.text);
+          localStorage.setItem('token', error.error.text);
+          this.commonService.navigate('home');
+        }
+        this.connectionForm.setErrors({ errorInscription: true });
+      }
+    );
   }
 
   verifyErrors():boolean {
-    return this.connectionForm.hasError('requiredUsername') ||
-      this.connectionForm.hasError('requiredEmail') ||
-      this.connectionForm.hasError('requiredPassword');
+      return this.connectionForm.hasError('requiredEmail') ||
+      this.connectionForm.hasError('requiredPassword') ||
+      this.connectionForm.hasError('errorInscription');
   }
 
-  ngOnInit() {
-  }
+  ngOnInit():void { }
 }

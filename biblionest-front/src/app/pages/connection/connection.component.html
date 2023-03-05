@@ -17,11 +17,10 @@
               <div class="col-md-4 col-xl-6">
                 <div [ngClass]="verifyErrors() ? 'car mb-3' : 'car mb-5'">
                   <div class="card-body d-flex flex-column align-items-center">
-                    <div *ngIf="connectionForm.hasError('requiredUsername')" class="alert alert-danger">Veuillez renseigner un nom d'utilisateur</div>
                     <div *ngIf="connectionForm.hasError('requiredEmail')" class="alert alert-danger">Veuillez renseigner un email</div>
                     <div *ngIf="connectionForm.hasError('requiredPassword')" class="alert alert-danger">Veuillez entrer un mot de passe</div>
+                    <div *ngIf="connectionForm.hasError('errorConnection')" class="alert alert-danger">Un problème est survenu lors de votre connexion, veuillez réessayer</div>
                     <form class="text-center" method="post" [formGroup]="connectionForm" (submit)="$event.preventDefault()">
-                      <div class="mb-3"><input class="form-control" type="text" name="username" formControlName="username" placeholder="Nom d'utilisateur"></div>
                       <div class="mb-3"><input class="form-control" type="email" name="email" formControlName="email" placeholder="Email"></div>
                       <div class="mb-3"><input class="form-control" type="password" name="password" formControlName="password" placeholder="Mot de passe"></div>
                       <div class="mb-3"><button (click)="connection()" class="btn btn-primary d-block w-100" type="submit">Commencer</button></div>
