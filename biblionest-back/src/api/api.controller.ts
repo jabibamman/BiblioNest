@@ -3,6 +3,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Logger,
   Param,
   Query,
 } from "@nestjs/common";
@@ -10,27 +11,40 @@ import { ApiService } from "./api.service";
 
 @Controller("api")
 export class ApiController {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private logger: Logger) {}
 
-  @Get("/gbook")
+
+  @Get('/gbook')
   async getBook(@Query() query: any) {
+    let searchType, searchTerm;
     if (query.title) {
-      return await this.apiService.getGbook("title", query.title);
+      searchType = 'title';
+      searchTerm = query.title;
     } else if (query.author) {
-      return await this.apiService.getGbook("author", query.author);
+      searchType = 'author';
+      searchTerm = query.author;
     } else if (query.publisher) {
-      return await this.apiService.getGbook("publisher", query.publisher);
+      searchType = 'publisher';
+      searchTerm = query.publisher;
     } else if (query.isbn) {
-      return await this.apiService.getGbook("isbn", query.isbn);
+      searchType = 'isbn';
+      searchTerm = query.isbn;
     } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_GATEWAY,
-          error: "Invalid search type",
-          message: "Please provide a valid search type",
-        },
-        HttpStatus.BAD_GATEWAY
-      );
+      const error = {
+        status: HttpStatus.BAD_GATEWAY,
+        error: 'Invalid search type',
+        message: 'Please provide a valid search type',
+      };
+      this.logger.error(`GBook - ${JSON.stringify(error)}`, `${this.constructor.name}`);
+      throw new HttpException(error, HttpStatus.BAD_GATEWAY);
     }
+
+    const result = await this.searchBooks(searchType, searchTerm);
+    this.logger.log(`GBook - search by ${searchType}: '${searchTerm}'`, `${this.constructor.name}`);
+    return result;
+  }
+
+  async searchBooks(searchType: string, searchTerm: string) {
+    return await this.apiService.getGbook(searchType, searchTerm);
   }
 }
