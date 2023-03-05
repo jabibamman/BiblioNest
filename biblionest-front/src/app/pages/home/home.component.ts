@@ -4,6 +4,7 @@ import { AppUploadService } from 'src/app/components/app-upload/app-upload.servi
 import { Book } from 'src/app/interface/ibook';
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-home',
@@ -19,31 +20,44 @@ export class HomeComponent implements OnInit {
   books : Book[];
   allBooks : Book[];
 
-  constructor(private Router: Router, private BookService: BookService, protected common: CommonService, private appUploadService: AppUploadService) {
+  constructor(private Router: Router, private BookService: BookService, protected common: CommonService, private appUploadService: AppUploadService, private userService: UserService) {
     this.itemsPerPage = this.setNbItemsPerPage();
     this.page = common.getPage();
     this.previousLabel = 'Précédent';
     this.nextLabel = 'Suivant';
     this.books = this.BookService.getBooks();
-    this.searchText = "";
-    this.allBooks = this.books;   
+    this.searchText = '';
+    this.allBooks = this.books;
   }
 
+  user:any;
   async ngOnInit(): Promise<void> { 
     try {
-      await this.BookService.setBooksArray();
-      this.books = this.BookService.getBooks();
-      this.allBooks = this.books;
-      this.allBooks.forEach(book => {
-        this.appUploadService.getFile(book.imgUrl).subscribe(file => {
-          const urlCreator = window.URL || window.webkitURL;
-          book.imgUrl = urlCreator.createObjectURL(file);  
-        });
-      });
-            
-    } catch (error) {
+      this.userService.isLogged().subscribe(
+        (response: any) => {
+          this.user = response;   
+          const getBooks = async () => {            
+            await this.BookService.setBooksArray(this.user.id);
+            this.books = this.BookService.getBooks();
+            this.allBooks = this.books;
+            this.allBooks.forEach(book => {
+            this.appUploadService.getFile(book.imgUrl).subscribe(file => {
+                    const urlCreator = window.URL || window.webkitURL;
+                    book.imgUrl = urlCreator.createObjectURL(file);  
+                });
+            });      
+          }
+          getBooks();
+        },
+        (error:any) => {
+          console.error(error);
+          this.common.navigate('');
+        }
+      );
+    } catch (error) {            
       console.log(error);
-    }    
+    } 
+
   }
 
   /**

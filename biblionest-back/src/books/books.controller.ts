@@ -5,6 +5,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Get,
+  Query,
   Param,
   Res,
 } from "@nestjs/common";
@@ -13,9 +14,10 @@ import { BooksDto } from "./dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as path from "path";
 import { writeFile } from "fs";
-import { Observable } from "rxjs";
-import { join } from "path";
+import { log } from "console";
 import { Response } from 'express';
+import { join } from "path";
+import { Observable } from "rxjs";
 
 @Controller("books")
 export class BooksController {
@@ -32,9 +34,8 @@ export class BooksController {
         return this.booksService.getBooks();
     }
 
-    @Get("getAllBooksUser")
-        // this is an example of a postman request : 127.0.0.1:3000/books/getAllBooksUser {"userId": 1}
-    async getBooksUserById(@Body() body) {
-        return this.booksService.getBooksUser(body);
+    @Get("getAllBooks/:id")
+    async getBooksUserById(@Param('id') id: number) {
+        return this.booksService.getBooksUser(id);
     }
 }

@@ -47,17 +47,17 @@ export class BookService {
   }
 
 
-  async getAllBooks(): Promise<Book[]> {
-      const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks'));
+  async getAllBooks(id:number): Promise<Book[]> {
+      const books = await firstValueFrom(this.http.get('http://localhost:3000/books/getAllBooks/' + id));
       return books as Book[];
   } 
 
 
   // make a function call to the backend to get all books from the database and return the list of books (http://localhost:3000/books/getAllBooks)
-  async getBooksAPI() : Promise<Book[]> {
+  async getBooksAPI(id:number) : Promise<Book[]> {
      try {
       // récupérer seulement (isbn, title, author, publishedDate, status, read_count, nbPages, description, imgUrl)
-       const books = await this.getAllBooks();
+       const books = await this.getAllBooks(id);
        const filteredBooks: Book[] = books.map((book: Book) => ({
         isbn: book.isbn,
           title: book.title,
@@ -76,8 +76,8 @@ export class BookService {
       }   
   }
 
-  async setBooksArray(): Promise<void> {
-    this.books = await this.getBooksAPI();
+  async setBooksArray(id:number): Promise<void> {
+    this.books = await this.getBooksAPI(id);
   }
       
   async valideIsbn(isbn: string): Promise<boolean> {

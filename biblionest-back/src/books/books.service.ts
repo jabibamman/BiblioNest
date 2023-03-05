@@ -43,10 +43,10 @@ export class BooksService {
     }
 
     @HttpCode(200)
-    getBooksUser(body: Prisma.BookWhereInput) {
+    getBooksUser(id: number) {
         return this.prisma.book.findMany({
             where: {
-                userId: Number(body.userId)
+                userId: Number(id)
             }
         });
     }
