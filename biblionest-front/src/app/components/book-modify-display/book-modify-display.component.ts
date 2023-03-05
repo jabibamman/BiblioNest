@@ -19,6 +19,7 @@ export class BookModifyDisplayComponent implements OnChanges {
   current_book: any;
   book_isbn: string | null = 'default';
   bgColor: string = 'white';
+  bookForm: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService, public appUpload: AppUploadService) {
     this.books = this.bookService.getBooks();
@@ -57,9 +58,76 @@ export class BookModifyDisplayComponent implements OnChanges {
 
   saveChanges() {
     // Sauvegarder les modifications
+    const values = this.bookForm.value;
+    const book = {
+      id: this.current_book.id,
+      isbn: values.isbn,
+      title: values.title,
+      author: values.author,
+      publishedDate: values.publishedDate,
+      status: values.status,
+      readCount: values.read_count,
+      description: values.description,
+      nbPages: values.nbPages,
+      imgUrl: 'default',
+      userId: 0,
+    };
+
+    if (
+      this.books.find(
+        (obj) =>
+          obj.title.toLowerCase() === book.title.toLowerCase() &&
+          obj.author.toLowerCase() === book.author.toLowerCase()
+      )
+    ) {
+      this.bookForm.setErrors({ duplicate: true });
+      return;
+    }
+
+    if (!book.title || !book.author) {
+      this.bookForm.setErrors({ required: true });
+      return;
+    }
+
+    if(book.nbPages < 1){
+      this.bookForm.setErrors({ invalidNbPages: true });
+      return;
+    }
+
+    if(book.readCount == 0){
+      book.readCount = 1;
+    }
+
+    if (
+      book.title.length < 3 ||
+      book.author.length < 3 ||
+      book.title.length > 200 ||
+      book.author.length > 150 ||
+      book.description.length > 1500 ||
+      book.isbn.length > 13
+    ) {
+      this.bookForm.setErrors({ invalidLength: true });
+      return;
+    }
+
+    book.title = book.title.replace(/\w\S*/g, (txt: string) => {
+      return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
+    });
+    book.author = book.author.replace(/\w\S*/g, (txt: string) => {
+      return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
+    });
+
+    this.bookService.addBook(book);
+
+    try {
+      this.bookService.modifyBook(book.isbn, book);
+    } catch (e) {
+      console.log(e);
+    }
 
     // Rediriger vers la page de visualisation du livre
-    this.common.navigate('book/' + this.current_book.isbn);
+    this.common.toTheTop();
+    this.common.navigate("book/"+this.current_book.isbn);
   }
 
   deleteBook() {

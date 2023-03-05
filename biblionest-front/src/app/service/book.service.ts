@@ -118,6 +118,14 @@ export class BookService {
       .subscribe(() => console.log('Delete successful'));
   }
 
+  async modifyBook(isbn: string, book: Book): Promise<void> {
+    this.http.patch('http://localhost:3000/books/'+isbn, book).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+    });
+  }
+
   async createBook(
     book: {
       id: number;
