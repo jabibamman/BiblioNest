@@ -1,18 +1,14 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {IsNotEmpty, IsOptional, IsString, Validate} from "class-validator";
 import { Type } from "class-transformer";
 
 export class BooksDto {
-  @Type(() => Number)
-  @IsNotEmpty()
-  id: number;
-
   @IsNotEmpty()
   @IsString()
   title: string;
 
   @IsNotEmpty()
-  @IsString()
-  status: string;
+  @Validate((value: string) => isValidEnumValue(status, value))
+  status: any;
 
   @Type(() => Number)
   @IsNotEmpty()
@@ -45,4 +41,9 @@ export class BooksDto {
   @IsString()
   @IsOptional()
   imgUrl?: string;
+}
+
+function isValidEnumValue(enumType: any, value: any): boolean {
+  const keys = Object.keys(enumType);
+  return keys.includes(value);
 }
