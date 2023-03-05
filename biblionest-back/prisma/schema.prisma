@@ -18,9 +18,8 @@ model User {
     username String @unique
     email String @unique
     hash String
-
-    //books Book[]
-    //@@map("users")
+   // books Book[]
+   // @@map("users")
 }
 
 model Book {
@@ -37,9 +36,8 @@ model Book {
     nbPages Int
     imgUrl String?
     userId Int
-  
-    //user User @relation(fields: [userId], references: [id])
-    //@@map("books")
+   // user User @relation(fields: [userId], references: [id])
+   // @@map("books")
 }
 
 enum status {

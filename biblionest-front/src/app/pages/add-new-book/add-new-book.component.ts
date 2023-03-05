@@ -19,7 +19,7 @@ export class AddNewBookComponent {
   books;
   file: any;
 
-  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient, private userService: UserService) {}
+  constructor(private router: Router, private fb: FormBuilder, private BookService: BookService, protected common: CommonService, private http : HttpClient, private userService: UserService) {
     this.books = this.BookService.getBooks();
 
     this.bookForm = this.fb.group({
@@ -38,6 +38,7 @@ export class AddNewBookComponent {
       currentInput: null,
     });
   }
+  
 
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {

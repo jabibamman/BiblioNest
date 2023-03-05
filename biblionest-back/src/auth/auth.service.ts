@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { AuthDto } from "./dto";
+import { SigninDto, SignupDto } from "./dto";
 import * as argon from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { JwtService } from "@nestjs/jwt";
@@ -14,16 +14,11 @@ export class AuthService {
     private config: ConfigService
   ) {}
 
-  async signup(dto: AuthDto) {
+  async signup(dto: SignupDto) {
     //generate the password hash
     const hash = await argon.hash(dto.password);
-
     //save the new user in the db
     try {
-      if (!dto.username || /^\s*$/.test(dto.username)) {
-        throw new ForbiddenException("Username is not defined");
-      }
-
       const user = await this.prisma.user.create({
         data: {
           username: dto.username,
@@ -31,6 +26,8 @@ export class AuthService {
           hash,
         },
       });
+
+      return this.signToken(user.id, user.email);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2002") {
@@ -41,7 +38,7 @@ export class AuthService {
     }
   }
 
-  async signin(dto: AuthDto) {
+  async signin(dto: SigninDto) {
     // find the user by email
     const user = await this.prisma.user.findUnique({
       where: {
