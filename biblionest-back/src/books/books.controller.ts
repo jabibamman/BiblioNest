@@ -9,6 +9,8 @@ import {
   UploadedFile,
   UseInterceptors,
   Get,
+  Delete,
+  Param,
 } from "@nestjs/common";
 import { BooksService } from "./books.service";
 import { BooksDto } from "./dto";
@@ -50,14 +52,19 @@ export class BooksController {
     return file;
   }
 
-    @Get("getAllBooks")
-    async getBooks() {        
-        return this.booksService.getBooks();
-    }
+  @Delete("delete/:id")
+  async deletePost(@Param("id") id: string) {
+    return this.booksService.deleteBook({ id: Number(id) });
+  }
 
-    @Get("getAllBooksUser")
-        // this is an example of a postman request : 127.0.0.1:3000/books/getAllBooksUser {"userId": 1}
-    async getBooksUserById(@Body() body) {
-        return this.booksService.getBooksUser(body);
-    }
+  @Get("getAllBooks")
+  async getBooks() {
+    return this.booksService.getBooks();
+  }
+
+  @Get("getAllBooksUser")
+  // this is an example of a postman request : 127.0.0.1:3000/books/getAllBooksUser {"userId": 1}
+  async getBooksUserById(@Body() body) {
+    return this.booksService.getBooksUser(body);
+  }
 }
