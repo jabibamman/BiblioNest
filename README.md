@@ -40,11 +40,13 @@ Nous avons décidé d'utiliser le "Github flow" car nous pensons que cela corres
 **Déploiements :**
 
 - Différents choix effectués :
-  -  Pour deployer avec docker-compose il faudra soit
+  -  Pour deployer avec docker-compose il faudra faire 
+        - `npm run start` pour initialiser le .env dans le **backend**
+  -  ensuite soit:
      -   la prod: (biblionest-front-prod, biblionest-back, et db) :
-         -   `docker-compose up biblionest-front-prod biblionest-back db`
+         -   `docker-compose up db biblionest-front-prod biblionest-back`
      -   le dev: (biblionest-front, biblionest-back, et db) :
-         -   `docker-compose up biblionest-front biblionest-back db`
+         -   `docker-compose up db biblionest-front biblionest-back`
 
 
 **Tests Logociels :**

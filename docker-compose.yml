@@ -29,6 +29,9 @@ services:
             - ${BACK_PORT:-3000}:3000
         env_file:
             - .env
+            - /biblionest-back/.env
+        volumes:
+          - ./biblionest-back:/app
 
     db:
         image: postgres:latest
