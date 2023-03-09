@@ -6,7 +6,6 @@ services:
         build: biblionest-front
         ports:
             - ${FRONT_PORT}:4200
-        command: sh -c "node_modules/.bin/ng serve --host 0.0.0.0 --port ${FRONT_PORT} --disable-host-check"
         env_file:
           - .env
         volumes:
@@ -15,13 +14,13 @@ services:
 
     biblionest-front-prod:
         image: biblionest/front-prod:1.0.0
-        build: 
+        build:
             context: .
             dockerfile: biblionest-front/Dockerfile.prod
         ports:
             - ${FRONT_PORT}:80
         env_file:
-            - .env  
+            - .env
     biblionest-back:
         image: biblionest/back:1.0.0
         build: biblionest-back
@@ -29,7 +28,6 @@ services:
             - ${BACK_PORT:-3000}:3000
         env_file:
             - .env
-            - /biblionest-back/.env
         volumes:
           - ./biblionest-back:/app
 
@@ -38,7 +36,7 @@ services:
         environment:
           POSTGRES_DB: ${PGDATABASE}
           POSTGRES_USER: ${PGUSER}
-          POSTGRES_PASSWORD: ${PGPASSWORD}
+          PO²STGRES_PASSWORD: ${PGPASSWORD}
           POSTGRES_HOST: ${PGHOST}
         ports:
             - ${PGPORT}:5432
@@ -47,6 +45,11 @@ services:
         volumes:
             - pg-data:/var/lib/postgresql/data
             - ./postgresql.conf:/etc/postgresql/postgresql.conf
+        healthcheck:
+          test: [ "CMD-SHELL", "pg_isready" ]
+          interval: 5s
+          timeout: 5s
+          retries: 5
 
 volumes:
     pg-data:
