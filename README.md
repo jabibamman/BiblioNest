@@ -1,4 +1,5 @@
 # 📖 BiblioNest
+[![wakatime](https://wakatime.com/badge/user/e52bef9d-e298-4ffd-b606-f63f36526478/project/87b9d6d2-1573-481f-a68b-2253c5796733.svg)](https://wakatime.com/badge/user/e52bef9d-e298-4ffd-b606-f63f36526478/project/87b9d6d2-1573-481f-a68b-2253c5796733)
 
 ![BiblioNest](https://cdn.discordapp.com/attachments/1036283158481600534/1051165762657730680/BiblioNest.png)
 
