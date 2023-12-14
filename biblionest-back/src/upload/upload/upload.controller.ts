@@ -3,9 +3,11 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { writeFile } from 'fs';
 import * as path from "path";
+import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('uploads')
+@ApiTags("Uploads")
 export class UploadsController {
     pathUpload = "../../../../uploads"
     @Post("upload")
@@ -30,14 +32,14 @@ export class UploadsController {
 
         return file;
     }
-  
+
 
   @Get(':filename')
   serveFile(@Param('filename') filename: string, @Res() res: Response) {
     if (filename === 'default') {
        return;
     }
-    
+
     const filePath = path.join(__dirname, this.pathUpload, filename); // chemin absolu du fichier
     return res.sendFile(filePath);
   }

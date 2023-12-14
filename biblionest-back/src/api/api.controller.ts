@@ -7,12 +7,18 @@ import {
   Query,
 } from "@nestjs/common";
 import { ApiService } from "./api.service";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 
 @Controller("api")
+@ApiTags("API")
 export class ApiController {
   constructor(private apiService: ApiService) {}
 
   @Get("/gbook")
+  @ApiQuery({ name: "title", required: false })
+  @ApiQuery({ name: "author", required: false })
+  @ApiQuery({ name: "publisher", required: false })
+  @ApiQuery({ name: "isbn", required: false })
   async getBook(@Query() query: any) {
     if (query.title) {
       return await this.apiService.getGbook("title", query.title);
