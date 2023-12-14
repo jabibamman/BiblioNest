@@ -32,14 +32,14 @@ export class UploadsController {
 
         return file;
     }
-  
+
 
   @Get(':filename')
   serveFile(@Param('filename') filename: string, @Res() res: Response) {
     if (filename === 'default') {
        return;
     }
-    
+
     const filePath = path.join(__dirname, this.pathUpload, filename); // chemin absolu du fichier
     return res.sendFile(filePath);
   }

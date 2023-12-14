@@ -28,7 +28,7 @@ export class BooksController {
     description: "A list of books",
     type: BooksDto,
   })
-  async getBooks() {        
+  async getBooks() {
       return this.booksService.getBooks();
   }
 
