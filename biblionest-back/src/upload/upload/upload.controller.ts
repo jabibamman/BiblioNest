@@ -3,9 +3,11 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { writeFile } from 'fs';
 import * as path from "path";
+import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('uploads')
+@ApiTags("Uploads")
 export class UploadsController {
     pathUpload = "../../../../uploads"
     @Post("upload")
