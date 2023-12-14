@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen,faTrash,faTimes } from '@fortawesome/free-solid-svg-icons';
 import { BookService } from 'src/app/service/book.service';
 import { CommonService } from 'src/app/service/common.service';
 import { AppUploadService } from 'src/app/service/app-upload.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-book-modify-display',
@@ -15,14 +15,27 @@ import { AppUploadService } from 'src/app/service/app-upload.service';
 export class BookModifyDisplayComponent implements OnChanges {
   faCheck = faCheck;
   faPen = faPen;
+  faTimes = faTimes
   faTrash = faTrash;
   current_book: any;
   book_isbn: string | null = 'default';
   bgColor: string = 'white';
   bookForm: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService, public appUpload: AppUploadService) {
+  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService, protected common: CommonService, public appUpload: AppUploadService, private fb: FormBuilder) {
     this.books = this.bookService.getBooks();
+
+    this.bookForm = this.fb.group({
+      title: [''],
+      author: [''],
+      publishedDate: [''],
+      isbn: [''],
+      nbPages: [1],
+      read_count: [0],
+      status: ['to_read'],
+      description: [''],
+      userId: [0],
+    });
   }
 
   @Input() books;
@@ -54,6 +67,12 @@ export class BookModifyDisplayComponent implements OnChanges {
 
   modifyImage() {
     // Afficher un formulaire de modification d'image ou appeler une API pour modifier l'image
+  }
+
+  cancelChanges() {
+    // Annuler les modifications
+    this.common.toTheTop();
+    this.common.navigate("book/"+this.current_book.isbn);
   }
 
   saveChanges() {
@@ -111,7 +130,7 @@ export class BookModifyDisplayComponent implements OnChanges {
     }
 
     book.title = book.title.replace(/\w\S*/g, (txt: string) => {
-      return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
+        return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
     });
     book.author = book.author.replace(/\w\S*/g, (txt: string) => {
       return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();

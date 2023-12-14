@@ -1,4 +1,5 @@
 # 📖 BiblioNest
+[![wakatime](https://wakatime.com/badge/user/e52bef9d-e298-4ffd-b606-f63f36526478/project/87b9d6d2-1573-481f-a68b-2253c5796733.svg)](https://wakatime.com/badge/user/e52bef9d-e298-4ffd-b606-f63f36526478/project/87b9d6d2-1573-481f-a68b-2253c5796733)
 
 ![BiblioNest](https://cdn.discordapp.com/attachments/1036283158481600534/1051165762657730680/BiblioNest.png)
 
@@ -40,11 +41,13 @@ Nous avons décidé d'utiliser le "Github flow" car nous pensons que cela corres
 **Déploiements :**
 
 - Différents choix effectués :
-  -  Pour deployer avec docker-compose il faudra soit
+  -  Pour deployer avec docker-compose il faudra faire 
+        - `npm run start` pour initialiser le .env dans le **backend**
+  -  ensuite soit:
      -   la prod: (biblionest-front-prod, biblionest-back, et db) :
-         -   `docker-compose up biblionest-front-prod biblionest-back db`
+         -   `docker-compose up db biblionest-front-prod biblionest-back`
      -   le dev: (biblionest-front, biblionest-back, et db) :
-         -   `docker-compose up biblionest-front biblionest-back db`
+         -   `docker-compose up db biblionest-front biblionest-back`
 
 
 **Tests Logociels :**

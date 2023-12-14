@@ -5,7 +5,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ApiModule } from "./api/api.module";
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { BooksModule } from "./books/books.module";
 import { MulterModule } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
@@ -39,6 +39,7 @@ export class AppModule {
     const envDir = ".env";
     const dotenv = require("dotenv");
     dotenv.config({ path: envDir });
+    const isFileExist = existsSync(envDir);
 
     // réecrire le JWT_SECRET et le remplacer par une valeur aléatoire
     if (process.env.JWT_SECRET !== undefined) {
@@ -47,10 +48,11 @@ export class AppModule {
       writeFileSync(
         envDir,
         data.replace(`JWT_SECRET="${process.env.JWT_SECRET}"`, "")
+        .replace(/\n$/, "")
       );
       writeFileSync(
         envDir,
-        `JWT_SECRET="${
+        `\nJWT_SECRET="${
           Math.random().toString(36).substring(2, 15) +
           Math.random().toString(36).substring(2, 15)
         }"`,
@@ -79,6 +81,10 @@ export class AppModule {
     dotenv.config({ path: envDir });
     if (process.env.DATABASE_URL === undefined) {
       throw new Error("[ERROR] DATABASE_URL is undefined");
+    }
+
+    if (!isFileExist) {
+      process.exit(0);
     }
   }
 }

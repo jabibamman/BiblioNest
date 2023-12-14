@@ -83,7 +83,6 @@
                 <div class="card-body">
                   <p class="mb-4"><span class="text-primary font-italic me-1 fw-bold"> Auteurs Favoris</span> 😁</p>
                   <div *ngFor="let author of favoriteAuthors">
-                    <p>ton</p>
                     <p class="mb-1" style="font-size: .77rem;">{{ author.name }}</p>
                     <div class="progress rounded mb-2" style="height: 5px;">
                         <div class="progress-bar" role="progressbar" [style.width]="author.times * 10 + '%'" [attr.aria-valuenow]="author.times * 10" aria-valuemin="50" aria-valuemax="100"></div>
